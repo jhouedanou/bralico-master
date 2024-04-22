@@ -1,0 +1,131 @@
+<!doctype html>
+<html <?php language_attributes(); ?>>
+
+<head>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="profile" href="https://gmpg.org/xfn/11">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <?php wp_head(); ?>
+</head>
+
+<body <?php body_class(); ?>>
+    <?php wp_body_open(); ?>
+    <div id="page" class="site">
+        <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'bralico' ); ?></a>
+        <header id="masthead" class="site-header">
+            <div class="row">
+                <div id="btnlogowrapper" class="col">
+                    <!-- bootstrap 4 sidebar menu with a trigger -->
+                    <button type="button" id="sidebarCollapse" class="btn btn-info" data-toggle="collapse"
+                        data-target="#sidebar" aria-expanded="false" aria-controls="sidebar">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/menu.svg" />
+                    </button>
+                    <!-- sidebar -->
+                    <nav id="sidebar" class="collapse">
+                        <div class="sidebar-header">
+                            <h3>Menu</h3>
+                        </div>
+                        <?php
+						wp_nav_menu(array(
+						'menu' => 'Main Navigation',
+						'container_id' => 'cssmenu',
+						'menu_class' =>' ',
+						'menu_id'=>' ',
+						'theme_location' => 'Top'
+						));
+					?>
+                    </nav>
+                    <!-- end sidebar -->
+                    <div class="inner">
+                        <?php
+								the_custom_logo();
+								if ( is_front_page() && is_home() ) :
+							?>
+                        <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"
+                                rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+                        <?php
+							else :
+						?>
+                        <p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"
+                                rel="home"><?php bloginfo( 'name' ); ?></a></p>
+                        <?php
+							endif;
+							$bralico_description = get_bloginfo( 'description', 'display' );
+							if ( $bralico_description || is_customize_preview() ) :
+						?>
+                        <p class="site-description">
+                            <?php echo $bralico_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                        </p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div id="menuwrapper" class="col">
+                    <?php
+						wp_nav_menu(array(
+						'menu' => 'Main Navigation',
+						'container_id' => 'cssmenu',
+						'menu_class' =>' ',
+						'menu_id'=>' ',
+						'theme_location' => 'Top' 
+						));
+					?>
+
+                </div>
+                <div id="searchrswrapper" class="col">
+                    <div class="inner">
+                        <?php
+							class Image_Walker_Nav_Menu extends Walker_Nav_Menu {
+								function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+									$image_url = get_post_meta( $item->ID, '_menu_item_image_url', true );
+									$title = apply_filters( 'the_title', $item->title, $item->ID );
+									$url = $item->url;
+									$output .= "<li><a target='_blank' href='$url'><img src='$image_url' alt='$title' /></a></li>";
+								}
+							}
+
+							wp_nav_menu(array(
+								'menu' => 'Social Menu',
+								'container_id' => 'reseauxsociauxbralicowrapper',
+								'menu_class' =>'reseauxsociauxbralico',
+								'menu_id'=>'reseauxsociauxbralico',
+								'theme_location' => 'Socialmenu',
+								'walker' => new Image_Walker_Nav_Menu()
+							));
+						?>
+                        <!-- wordpress , zone de recherche -->
+                        <!-- Button trigger modal -->
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
+
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/search.svg" />
+
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <?php get_search_form(); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </header>
