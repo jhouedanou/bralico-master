@@ -169,7 +169,15 @@ get_header();
             <a href="<?php echo get_category_link(5); ?>" class="btn btn-primary">Plus d'actualités</a>
         </div>
     </div>
-
+    <div id="valeurdumoisdumai">
+        <div class="innerz">
+            <?php if (is_active_sidebar('valeur-du-mois')): ?>
+            <div id="valeur-du-mois" class="valeur-du-mois widget-area" role="complementary">
+                <?php dynamic_sidebar('valeur-du-mois');?>
+            </div><!-- #primary-sidebar -->
+            <?php endif;?>
+        </div>
+    </div>
 
     <?php
 get_footer();
