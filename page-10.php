@@ -146,15 +146,15 @@ get_header();
                         </div>
                     </div>
                     <?php
-            if($i % 3 == 2) { // div end for every 3 items
-                echo '</div></div>';
-            }
-            $i++;
-        endwhile;
-        if($i % 3 != 0) { // end last item if not a complete group of 3
-            echo '</div></div>';
-        }
-        ?>
+                            if($i % 3 == 2) { // div end for every 3 items
+                                echo '</div></div>';
+                            }
+                            $i++;
+                        endwhile;
+                        if($i % 3 != 0) { // end last item if not a complete group of 3
+                            echo '</div></div>';
+                        }
+                        ?>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -165,8 +165,11 @@ get_header();
                     <span class="sr-only">Suivant</span>
                 </a>
             </div>
-
+            <!-- lien vers la catégorie avec un id 5 -->
+            <a href="<?php echo get_category_link(5); ?>" class="btn btn-primary">Plus d'actualités</a>
         </div>
     </div>
+
+
     <?php
 get_footer();
