@@ -18,49 +18,49 @@ get_header();
     <div id='sliderwrapper' class='carousel slide' data-ride='carousel'>
         <ol class='carousel-indicators'>
             <?php
-$args = array(
-    'post_type' => 'Diapositives',
-    'posts_per_page' => -1,
-);
-$the_query = new WP_Query($args);
-if ($the_query->have_posts()) {
-    $i = 0;
-    while ($the_query->have_posts()) {
-        $the_query->the_post();
-        $active = '';
-        if ($i == 0) {
-            $active = 'active';
-        }
-        echo '<li data-target="#sliderwrapper" data-slide-to="' . $i . '" class="' . $active . '"></li>';
-        $i++;
-    }
-}
-wp_reset_postdata();
-?>
+            $args = array(
+                'post_type' => 'Diapositives',
+                'posts_per_page' => -1,
+            );
+            $the_query = new WP_Query($args);
+            if ($the_query->have_posts()) {
+                $i = 0;
+                while ($the_query->have_posts()) {
+                    $the_query->the_post();
+                    $active = '';
+                    if ($i == 0) {
+                        $active = 'active';
+                    }
+                    echo '<li data-target="#sliderwrapper" data-slide-to="' . $i . '" class="' . $active . '"></li>';
+                    $i++;
+                }
+            }
+            wp_reset_postdata();
+            ?>
         </ol>
         <div id="negromuffin" class='carousel-inner'>
             <?php
-$args = array(
-    'post_type' => 'Diapositives',
-    'posts_per_page' => -1,
-);
-$the_query = new WP_Query($args);
-if ($the_query->have_posts()) {
-    $i = 0;
-    while ($the_query->have_posts()) {
-        $the_query->the_post();
-        $active = '';
-        if ($i == 0) {
-            $active = 'active';
-        }
-        echo '<div class="carousel-item ' . $active . '">';
-        the_post_thumbnail('full');
-        echo '</div>';
-        $i++;
-    }
-}
-wp_reset_postdata();
-?>
+            $args = array(
+                'post_type' => 'Diapositives',
+                'posts_per_page' => -1,
+            );
+            $the_query = new WP_Query($args);
+            if ($the_query->have_posts()) {
+                $i = 0;
+                while ($the_query->have_posts()) {
+                    $the_query->the_post();
+                    $active = '';
+                    if ($i == 0) {
+                        $active = 'active';
+                    }
+                    echo '<div class="carousel-item ' . $active . '">';
+                    the_post_thumbnail('full');
+                    echo '</div>';
+                    $i++;
+                }
+            }
+            wp_reset_postdata();
+            ?>
         </div>
     </div>
 
@@ -109,39 +109,39 @@ wp_reset_postdata();
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <?php
-$args = array('post_type' => 'post', 'posts_per_page' => 6);
-$loop = new WP_Query($args);
-$i = 0;
-while ($loop->have_posts()): $loop->the_post();
-    if ($i % 3 == 0) { // div start for every 3 items
-        echo '<div class="carousel-item';
-        if ($i == 0) {
-            echo ' active';
-        }
-        echo '"><div class="row">';
-    }
-    ?>
+                    $args = array('post_type' => 'post', 'posts_per_page' => 6);
+                    $loop = new WP_Query($args);
+                    $i = 0;
+                    while ($loop->have_posts()): $loop->the_post();
+                        if ($i % 3 == 0) { // div start for every 3 items
+                            echo '<div class="carousel-item';
+                            if ($i == 0) {
+                                echo ' active';
+                            }
+                            echo '"><div class="row">';
+                        }
+                        ?>
                     <div class="col-md-4">
                         <a href="<?php the_permalink();?>">
                             <?php the_post_thumbnail('full', ['class' => 'd-block w-100']);?>
                             <div class="labouche">
                                 <div class="jour">
                                     <?php
-    $date = get_the_date('d');
-    echo $date;
-    ?>
+                                        $date = get_the_date('d');
+                                        echo $date;
+                                        ?>
                                 </div>
                                 <div class="mois">
                                     <?php
-    $dated = get_the_date('M');
-    echo $dated;
-    ?>
+                                        $dated = get_the_date('M');
+                                        echo $dated;
+                                        ?>
                                 </div>
                                 <div class="annee">
                                     <?php
-    $dateds = get_the_date('Y');
-    echo $dateds;
-    ?>
+                                        $dateds = get_the_date('Y');
+                                        echo $dateds;
+                                        ?>
                                 </div>
                             </div>
                             <div class="obvf d-none d-md-block">
@@ -151,15 +151,15 @@ while ($loop->have_posts()): $loop->the_post();
                         </a>
                     </div>
                     <?php
-    if ($i % 3 == 2) { // div end for every 3 items
-        echo '</div></div>';
-    }
-    $i++;
-endwhile;
-if ($i % 3 != 0) { // end last item if not a complete group of 3
-    echo '</div></div>';
-}
-?>
+                        if ($i % 3 == 2) { // div end for every 3 items
+                            echo '</div></div>';
+                        }
+                        $i++;
+                    endwhile;
+                    if ($i % 3 != 0) { // end last item if not a complete group of 3
+                        echo '</div></div>';
+                    }
+                    ?>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -179,7 +179,7 @@ if ($i % 3 != 0) { // end last item if not a complete group of 3
             <?php if (is_active_sidebar('valeur-du-mois')): ?>
             <div id="valeur-du-mois" class="valeur-du-mois widget-area" role="complementary">
                 <?php dynamic_sidebar('valeur-du-mois');?>
-            </div><!-- #primary-sidebar -->
+            </div>
             <?php endif;?>
         </div>
     </div>
@@ -191,22 +191,57 @@ if ($i % 3 != 0) { // end last item if not a complete group of 3
                     <?php dynamic_sidebar('titre-produits');?>
                 </div><!-- #primary-sidebar -->
                 <?php endif;?>
+                <div id="mayi" class="row no-gutter">
+                    <?php
+                    $terms = get_terms(
+                        array(
+                            'taxonomy' => 'type-de-boisson',
+                            'hide_empty' => false,
+                        )
+                    );
+                    if (!empty($terms) && is_array($terms)) {
+                        foreach ($terms as $term) {
+                            $term_link = get_term_link($term);
+                            $type_de_boisson_image = get_term_meta($term->term_id, 'type_de_boisson_image', true);
+                            ?>
 
-                <?php
-$terms = get_terms('type-de-boisson');
-if (!empty($terms) && !is_wp_error($terms)) {
-    echo '<ul>';
-    foreach ($terms as $term) {
-        $image_url = get_term_meta($term->term_id, 'type_de_boisson_image', true);
-        echo '<li style="background-image: url(' . esc_url($image_url) . ');">';
-        echo '<a href="' . esc_url(get_term_link($term)) . '">' . esc_html($term->name) . '</a>';
-        echo '</li>';
-    }
-    echo '</ul>';
-}
-?>
+                    <a class="col m-0 p-0" href="<?php echo $term_link; ?>">
+                        <img class="responsive-img img-fluid" src="<?php echo $type_de_boisson_image; ?>"
+                            alt="<?php echo $term->name; ?>">
+                    </a>
+
+                    <?php
+                        }
+                    }
+                    ?>
+                    <?php wp_reset_query();?>
+                </div>
+
             </div>
         </div>
     </div>
+    <div id="bralicocitywrapper">
+        <div id="bralicocuty">
+            <div class="row">
+                <div id="textebralico" class="col">
+                    <div class="row">
+                        <?php dynamic_sidebar('pub-bralico-texte');?>
+
+                        <div class="col">
+                            <?php dynamic_sidebar('pub-bralico-playstore');?>
+                        </div>
+                        <div class="col">
+                            <?php dynamic_sidebar('pub-bralico-appstore');?>
+                        </div>
+                    </div>
+                </div>
+                <div id="decoapp" class="col">
+                    <?php dynamic_sidebar('pub-bralico');?>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
     <?php
-get_footer();
+    get_footer();

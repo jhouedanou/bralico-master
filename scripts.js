@@ -1,7 +1,16 @@
 $(document).ready(function () {
+
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
     });
+	$("#mayi .col").each(function() {
+		$(this).hover(function() {
+			$("#mayi .col").not(this).css("opacity", "0.5");
+			$(this).css("opacity", "1");
+		}, function() {
+			$("#mayi .col").css("opacity", "1");
+		});
+	});
 });
 $(() => {
 	//On Scroll Functionality

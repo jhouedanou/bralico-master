@@ -240,11 +240,15 @@ function enqueue_scripts()
 
     // Enqueue Bootstrap JS
     wp_enqueue_script('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', array('jquery-slim', 'popper'), '4.5.2', true);
+
+    // Enqueue scripts.js
+    wp_enqueue_script('scripts', get_template_directory_uri() . '/scripts.js', array('jquery-slim', 'popper', 'bootstrap'), '1.0', true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_scripts');
 
 register_nav_menus(array(
     'Socialmenu' => 'Navigation du haut pour les réseaux sociaux',
+    'Footermenu' => 'Menu du footer',
 ));
 
 //permettre la mise en ligne de fichiers svg
@@ -701,13 +705,83 @@ function arphabet_widgets_init()
     ));
 
     register_sidebar(array(
-        'name' => 'Pub Bralico',
+        'name' => 'Pub Bralico Image',
         'id' => 'pub-bralico',
-        'before_widget' => '<div>',
-        'after_widget' => '</div>',
+        'before_widget' => '',
+        'after_widget' => '',
         'before_title' => '<h2 class="rounded">',
         'after_title' => '</h2>',
     ));
+
+    register_sidebar(array(
+        'name' => 'Pub Bralico texte',
+        'id' => 'pub-bralico-texte',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ));
+
+    register_sidebar(array(
+        'name' => 'Pub Bralico play store',
+        'id' => 'pub-bralico-playstore',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ));
+    register_sidebar(array(
+        'name' => 'Pub Bralico app store',
+        'id' => 'pub-bralico-appstore',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ));
+    register_sidebar(array(
+        'name' => 'Newsletter footer',
+        'id' => 'newsletter-footer',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+
+    ));
+    register_sidebar(array(
+        'name' => 'Contacts footer',
+        'id' => 'contacts-footer',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ));
+    register_sidebar(array(
+        'name' => 'Menu footer',
+        'id' => 'menu-footer',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ));
+
+    register_sidebar(array(
+        'name' => 'credits footer',
+        'id' => 'credits-footer',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ));
+
+    register_sidebar(array(
+        'name' => 'avertissement footer',
+        'id' => 'avertissement-footer',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ));
+
 }
 add_action('widgets_init', 'arphabet_widgets_init');
 // css pour l'admin

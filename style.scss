@@ -987,10 +987,6 @@ $third: #0a6535;
 }
 
 #sidebarCollapse {
-	position: fixed;
-	left: 0;
-	top: 0;
-	z-index: 2;
 }
 #negromuffin {
 	img {
@@ -1025,4 +1021,17 @@ $third: #0a6535;
 			}
 		}
 	}
+}
+#mayi {
+	.col {
+		-webkit-transition: opacity 0.2s ease;
+		-moz-transition: opacity 0.2s ease;
+		-o-transition: opacity 0.2s ease;
+		-ms-transition: opacity 0.2s ease;
+		transition: opacity 0.2s ease;
+	}
+}
+#btnlogowrapper {
+	display: flex;
+	flex-direction: row;
 }
