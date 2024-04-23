@@ -15,19 +15,31 @@
     <div id="elementsdufooter">
         <div class="row">
             <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
+            <div class="col">
+                <?php dynamic_sidebar('contacts-footer');?>
+            </div>
+            <div class="col">
+                <h2>Nous écrire</h2>
+                <?php
+wp_nav_menu(array(
+    'menu' => 'Nous écrire',
+    'container_id' => 'footermenuwrapper',
+    'menu_class' => 'footermenu',
+    'menu_id' => 'footermenu',
+    'theme_location' => 'Footermenu',
+));
+?>
+
+            </div>
         </div>
     </div>
     <div id="creditsfooter">
         <div class="row">
             <div class="col">
                 <?php dynamic_sidebar('credits-footer');?>
-
             </div>
             <div class="col">
                 <?php dynamic_sidebar('avertissement-footer');?>
-
             </div>
         </div>
     </div>
