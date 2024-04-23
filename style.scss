@@ -998,3 +998,31 @@ $third: #0a6535;
 		width: 100vw;
 	}
 }
+.bralico-title {
+	h2 {
+		.Notre-Actualit {
+			font-family: "Montserrat";
+			font-size: 38px;
+			font-weight: bold;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: 1.2;
+			letter-spacing: normal;
+			text-align: center;
+			color: #b20202;
+		}
+		.textwidget {
+			p {
+				font-family: "Montserrat";
+				font-size: 32px;
+				font-weight: 500;
+				font-stretch: normal;
+				font-style: normal;
+				line-height: 1.2;
+				letter-spacing: normal;
+				text-align: center;
+				color: #333;
+			}
+		}
+	}
+}
