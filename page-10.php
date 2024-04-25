@@ -59,6 +59,8 @@ get_header();
                     $i++;
                 }
             }
+            wp_reset_query(); // Remember to reset
+
             wp_reset_postdata();
             ?>
         </div>
