@@ -968,6 +968,8 @@ $secondary: #fae837;
 $third: #0a6535;
 
 #masthead {
+	z-index: 15;
+	width: 100vw;
 	background: $primary;
 }
 
@@ -975,18 +977,22 @@ $third: #0a6535;
 	position: fixed;
 	width: 0;
 	height: 100%;
-	top: 0;
+	top: 20px;
 	left: 0;
 	overflow-x: hidden;
-	transition: 0.5s;
-	z-index: 1;
+	background: rgba(255, 255, 255, 1);
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+	z-index: 0;
+	height: 100vh;
+	&.active {
+		width: 25vw;
+		z-index: 1000;
+		z-index: 15000;
+	}
 }
 
-#sidebar.active {
-	width: 250px;
-}
-
-#sidebarCollapse {
+.fixed {
+	position: fixed;
 }
 #negromuffin {
 	img {

@@ -249,6 +249,7 @@ add_action('wp_enqueue_scripts', 'enqueue_scripts');
 register_nav_menus(array(
     'Socialmenu' => 'Navigation du haut pour les réseaux sociaux',
     'Footermenu' => 'Menu du footer',
+    'Primarymenu'=>'Menu principal'
 ));
 
 //permettre la mise en ligne de fichiers svg

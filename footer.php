@@ -8,28 +8,29 @@
  *
  * @package Bralico
  */
-
 ?>
-
 <footer id="colophon" class="site-footer">
     <div id="elementsdufooter">
         <div class="row">
-            <div class="col"></div>
+            <div class="col">
+            <?php 
+                echo do_shortcode('[forminator_form id="133"]');
+            ?>
+            </div>
             <div class="col">
                 <?php dynamic_sidebar('contacts-footer');?>
             </div>
             <div class="col">
                 <h2>Nous écrire</h2>
                 <?php
-wp_nav_menu(array(
-    'menu' => 'Nous écrire',
-    'container_id' => 'footermenuwrapper',
-    'menu_class' => 'footermenu',
-    'menu_id' => 'footermenu',
-    'theme_location' => 'Footermenu',
-));
-?>
-
+                    wp_nav_menu(array(
+                        'menu' => 'Nous écrire',
+                        'container_id' => 'footermenuwrapper',
+                        'menu_class' => 'footermenu',
+                        'menu_id' => 'footermenu',
+                        'theme_location' => 'Footermenu',
+                    ));
+                ?>
             </div>
         </div>
     </div>
@@ -43,11 +44,8 @@ wp_nav_menu(array(
             </div>
         </div>
     </div>
-</footer><!-- #colophon -->
-</div><!-- #page -->
-
+</footer>
+</div>
 <?php wp_footer();?>
-
 </body>
-
 </html>

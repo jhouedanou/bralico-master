@@ -17,28 +17,27 @@
     <?php wp_body_open(); ?>
     <div id="page" class="site">
         <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'bralico' ); ?></a>
-        <header id="masthead" class="site-header">
+        <header id="masthead" class="site-header fixed">
             <div class="row">
                 <div id="btnlogowrapper" class="col">
-                    <!-- bootstrap 4 sidebar menu with a trigger -->
-                    <button type="button" id="sidebarCollapse" class="btn btn-info" data-toggle="collapse"
-                        data-target="#sidebar" aria-expanded="false" aria-controls="sidebar">
-                        <img src="<?php echo get_template_directory_uri(); ?>/img/menu.svg" />
-                    </button>
+                    <a href="#" type="button" id="sidebarCollapse" ><img src="<?php echo get_template_directory_uri(); ?>/img/icon.svg" /></a>
                     <!-- sidebar -->
-                    <nav id="sidebar" class="collapse">
+                        <nav id="sidebar">
+                       <a href="#" type="button" class="close" id="closeSidebar">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/iconclose.svg" /></a>
                         <div class="sidebar-header">
                             <h3>Menu</h3>
                         </div>
+                        <div id="sidebarmenu">
                         <?php
-						wp_nav_menu(array(
-						'menu' => 'Main Navigation',
-						'container_id' => 'cssmenu',
-						'menu_class' =>' ',
-						'menu_id'=>' ',
-						'theme_location' => 'Top'
-						));
+					    wp_nav_menu(array(
+                            'container_id' => 'headermenuwrapper',
+                            'menu_class' => 'headermenu',
+                            'menu_id' => 'headermenu',
+                            'theme_location' => 'Primarymenu',
+                        ));
 					?>
+                        </div>
                     </nav>
                     <!-- end sidebar -->
                     <div class="inner">
@@ -66,13 +65,12 @@
                 </div>
                 <div id="menuwrapper" class="col">
                     <?php
-						wp_nav_menu(array(
-						'menu' => 'Main Navigation',
-						'container_id' => 'cssmenu',
-						'menu_class' =>' ',
-						'menu_id'=>' ',
-						'theme_location' => 'Top' 
-						));
+					    wp_nav_menu(array(
+                            'container_id' => 'headermenuwrapper',
+                            'menu_class' => 'headermenu',
+                            'menu_id' => 'headermenu',
+                            'theme_location' => 'Primarymenu',
+                        ));
 					?>
 
                 </div>

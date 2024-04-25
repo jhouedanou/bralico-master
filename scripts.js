@@ -1,8 +1,10 @@
-$(document).ready(function () {
+jQuery(document).ready(function ($) {
 
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-    });
+	$('#sidebarCollapse').on('click', function () {
+	});
+	
+	$('#closeSidebar').on('click', function () {
+	});
 	$("#mayi .col").each(function() {
 		$(this).hover(function() {
 			$("#mayi .col").not(this).css("opacity", "0.5");
