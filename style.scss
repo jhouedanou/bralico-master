@@ -1198,6 +1198,7 @@ $third: #0a6535;
 
 .carousel-indicators {
 	bottom: 45px !important;
+	z-index: 5 !important;
 	li {
 		width: 6px !important;
 		height: 6px !important;
@@ -1210,7 +1211,7 @@ $third: #0a6535;
 		-ms-border-radius: 50% !important;
 		-o-border-radius: 50% !important;
 		&.active {
-			top: -10px !important;
+			margin-top: -2px !important;
 			width: 10px !important;
 			height: 10px !important;
 		}
@@ -1281,6 +1282,75 @@ $third: #0a6535;
 			letter-spacing: 0.36px;
 			text-align: center;
 			color: #717171;
+		}
+	}
+}
+@mixin titrerouge() {
+	font-family: "Montserrat";
+	font-size: 38px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: normal;
+	text-align: center;
+	color: #b20202;
+}
+@mixin soustitre() {
+	font-family: "Montserrat";
+	font-size: 32px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: normal;
+	text-align: center;
+	color: #333;
+}
+div#contenuactualites {
+	max-width: 80vw;
+	margin: 5em auto 0;
+}
+#titre-actualites {
+	h2 {
+		@include titrerouge;
+	}
+	.textwidget {
+		display: block;
+		height: 124px;
+		p {
+			@include soustitre;
+			&::after {
+				display: block;
+				content: "";
+				width: 77.6px;
+				position: absolute;
+				margin: 54px auto 17px;
+				height: 3.9px;
+				background-color: #f38181;
+				left: 0;
+				right: 0;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 1580px) and (min-width: 1024px) {
+	#headermenu li a {
+		font-size: 0.8em !important;
+	}
+	ul#reseauxsociauxbralico {
+		img {
+			height: 15px !important;
+		}
+	}
+	#bondy {
+		img {
+			height: 15px !important;
+		}
+	}
+	#searchrswrapper {
+		max-width: 371px !important;
+		.inner {
+			justify-content: flex-end !important;
 		}
 	}
 }
