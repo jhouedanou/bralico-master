@@ -810,10 +810,85 @@ function enqueue_google_fonts()
 }
 add_action('wp_enqueue_scripts', 'enqueue_google_fonts');
 
+//boucle pour la page enagements
+// Fonction pour obtenir le dernier article d'engagement
+function get_latest_engagement_post() {
+    $args = array(
+        'numberposts' => 5,
+        'category_name' => 'engagement',
+    );
 
+    $latest_posts = get_posts( $args );
 
+    if ( ! empty( $latest_posts ) ) {
+        $output = '<div class="row">';
+
+        // Premier article
+        $post = array_shift($latest_posts);
+        $output .= '<div class="row">';
+        $output .= '<div class="col-md-8 engagement-post">';
+        $output .= '<a href="' . get_permalink( $post ) . '">';
+        $output .= get_the_post_thumbnail( $post, 'salif' );
+        $output .= '</a>';
+        $output .= '<p class="post-date">' . get_the_date( 'd M Y', $post ) . '</p>';
+        $output .= '<h2 class="post-title">' . $post->post_title . '</h2>';
+        $content = get_the_content(null, false, $post);
+        $more_position = strpos($content, '<!--more-->');
+        if ($more_position !== false) {
+            $content_before_more = substr($content, 0, $more_position);
+        } else {
+            $content_before_more = $content;
+        }
+        $output .= '<p class="post-excerpt">' . $content_before_more . '</p>';
+        $output .= '</div>';
+        $output .= '<div class="col-md-4">';
+
+        // Autres articles
+        foreach ($latest_posts as $post) {
+            $output .= '<div class="engagement-post">';
+            $output .= '<div class="row">';
+            $output .= '<div class="col">';
+            $output .= '<a href="' . get_permalink( $post ) . '">';
+            $output .= get_the_post_thumbnail( $post, 'salif' );
+            $output .= '</a>';
+            $output .= '</div>';
+            $output .= '<div class="col">';
+            $output .= '<p class="post-date">' . get_the_date( 'd M Y', $post ) . '</p>';
+        $output .= '<h2 class="post-title">' . $post->post_title . '</h2>';
+            $content = get_the_content(null, false, $post);
+            $more_position = strpos($content, '<!--more-->');
+            if ($more_position !== false) {
+                $content_before_more = substr($content, 0, $more_position);
+            } else {
+                $content_before_more = $content;
+            }
+            $output .= '<p class="post-excerpt">' . $content_before_more . '</p>';
+            $output .= '</div>';
+            $output .= '</div>';
+            $output .= '</div>';
+    
+        }
+        $output .= '</div>';
+        $output .= '</div>';
+        $output .= '</div>';
+
+        return $output;
+    }
+
+    return 'Aucun article trouvé dans la catégorie Engagement.';
+}
+
+add_shortcode('latest_engagement_post', 'get_latest_engagement_post');
+
+//miniatures pour les produits
 function add_salif_image_size() {
     add_image_size('salif', 0, 464, false);
 }
 add_action('after_setup_theme', 'add_salif_image_size');
+
+function modify_read_more_link() {
+    return '<a class="more-link" href="' . get_permalink() . '">Lire plus</a>';
+}
+add_filter('the_content_more_link', 'modify_read_more_link');
+
 ?>

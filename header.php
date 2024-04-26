@@ -20,48 +20,11 @@
         <header id="masthead" class="site-header fixed">
             <div class="row">
                 <div id="btnlogowrapper" class="col">
-                    <a href="#" type="button" id="sidebarCollapse" ><img src="<?php echo get_template_directory_uri(); ?>/img/icon.svg" /></a>
-                    <!-- sidebar -->
-                        <nav id="sidebar">
-                       <a href="#" type="button" class="close" id="closeSidebar">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/iconclose.svg" /></a>
-                        <div class="sidebar-header">
-                            <h3>Menu</h3>
-                        </div>
-                        <div id="sidebarmenu">
-                        <?php
-					    wp_nav_menu(array(
-                            'container_id' => 'headermenuwrapper',
-                            'menu_class' => 'headermenu',
-                            'menu_id' => 'headermenu',
-                            'theme_location' => 'Primarymenu',
-                        ));
-					?>
-                        </div>
-                    </nav>
+                    <a href="#" type="button" id="sidebarCollapse" ><img src="<?php echo get_template_directory_uri(); ?>/img/icon.svg" /></a>           
                     <!-- end sidebar -->
-                    <div class="inner">
-                        <?php
+                    <?php
 								the_custom_logo();
-								if ( is_front_page() && is_home() ) :
 							?>
-                        <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"
-                                rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-                        <?php
-							else :
-						?>
-                        <p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"
-                                rel="home"><?php bloginfo( 'name' ); ?></a></p>
-                        <?php
-							endif;
-							$bralico_description = get_bloginfo( 'description', 'display' );
-							if ( $bralico_description || is_customize_preview() ) :
-						?>
-                        <p class="site-description">
-                            <?php echo $bralico_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                        </p>
-                        <?php endif; ?>
-                    </div>
                 </div>
                 <div id="menuwrapper" class="col">
                     <?php
@@ -95,15 +58,13 @@
 								'walker' => new Image_Walker_Nav_Menu()
 							));
 						?>
-                        <!-- wordpress , zone de recherche -->
-                        <!-- Button trigger modal -->
-                        <!-- Button trigger modal -->
+                        <div  id="bondy">
+
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
-
                             <img src="<?php echo get_template_directory_uri(); ?>/img/search.svg" />
-
                         </button>
 
+                        </div>
                         <!-- Modal -->
                         <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel"
                             aria-hidden="true">
