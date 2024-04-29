@@ -132,9 +132,9 @@ get_header();
                             echo '"><div class="row">';
                         }
                         ?>
-                    <div class="col-md-4">
-                        <a href="<?php the_permalink();?>">
-                            <?php the_post_thumbnail('actuhomepage', ['class' => 'd-block w-100']);?>
+                    <div class="japz col-md-4 col-sm-12 col-xs-12">
+                        <a class="hassdiesel" href="<?php the_permalink();?>">
+                            <?php the_post_thumbnail('actuhomepage', ['class' => 'd-block w-100 mpa']);?>
                             <div class="labouche">
                                 <div class="jour">
                                     <?php
@@ -173,10 +173,9 @@ get_header();
                     ?>
                 </div>
            
-            </div>
             <!-- lien vers la catégorie avec un id 5 -->
             <a href="<?php echo get_category_link(5); ?>" class="btn btn-primary">Plus d'actualités</a>
-        </div>
+            </div>
     </div>
     <div id="valeurdumoisdumai">
         <div class="innerz">
@@ -210,8 +209,7 @@ get_header();
                             ?>
 
                     <a class="col m-0 p-0" href="<?php echo $term_link; ?>">
-                        <img class="responsive-img img-fluid" src="<?php echo $type_de_boisson_image; ?>"
-                            alt="<?php echo $term->name; ?>">
+                        <span class="responsive-img img-fluid" style="background-image: url('<?php echo $type_de_boisson_image; ?>');"></span>
                     </a>
 
                     <?php
@@ -249,3 +247,4 @@ get_header();
     </div>
     <?php
     get_footer();
+    ?>
