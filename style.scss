@@ -1192,12 +1192,12 @@ $third: #0a6535;
 	display: none;
 }
 #sliderwrapper {
-	max-height: 100vh;
+	max-height: 98vh;
 	overflow: hidden;
 }
 
 .carousel-indicators {
-	bottom: 45px !important;
+	bottom: 82px !important;
 	z-index: 5 !important;
 	li {
 		width: 6px !important;
@@ -1218,7 +1218,7 @@ $third: #0a6535;
 	}
 }
 #chiffrescles {
-	margin-top: -56px;
+	margin-top: -69px;
 
 	#contenuchiffrecls {
 		background: white;
@@ -1316,6 +1316,7 @@ div#contenuactualites {
 	.textwidget {
 		display: block;
 		height: 124px;
+		margin-top: 1em;
 		p {
 			@include soustitre;
 			&::after {
@@ -1323,16 +1324,52 @@ div#contenuactualites {
 				content: "";
 				width: 77.6px;
 				position: absolute;
-				margin: 54px auto 17px;
+				margin: 47px auto 4px;
 				height: 3.9px;
-				background-color: #f38181;
-				left: 0;
-				right: 0;
+				background-color: rgb(243, 129, 129);
+				left: 0px;
+				right: 0px;
 			}
 		}
 	}
 }
+#contenuactualites {
+	.slide {
+		margin-top: 1.65em;
+	}
+	position: relative;
+	.carousel-control-prev {
+		z-index: 5;
+		background: #b20202;
+		color: #fff;
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
 
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		-ms-border-radius: 50%;
+		-o-border-radius: 50%;
+		top: -42px;
+		right: 40px;
+		left: auto;
+	}
+	.carousel-control-next {
+		z-index: 5;
+		background: #b20202;
+		color: #fff;
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		top: -42px;
+		right: 0px;
+		left: auto;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		-ms-border-radius: 50%;
+		-o-border-radius: 50%;
+	}
+}
 @media screen and (max-width: 1580px) and (min-width: 1024px) {
 	#headermenu li a {
 		font-size: 0.8em !important;
