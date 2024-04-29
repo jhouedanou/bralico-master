@@ -13,7 +13,6 @@
  */
 get_header();
 ?>
-
 <div id='accueil' class='homepage'>
     <div id='sliderwrapper' class='carousel slide' data-ride='carousel'>
         <ol class='carousel-indicators'>
@@ -225,7 +224,7 @@ get_header();
     <div id="bralicocitywrapper">
         <div id="bralicocuty">
             <div class="row">
-                <div id="textebralico" class="col">
+                <div id="textebralico" class="col-md-5 col-sm-12 col-xs-12">
                     <div class="row">
                         <?php dynamic_sidebar('pub-bralico-texte');?>
 
@@ -237,12 +236,10 @@ get_header();
                         </div>
                     </div>
                 </div>
-                <div id="decoapp" class="col">
+                <div id="decoapp" class="col-md-7 col-sm-12 col-xs-12">
                     <?php dynamic_sidebar('pub-bralico');?>
                 </div>
             </div>
-
-
         </div>
     </div>
     <?php

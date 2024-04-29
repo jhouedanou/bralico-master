@@ -10,17 +10,15 @@
  */
 ?>
 <footer id="colophon" class="site-footer">
-    <div id="elementsdufooter">
+    <div id="elementsdufooter" class="container-fluid">
         <div class="row">
-            <div class="col">
-            <?php 
-                echo do_shortcode('[forminator_form id="133"]');
-            ?>
+            <div id="vome" class="col-md-5">
+                <?php dynamic_sidebar('newsletter-footer');?>
             </div>
-            <div class="col">
+            <div class="col-md-4 solidifie">
                 <?php dynamic_sidebar('contacts-footer');?>
             </div>
-            <div class="col">
+            <div class="col-md-3 solidifie">
                 <h2>Nous écrire</h2>
                 <?php
                     wp_nav_menu(array(
@@ -45,6 +43,7 @@
         </div>
     </div>
 </footer>
+<!-- fin de la div /page  dans le header-->
 </div>
 <?php wp_footer();?>
 </body>
