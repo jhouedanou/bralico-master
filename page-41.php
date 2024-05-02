@@ -63,20 +63,24 @@ get_header();
                     $prix_detail = get_post_meta($post_id, 'prix_detail', true);
                     $prix_grossiste = get_post_meta($post_id, 'prix_grossiste', true);
                     ?>                                
-                    <h2><?php the_title(); ?></h2>
                     <div class="row">
-                        <div class="col">
-                            <div class="tyler">
-                                <?php echo '<p>'.esc_html($format).'</p>';?>
-                                <?php 
-                                if (!empty($taux_alcool)) {
-                                    echo '<p>&nbsp;'.'|&nbsp;'. esc_html($taux_alcool) . ' %';
-                                }
-                                ?>
+                        <div class="col col-md-8 infodroite">
+                            <div class="zepad">
+                            <h2><?php the_title(); ?></h2>
+    
+    <div class="tyler">
+            <?php echo '<p>'.esc_html($format).'</p>';?>
+            <?php 
+            if (!empty($taux_alcool)) {
+                echo '<p>&nbsp;'.'|&nbsp;'. esc_html($taux_alcool) . ' %';
+            }
+            ?>
+        </div>
                             </div>
+               
                         </div>
                         <?php if(!empty($prix_detail)){?>
-                        <div class="col">
+                        <div class="col col-md-4 infogauche">
                             <p class="prixdetail"><?php echo $prix_detail;?>FCFA</p>
                         </div>
                         <?php } ?>
