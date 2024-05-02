@@ -2182,3 +2182,55 @@ body {
 		}
 	}
 }
+body {
+	&.page-id-41 {
+		#pagecontent {
+			padding-top: 3em;
+			padding-bottom: 4.1em;
+		}
+		.crodie {
+			h2 {
+				font-family: "Montserrat";
+				font-size: 38px;
+				font-weight: bold;
+				font-stretch: normal;
+				font-style: normal;
+				line-height: 1.2;
+				letter-spacing: normal;
+				text-align: center;
+				color: #cb3131;
+				position: relative;
+			}
+			h3 {
+				font-family: "Montserrat";
+				font-size: 32px;
+				font-weight: 500;
+				font-stretch: normal;
+				font-style: normal;
+				line-height: 1.2;
+				letter-spacing: normal;
+				text-align: center;
+				color: #040404;
+				position: relative;
+				padding-bottom: 2em;
+				&::after {
+					width: 60px;
+					height: 3px;
+					left: 0;
+					right: 0;
+					bottom: 10px;
+					margin: auto;
+					content: "";
+					display: block;
+					position: absolute;
+					background-color: #b20202;
+				}
+			}
+		}
+	}
+	#product-row {
+		background: red;
+		max-width: 86vw;
+		margin: 0 auto;
+	}
+}
