@@ -747,7 +747,7 @@ textarea {
 
 .post,
 .page {
-	margin: 0 0 1.5em;
+	margin: 0em;
 }
 
 .updated:not(.published) {
@@ -1048,13 +1048,20 @@ $third: #0a6535;
 	justify-content: center;
 	flex-direction: row;
 }
-
+body {
+	&.home {
+		#masthead {
+			background: $primary !important;
+		}
+	}
+}
 #masthead {
 	z-index: 15;
 	width: 100vw;
-	background: $primary;
+	background: $third;
 	top: 0;
 	height: 133px;
+	box-shadow: 0px 9px 0px $secondary;
 	.row {
 		margin: 0;
 		padding: 0;
@@ -1097,6 +1104,11 @@ $third: #0a6535;
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
+		&.current-menu-item {
+			a {
+				color: $secondary;
+			}
+		}
 		a {
 			height: 133px;
 			display: flex;
@@ -1477,7 +1489,7 @@ div#contenuactualites {
 	}
 	.labouche {
 		position: absolute;
-		top: 200px;
+		top: 20%;
 		background: $third;
 		color: white;
 		display: block;
@@ -1915,6 +1927,257 @@ div#contenuactualites {
 		}
 		.row {
 			.col {
+			}
+		}
+	}
+}
+
+//styles pour le contenu
+@mixin entetecontenu() {
+	font-family: "Montserrat";
+	font-size: 37.4px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.45;
+	letter-spacing: normal;
+	text-align: center;
+	color: #e80000;
+}
+@mixin titrecontenu() {
+	font-family: "Montserrat";
+
+	font-size: 41.9px;
+	font-weight: bold;
+	color: #e80000;
+	font-size: 32.3px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.68;
+	letter-spacing: normal;
+	text-align: left;
+	color: #545454;
+}
+
+#thumbnailpage {
+	min-height: 600px;
+	overflow: hidden;
+}
+#pagecontent {
+	display: flex;
+	align-content: flex-start;
+	flex-wrap: wrap;
+	justify-content: center;
+	.contenudelapage {
+		max-width: 78vw;
+		p {
+			text-align: justify;
+		}
+	}
+}
+.introbrasserie {
+	padding-top: 5.5em;
+	h3 {
+		@include entetecontenu();
+		padding-bottom: 2em;
+		position: relative;
+	}
+	h2 {
+		font-family: "Montserrat";
+		font-size: 77.4px;
+		font-weight: bold;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.33;
+		letter-spacing: normal;
+		text-align: center;
+		color: #474747;
+		position: relative;
+		&::after {
+			display: block;
+			content: "";
+			width: 271px;
+			height: 15.5px;
+			position: absolute;
+			margin: 47px auto 4px;
+			background-color: #e80000;
+			left: 0px;
+			right: 0px;
+		}
+	}
+	p {
+		margin-top: 4.8em;
+		font-family: "Montserrat";
+		font-size: 32.3px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.68;
+		letter-spacing: normal;
+		text-align: left;
+		color: #707070;
+	}
+}
+.brasserie1,
+.brasserie2,
+.brasserie3 {
+	position: relative;
+	h4 {
+		text-transform: uppercase;
+		font-family: "Montserrat";
+		font-size: 36px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.24;
+		letter-spacing: normal;
+		text-align: left;
+		color: #545454;
+		text-transform: uppercase;
+		position: relative;
+	}
+	h3 {
+		font-family: "Montserrat";
+		font-size: 41px;
+		font-weight: bold;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.21;
+		letter-spacing: normal;
+		text-align: left;
+		color: #e80000;
+		position: relative;
+		text-transform: uppercase;
+		padding-bottom: 1em;
+		&::after {
+			background-color: #e80000;
+			width: 128px;
+			height: 6px;
+			content: "";
+			left: 0;
+			display: block;
+			bottom: 0px;
+			position: absolute;
+		}
+	}
+	p {
+		margin-top: 2em;
+		font-family: "Montserrat";
+		font-size: 32.3px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.68;
+		letter-spacing: normal;
+		text-align: left;
+		color: #707070;
+	}
+	.wp-block-button__link {
+		border-radius: 0px;
+		width: 302px;
+		height: 70px;
+		display: flex;
+		align-content: center;
+		align-items: center;
+		justify-content: center;
+		font-size: 25.6px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.21;
+		letter-spacing: normal;
+		text-align: center;
+		color: #fff;
+		text-transform: uppercase;
+		font-family: "Montserrat";
+		background-color: #0a6535;
+		-webkit-border-radius: 0px;
+		-moz-border-radius: 0px;
+		-ms-border-radius: 0px;
+		-o-border-radius: 0px;
+		&:hover {
+			background-color: #e80000;
+			text-decoration: none;
+		}
+	}
+}
+.brasserie1 {
+	padding-top: 3em;
+	h3 {
+		padding-bottom: 0.8em;
+	}
+	p {
+		padding-bottom: 0.8em;
+	}
+}
+div#sousbrasserie1b {
+	figure {
+		padding-top: 1.5em;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+	}
+}
+.brasserie2 {
+	margin-top: 7em;
+	p {
+	}
+}
+.brasserie3 {
+	margin-top: 7em;
+	.sousbrasserie3a {
+		padding-left: 9em;
+	}
+}
+.sousbrasserie1b,
+.sousbrasserie3b,
+.sousbrasserie2b {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+div#sousbrasserie1b {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+}
+body {
+	&.page-id-42 {
+		#pagecontent {
+			padding-bottom: 5.5em;
+		}
+	}
+}
+#reseauxsociauxbralicofooter {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	list-style: none;
+	list-style-type: none;
+	li {
+		margin: 0;
+		padding: 0 1em 0 0em;
+		list-style: none;
+		list-style-type: none;
+		a {
+			color: $secondary !important;
+			img {
+				height: 20px;
+				filter: brightness(0) saturate(100%) invert(95%) sepia(67%) saturate(1888%) hue-rotate(328deg)
+					brightness(109%) contrast(96%);
+				-webkit-filter: brightness(0) saturate(100%) invert(95%) sepia(67%) saturate(1888%) hue-rotate(328deg);
+			}
+			&:hover {
+				img {
+					filter: brightness(0) saturate(100%) invert(95%) sepia(67%) saturate(1888%) hue-rotate(328deg)
+						brightness(109%) contrast(96%);
+					-webkit-filter: brightness(0) saturate(100%) invert(95%) sepia(67%) saturate(1888%)
+						hue-rotate(328deg) brightness(109%) contrast(96%);
+				}
 			}
 		}
 	}
