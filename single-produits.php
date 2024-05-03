@@ -95,9 +95,12 @@ get_header();
             </div>
         </div>
         <div id="navigationentrelesposts" class="row">
-        <?php 
-  
-        ?>
+            <div class="col-md-6">
+                <?php previous_post_link('next'); ?>
+            </div>
+            <div class="col-md-6">
+                <?php next_post_link(); ?>
+            </div>
         </div>
     <?php endwhile;
     wp_reset_postdata();
