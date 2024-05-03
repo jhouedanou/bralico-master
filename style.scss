@@ -2324,6 +2324,27 @@ body {
 		justify-content: center;
 		flex-direction: column;
 	}
+	.modal-dialog {
+		box-shadow: none !important;
+		border: none !important;
+	}
+	.modal-content {
+		background: rgba(0, 0, 0, 0) !important;
+
+		box-shadow: none !important;
+		border: none !important;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		.modal-body {
+			padding: 0 !important;
+		}
+		img {
+			height: 80vh !important;
+			width: auto !important;
+		}
+	}
 }
 .kendrick {
 	font-weight: bold;
