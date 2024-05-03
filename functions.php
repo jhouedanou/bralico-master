@@ -884,6 +884,7 @@ add_shortcode('latest_engagement_post', 'get_latest_engagement_post');
 function add_salif_image_size() {
     add_image_size('salif', 0, 464, false);
     add_image_size('actuhomepage', 492, 310, true);
+    add_image_size('visuelproduit',0,448,false);
 
 }
 //miniature de 492px sur 310px

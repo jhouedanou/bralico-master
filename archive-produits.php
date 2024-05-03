@@ -1,51 +1,112 @@
 <?php
 /**
- * The template for displaying archive pages
+ * The template for displaying all pages
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages
+ * and that other 'pages' on your WordPress site may use a
+ * different template.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package Bralico
  */
-
 get_header();
 ?>
 
-<main id="primary" class="site-main">
+<div id='thumbnailpage'>
+    <?php the_post_thumbnail('full'); ?>
+</div>
 
-    <?php if (have_posts()): ?>
+<div id='pagecontent'>
+    <div class='contenudelapage'>
+        <?php while (have_posts()) : the_post(); ?>
+        <div class="crodie">
 
-    <header class="page-header">
-        <?php
-the_archive_title('<h1 class="page-title">', '</h1>');
-the_archive_description('<div class="archive-description">', '</div>');
-?>
-    </header><!-- .page-header -->
+        <?php the_content(); ?>
+        </div>
+        <?php endwhile; ?>
+    </div>
+</div>
 
+<div id='product-row' class='row'>
     <?php
-/* Start the Loop */
-while (have_posts()):
-    the_post();
+    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+    $args = array(
+        'post_type' => 'produits',
+        'posts_per_page' => 12,
+        'paged' => $paged,
+    );
+    $the_query = new WP_Query($args);
 
-    /*
-     * Include the Post-Type-specific template for the content.
-     * If you want to override this in a child theme, then include a file
-     * called content-___.php (where ___ is the Post Type name) and that will be used instead.
-     */
-    get_template_part('template-parts/content', get_post_type());
+    if ($the_query->have_posts()) {
+        while ($the_query->have_posts()) {
+            $the_query->the_post();
+    ?>
+            <div class='product col-md-3 col-xs-12'>
+                <div class="paddingz">
+                <a href='<?php the_permalink(); ?>' class="nza">
+                    <?php if (has_post_thumbnail()) {
+                        the_post_thumbnail('salif');
+                    } ?>
+                </a>
+                <div class="product-card">
+                    <?php 
+                    //variables 
+                    $post_id = get_the_ID();
+                    $style = get_post_meta($post_id, 'style', true);
+                    $gout = get_post_meta($post_id, 'gout', true);
+                    $date_creation = get_post_meta($post_id, 'date_creation', true);
+                    $taux_alcool = get_post_meta($post_id, 'taux_alcool', true);
+                    $ingredients = get_post_meta($post_id, 'ingredients', true);
+                    $format = get_post_meta($post_id, 'format', true);
+                    $prix_detail = get_post_meta($post_id, 'prix_detail', true);
+                    $prix_grossiste = get_post_meta($post_id, 'prix_grossiste', true);
+                    ?>                                
+                    <div class="row">
+                        <div class="col col-md-8 infodroite">
+                            <div class="zepad">
+                            <h2><?php the_title(); ?></h2>
+    
+    <div class="tyler">
+            <?php echo '<p>'.esc_html($format).'</p>';?>
+            <?php 
+            if (!empty($taux_alcool)) {
+                echo '<p>&nbsp;'.'|&nbsp;'. esc_html($taux_alcool) . ' %';
+            }
+            ?>
+        </div>
+                            </div>
+               
+                        </div>
+                        <?php if(!empty($prix_detail)){?>
+                        <div class="col col-md-4 infogauche">
+                            <p class="prixdetail"><?php echo $prix_detail;?>FCFA</p>
+                        </div>
+                        <?php } ?>
 
-endwhile;
+                    </div>
+                </div>
+                </div>
 
-the_posts_navigation();
-
-else:
-
-    get_template_part('template-parts/content', 'produits');
-
-endif;
-?>
-
-</main><!-- #main -->
+            </div>
+    <?php
+        }
+        // Pagination
+        $big = 999999999; // need an unlikely integer
+        echo paginate_links(array(
+            'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
+            'format' => '?paged=%#%',
+            'current' => max(1, get_query_var('paged')),
+            'total' => $the_query->max_num_pages
+        ));
+    } else {
+        echo '<p>Aucun produit trouvé.</p>';
+    }
+    wp_reset_postdata();
+    ?>
+</div>
 
 <?php
-get_sidebar();
 get_footer();
+?>

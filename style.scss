@@ -2303,5 +2303,62 @@ body {
 	}
 }
 .zepad {
-	padding: 1.5em 1em 1em 1em;
+	padding: 1.8em 1em 1em 1em;
+}
+body {
+	&.single-produits {
+		#primary {
+			margin-top: 7em;
+		}
+	}
+}
+#visuelproduit {
+	background-color: #e6e6e6;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	.dflex {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	}
+}
+.kendrick {
+	font-weight: bold;
+	color: #000 !important;
+}
+#informationprodiut {
+	padding: 0;
+	#detailsurleproduit {
+		padding-top: 9em;
+		padding-right: 4em;
+		h3 {
+			font-family: "Montserrat";
+			font-size: 51px;
+			font-weight: bold;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: 1.01;
+			letter-spacing: 0.38px;
+			text-align: left;
+			color: #171717;
+			margin-bottom: 2.65rem;
+		}
+		p {
+			font-family: "Nunito Sans";
+			font-size: 23px;
+			font-weight: normal;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: 1.5;
+			letter-spacing: 0.08px;
+			text-align: left;
+			color: #787878;
+		}
+	}
+}
+#moain {
+	padding-top: 1em;
 }

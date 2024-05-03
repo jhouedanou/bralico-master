@@ -1,12 +1,11 @@
 .formwrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
 
     .formgroup {
-        display: flex;
         flex-direction: column;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         display: flex;
         label {
             width: 95%;
@@ -22,16 +21,6 @@
             background: #f8f8f8;
             padding: 1em;
             border: #d8d7d7 1px solid;
-        }
-    }
-    .postbox {
-        .inside {
-            .formwrapper {
-                .formgroup {
-                    label {
-                    }
-                }
-            }
         }
     }
 }
