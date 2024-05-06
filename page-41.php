@@ -23,7 +23,7 @@ get_header(); ?>
             the_post(); ?>
         <div class="crodie">
 
-        <?php the_content(); ?>
+            <?php the_content(); ?>
         </div>
         <?php
         endwhile; ?>
@@ -43,15 +43,15 @@ get_header(); ?>
     if ($the_query->have_posts()) {
         while ($the_query->have_posts()) {
             $the_query->the_post(); ?>
-            <div class='product col-md-3 col-xs-12'>
-                <div class="paddingz">
-                <a href='<?php the_permalink(); ?>' class="nza">
-                    <?php if (has_post_thumbnail()) {
+    <div class='product col-md-3 col-xs-12'>
+        <div class="paddingz">
+            <a href='<?php the_permalink(); ?>' class="nza">
+                <?php if (has_post_thumbnail()) {
                         the_post_thumbnail("salif");
                     } ?>
-                </a>
-                <div class="product-card">
-                    <?php
+            </a>
+            <div class="product-card">
+                <?php
                     //variables
                     $post_id = get_the_ID();
                     $style = get_post_meta($post_id, "style", true);
@@ -70,32 +70,32 @@ get_header(); ?>
                         "prix_grossiste",
                         true
                     );
-                    ?>                                
-                    <div class="row">
-                        <div class="col col-md-8 infodroite">
-                            <div class="zepad">
+                    ?>
+                <div class="row">
+                    <div class="col col-md-8 infodroite">
+                        <div class="zepad">
                             <h2><?php the_title(); ?></h2>
-    
-    <div class="tyler">
-            <?php echo "<p>" . esc_html($format) . "</p>"; ?>
-            <?php if (!empty($taux_alcool)) {
-                echo "<p>&nbsp;" . "|&nbsp;" . esc_html($taux_alcool) . " %";
-            } ?>
-        </div>
+
+                            <div class="tyler">
+                                <?php echo "<p>" . esc_html($format) . "</p>"; ?>
+                                <?php if (!empty($taux_alcool)) {
+                                            echo "<p>&nbsp;" . "|&nbsp;" . esc_html($taux_alcool) . " %";
+                                        } ?>
                             </div>
-               
                         </div>
-                        <?php if (!empty($prix_detail)) { ?>
-                        <div class="col col-md-4 infogauche">
-                            <p class="prixdetail"><?php echo $prix_detail; ?>FCFA</p>
-                        </div>
-                        <?php } ?>
 
                     </div>
-                </div>
-                </div>
+                    <?php if (!empty($prix_detail)) { ?>
+                    <div class="col col-md-4 infogauche">
+                        <p class="prixdetail"><?php echo $prix_detail; ?>FCFA</p>
+                    </div>
+                    <?php } ?>
 
+                </div>
             </div>
+        </div>
+
+    </div>
     <?php
         }
         // Pagination

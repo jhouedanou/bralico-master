@@ -1,5 +1,5 @@
 {
     "[php]": {
-        "editor.defaultFormatter": "kokororin.vscode-phpfmt"
+        "editor.defaultFormatter": "chuaple.php-formatter"
     }
 }

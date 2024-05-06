@@ -1377,6 +1377,13 @@ div#contenuactualites {
 	}
 }
 @media screen and (max-width: 1580px) and (min-width: 1024px) {
+	.product-card {
+		* {
+			font-size: 1.2rem !important;
+			//force word break and word wrap
+			white-space: normal !important;
+		}
+	}
 	#headermenu li a {
 		font-size: 0.8em !important;
 	}
@@ -2317,6 +2324,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding: 4em 0;
 	flex-direction: column;
 	.dflex {
 		display: flex;
@@ -2382,4 +2390,49 @@ body {
 }
 #moain {
 	padding-top: 1em;
+	p {
+		line-height: 0.85 !important;
+	}
+}
+#previousarticle {
+	a {
+		justify-content: flex-start;
+	}
+}
+#nextarticle {
+	a {
+		justify-content: flex-end;
+	}
+}
+#retouralaccueil {
+	a {
+		justify-content: center;
+		img {
+			height: 25px;
+		}
+	}
+}
+#navigationentrelesposts {
+	margin: 0 auto;
+	max-width: 90vw;
+	a {
+		display: flex;
+		height: 172px;
+		font-size: 1.25em;
+		font-weight: 700;
+		text-transform: uppercase;
+		align-content: center;
+		align-items: center;
+		font-family: "Montserrat";
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 7;
+		letter-spacing: 1.2px;
+		text-align: left;
+		color: #1d1d1d;
+		&:hover {
+			color: $third;
+			text-decoration: none;
+		}
+	}
 }
