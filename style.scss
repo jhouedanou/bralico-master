@@ -2152,7 +2152,7 @@ body {
 	}
 }
 #reseauxsociauxbralicofooter {
-	margin: 0;
+	margin: 1em 0 0 0;
 	padding: 0;
 	display: flex;
 	flex-wrap: wrap;
@@ -2189,7 +2189,6 @@ body {
 			padding-top: 3em;
 			padding-bottom: 4.1em;
 		}
-
 		.crodie {
 			h2 {
 				font-family: "Montserrat";
@@ -2433,6 +2432,85 @@ body {
 		&:hover {
 			color: $third;
 			text-decoration: none;
+		}
+	}
+}
+@mixin bralicobouton() {
+	border-radius: 0px;
+	width: 302px;
+	height: 70px;
+	display: flex;
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+	font-size: 25.6px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.21;
+	letter-spacing: normal;
+	text-align: center;
+	color: #fff;
+	text-transform: uppercase;
+	font-family: "Montserrat";
+	background-color: #0a6535;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	-ms-border-radius: 0px;
+	-o-border-radius: 0px;
+	&:hover {
+		background-color: #e80000;
+		text-decoration: none;
+	}
+}
+#introengagements {
+	margin-top: 6em;
+	padding-bottom: 5.5em;
+	margin-bottom: 7em;
+	border-bottom: 3px solid #b2b2b2;
+	h2 {
+		font-family: "Montserrat";
+		font-size: 37.4px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.45;
+		letter-spacing: normal;
+		text-align: center;
+		color: #e80000;
+		padding-bottom: 2em;
+		position: relative;
+		text-transform: uppercase;
+		&::after {
+			display: block;
+			content: "";
+			width: 271px;
+			height: 15.5px;
+			position: absolute;
+			margin: 47px auto 4px;
+			background-color: #e80000;
+			left: 0px;
+			right: 0px;
+		}
+	}
+	p {
+		font-family: "Montserrat";
+		font-size: 32.3px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.68;
+		letter-spacing: normal;
+		margin-bottom: 0rem;
+		color: #707070;
+	}
+	.wp-block-heading {
+		padding-bottom: 3.8em;
+	}
+	.wp-block-button {
+		margin-top: 4em;
+		a {
+			@include bralicobouton();
 		}
 	}
 }
