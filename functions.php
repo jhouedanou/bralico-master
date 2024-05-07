@@ -821,14 +821,14 @@ function get_latest_engagement_post() {
     $latest_posts = get_posts( $args );
 
     if ( ! empty( $latest_posts ) ) {
-        $output = '<div class="row">';
+        $output = '<div id="articlerse" class="row">';
 
         // Premier article
         $post = array_shift($latest_posts);
         $output .= '<div class="row">';
-        $output .= '<div class="col-md-8 engagement-post">';
+        $output .= '<div class="col-md-6 engagement-post">';
         $output .= '<a href="' . get_permalink( $post ) . '">';
-        $output .= get_the_post_thumbnail( $post, 'salif' );
+        $output .= get_the_post_thumbnail( $post, 'engagementhumbune' );
         $output .= '</a>';
         $output .= '<p class="post-date">' . get_the_date( 'd M Y', $post ) . '</p>';
         $output .= '<h2 class="post-title">' . $post->post_title . '</h2>';
@@ -839,35 +839,40 @@ function get_latest_engagement_post() {
         } else {
             $content_before_more = $content;
         }
-        $output .= '<p class="post-excerpt">' . $content_before_more . '</p>';
+        $output .= '<div class="post-excerpt">' . $content_before_more . '</div>';
         $output .= '</div>';
-        $output .= '<div class="col-md-4">';
-
+        $output .= '<div id="presita" class="col-md-6">';
+        $output .= '<div class="khalif">';
+        $output .= '<h4>Articles les plus récents</h4>';
         // Autres articles
         foreach ($latest_posts as $post) {
-            $output .= '<div class="engagement-post">';
-            $output .= '<div class="row">';
-            $output .= '<div class="col">';
+            $output .= '<div class="winelda">';
+            
+            $output .= '<div class="wbox">';
+            $output .= '<div class="row statos">';
+            $output .= '<div class="col-md-4">';
             $output .= '<a href="' . get_permalink( $post ) . '">';
-            $output .= get_the_post_thumbnail( $post, 'salif' );
+            $output .= get_the_post_thumbnail( $post, 'engagementhumb' );
             $output .= '</a>';
             $output .= '</div>';
-            $output .= '<div class="col">';
+            $output .= '<div class="col-md-8">';
             $output .= '<p class="post-date">' . get_the_date( 'd M Y', $post ) . '</p>';
-        $output .= '<h2 class="post-title">' . $post->post_title . '</h2>';
-            $content = get_the_content(null, false, $post);
-            $more_position = strpos($content, '<!--more-->');
-            if ($more_position !== false) {
-                $content_before_more = substr($content, 0, $more_position);
-            } else {
-                $content_before_more = $content;
-            }
-            $output .= '<p class="post-excerpt">' . $content_before_more . '</p>';
+            $output .= '<h2 class="post-title">' . $post->post_title . '</h2>';
+$content = get_the_content(null, false, $post);
+$more_position = strpos($content, '<!--more-->');
+if ($more_position !== false) {
+    $content_before_more = substr($content, 0, $more_position);
+} else {
+    $content_before_more = $content;
+}
+$content_before_more = mb_strimwidth($content_before_more, 0, 45, '...');
+$output .= '<div class="post-excerpt">' . $content_before_more . '</div>';
             $output .= '</div>';
             $output .= '</div>';
             $output .= '</div>';
-    
+            $output .= '</div>';
         }
+        $output .= '</div>';
         $output .= '</div>';
         $output .= '</div>';
         $output .= '</div>';
@@ -885,7 +890,8 @@ function add_salif_image_size() {
     add_image_size('salif', 0, 464, false);
     add_image_size('actuhomepage', 492, 310, true);
     add_image_size('visuelproduit',0,448,false);
-
+    add_image_size('engagementhumb',180,180,true);
+    add_image_size('engagementhumbune',743,460,true);
 }
 //miniature de 492px sur 310px
 
