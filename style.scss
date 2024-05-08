@@ -3250,5 +3250,40 @@ div#popupvideo {
 }
 .modal-backdrop {
 	z-index: 100;
-	display: none;
+	display: block;
+}
+// Styliser le conteneur de l'article
+.article-container {
+	margin: 20px;
+	padding: 20px;
+	background-color: #f9f9f9;
+	border-radius: 5px;
+}
+
+// Styliser le titre de l'article
+.article-title {
+	font-size: 2em;
+	color: #333;
+	margin-bottom: 10px;
+}
+
+// Styliser la date de l'article
+.article-date {
+	font-size: 0.8em;
+	color: #666;
+	margin-bottom: 20px;
+}
+
+// Styliser le contenu de l'article
+.article-content {
+	font-size: 1em;
+	color: #333;
+	line-height: 1.5;
+}
+
+// Styliser l'image de l'article
+.article-image {
+	width: 100%;
+	height: auto;
+	margin-bottom: 20px;
 }
