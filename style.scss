@@ -3248,3 +3248,7 @@ div#popupvideo {
 		}
 	}
 }
+.modal-backdrop {
+	z-index: 100;
+	display: none;
+}
