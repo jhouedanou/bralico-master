@@ -810,6 +810,54 @@ function enqueue_google_fonts()
 }
 add_action('wp_enqueue_scripts', 'enqueue_google_fonts');
 
+
+
+//boucle pour la section emploi
+function display_posts_from_category_15($atts) {
+    ob_start();
+    $args = array(
+        'cat' => 15,
+        'posts_per_page' => 4,
+    );
+
+    $query = new WP_Query($args);
+    $flip = false;
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $flip = !$flip;
+            //get the post id
+            $post_id = get_the_ID();
+            ?>
+<?php 
+    $color = $flip ? 'gray' : 'white';
+    ?>
+
+<a class="greenda <?php echo $color;?>" href="<?php the_permalink();?>" rel="dofollow">
+    <div class="row">
+        <div class="col-md-6 <?php echo $flip ? 'order-md-2' : '' ?>">
+            <?php the_post_thumbnail(); ?>
+        </div>
+        <div class="col-md-6 <?php echo $flip ? 'order-md-1' : '' ?>">
+            <div class="freddy">
+                <div class="psotdate"><?php the_time('j FY'); ?></div>
+                <h2><?php the_title(); ?></h2>
+                <p><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
+            </div>
+        </div>
+    </div>
+</a>
+<?php
+        }
+    } else {
+        echo 'Pas d\'articles dans cette catégorie.';
+    }
+
+    wp_reset_postdata();
+    return ob_get_clean();
+}
+add_shortcode('display_posts', 'display_posts_from_category_15');
 //boucle pour la page enagements
 // Fonction pour obtenir le dernier article d'engagement
 function get_latest_engagement_post() {
@@ -858,15 +906,15 @@ function get_latest_engagement_post() {
             $output .= '<div class="col-md-8">';
             $output .= '<p class="post-date">' . get_the_date( 'd M Y', $post ) . '</p>';
             $output .= '<h2 class="post-title">' . $post->post_title . '</h2>';
-$content = get_the_content(null, false, $post);
-$more_position = strpos($content, '<!--more-->');
-if ($more_position !== false) {
-    $content_before_more = substr($content, 0, $more_position);
-} else {
-    $content_before_more = $content;
-}
-$content_before_more = mb_strimwidth($content_before_more, 0, 45, '...');
-$output .= '<div class="post-excerpt">' . $content_before_more . '</div>';
+            $content = get_the_content(null, false, $post);
+            $more_position = strpos($content, '<!--more-->');
+            if ($more_position !== false) {
+                $content_before_more = substr($content, 0, $more_position);
+            } else {
+                $content_before_more = $content;
+            }
+            $content_before_more = mb_strimwidth($content_before_more, 0, 45, '...');
+            $output .= '<div class="post-excerpt">' . $content_before_more . '</div>';
             $output .= '</div>';
             $output .= '</div>';
             $output .= '</div>';
@@ -892,6 +940,7 @@ function add_salif_image_size() {
     add_image_size('visuelproduit',0,448,false);
     add_image_size('engagementhumb',180,180,true);
     add_image_size('engagementhumbune',743,460,true);
+    add_image_size('emploithumbnail',960,463,true);
 }
 //miniature de 492px sur 310px
 

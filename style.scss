@@ -1195,7 +1195,8 @@ body {
 }
 #wpadminbar,
 .skip-link {
-	display: none;
+	/* 
+	display: none; */
 }
 #sliderwrapper {
 	max-height: 98vh;
@@ -2913,4 +2914,206 @@ div#contactcolumn1 {
 div#contactcolumn2 {
 	margin-top: 8.1em;
 	padding-left: 3.4em;
+}
+body {
+	&.page-id-38 {
+		#pagecontent {
+			.contenudelapage {
+				max-width: 100vw !important;
+			}
+		}
+	}
+}
+div#motdudg {
+	max-width: 78vw;
+	margin: 90px auto 0;
+	position: relative;
+	.wp-block-columns.is-layout-flex.wp-container-core-columns-is-layout-1.wp-block-columns-is-layout-flex {
+		display: flex;
+		padding-top: 3.8em;
+		height: 167px;
+		.wp-block-column {
+			&:nth-of-type(1) {
+				display: flex;
+				align-items: flex;
+				justify-content: center;
+				flex-direction: column;
+			}
+			&:nth-of-type(2) {
+				justify-content: flex-end;
+				p {
+					align-items: center;
+					display: flex;
+					margin: 37px 0 0 0;
+					padding: 0;
+					max-width: 280px;
+					justify-content: flex-end;
+					text-align: right;
+				}
+			}
+		}
+	}
+	&::before {
+		content: "";
+		background: url(img/dig.png) no-repeat;
+		display: block;
+		position: absolute;
+		height: 137px;
+		width: 82px;
+		left: -5.8em;
+		top: 15em;
+	}
+	h2 {
+		font-family: "Montserrat";
+		font-size: 91.5px;
+		color: #161616;
+		font-weight: bold;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.4;
+		letter-spacing: normal;
+		text-align: left;
+	}
+	h3 {
+		font-family: "Montserrat";
+		font-size: 36px;
+		font-weight: bold;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.1;
+		letter-spacing: normal;
+		text-align: left;
+		color: #10693a;
+	}
+	p {
+		font-family: "Montserrat";
+		font-size: 24px;
+		font-weight: 500;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.5;
+		letter-spacing: 0.6px;
+		text-align: left;
+		color: #252525;
+		margin-top: 3.5em;
+		padding-right: 2.8em;
+	}
+}
+div#visionmissionvaleurs {
+	margin-top: 6.8em;
+	gap: 0em;
+	.wp-block-column {
+		margin: 0;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		gap: 0em;
+		min-height: 509px;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+		h2 {
+			font-family: "Montserrat";
+			font-size: 37.9px;
+			font-weight: bold;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: 1.2;
+			letter-spacing: normal;
+			text-align: center;
+			color: #fae837;
+			margin-bottom: 0.5em;
+		}
+		ul {
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			font-family: "Montserrat";
+			position: relative;
+			font-size: 24px;
+			font-weight: 500;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: 1.4;
+			letter-spacing: normal;
+			text-align: center;
+			color: #fff;
+			text-align-last: left;
+			text-align: left;
+			background: url(img/6.png) no-repeat center left;
+			list-style: none;
+			margin: 1em 0;
+			padding-left: 2em;
+		}
+		p {
+			font-family: "Montserrat";
+			position: relative;
+			font-size: 24px;
+			font-weight: 500;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: 1.4;
+			letter-spacing: normal;
+			text-align: center;
+			color: #fff;
+			&::after {
+				position: absolute;
+				content: "";
+				width: 60px;
+				height: 3px;
+				background-color: #fae837;
+				left: 0;
+				right: 0;
+				margin: 0 auto 0;
+				color: #fae837;
+				bottom: -33px;
+			}
+		}
+		&:nth-of-type(1) {
+			background: url(img/bg1.jpg);
+		}
+		&:nth-of-type(2) {
+			background: url(img/bg2.jpg);
+		}
+		&:nth-of-type(3) {
+			background: url(img/bg3.jpg);
+		}
+	}
+}
+div#poleemploi {
+	margin: 80px 0;
+	a {
+		width: 417px;
+		height: 78px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 5px;
+		background-color: #b20202;
+		font-family: "Montserrat";
+		font-size: 22px;
+		font-weight: bold;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.56;
+		letter-spacing: 0.88px;
+		text-align: left;
+		color: #fff;
+	}
+}
+.greenda {
+	height: auto;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+.gray {
+	background: #222222;
+}
+.white {
+	background: #f3f3f3;
 }
