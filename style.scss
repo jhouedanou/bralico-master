@@ -1210,12 +1210,13 @@ body {
 		height: 6px !important;
 		background-color: #b0e8e6 !important;
 		display: block !important;
-		border-radius: 50% !important;
 
 		-webkit-border-radius: 50% !important;
 		-moz-border-radius: 50% !important;
 		-ms-border-radius: 50% !important;
 		-o-border-radius: 50% !important;
+		border-radius: 50% !important;
+
 		&.active {
 			margin-top: -2px !important;
 			width: 10px !important;
@@ -1350,12 +1351,13 @@ div#contenuactualites {
 		color: #fff;
 		width: 30px;
 		height: 30px;
-		border-radius: 50%;
 
 		-webkit-border-radius: 50%;
 		-moz-border-radius: 50%;
 		-ms-border-radius: 50%;
 		-o-border-radius: 50%;
+		border-radius: 50%;
+
 		top: -42px;
 		right: 40px;
 		left: auto;
@@ -1366,7 +1368,6 @@ div#contenuactualites {
 		color: #fff;
 		width: 30px;
 		height: 30px;
-		border-radius: 50%;
 		top: -42px;
 		right: 0px;
 		left: auto;
@@ -1374,6 +1375,7 @@ div#contenuactualites {
 		-moz-border-radius: 50%;
 		-ms-border-radius: 50%;
 		-o-border-radius: 50%;
+		border-radius: 50%;
 	}
 }
 @media screen and (max-width: 1580px) and (min-width: 1024px) {
@@ -1568,12 +1570,12 @@ div#contenuactualites {
 			flex-direction: column;
 			text-align: center;
 			margin: 0 auto;
-			border-radius: 5px;
 			background-color: #b20202;
 			-webkit-border-radius: 5px;
 			-moz-border-radius: 5px;
 			-ms-border-radius: 5px;
 			-o-border-radius: 5px;
+			border-radius: 5px;
 		}
 		.textwidget {
 			margin-top: 2em;
@@ -1848,11 +1850,12 @@ div#contenuactualites {
 		text-transform: uppercase;
 		width: 150px;
 		height: 50px;
-		border-radius: 0px 5px 5px 0px;
 		-webkit-border-radius: 0px 5px 5px 0px;
 		-moz-border-radius: 0px 5px 5px 0px;
 		-ms-border-radius: 0px 5px 5px 0px;
 		-o-border-radius: 0px 5px 5px 0px;
+		border-radius: 0px 5px 5px 0px;
+
 		&:hover {
 			background: white;
 			color: $third !important;
@@ -1902,7 +1905,7 @@ div#contenuactualites {
 		.col-md-5 {
 			h2 {
 				font-family: "Open Sans";
-				font-size: 14px;
+				font-size: 16px;
 				font-weight: bold;
 				font-stretch: normal;
 				font-style: normal;
@@ -2075,7 +2078,6 @@ div#contenuactualites {
 		color: #707070;
 	}
 	.wp-block-button__link {
-		border-radius: 0px;
 		width: 302px;
 		height: 70px;
 		display: flex;
@@ -2097,6 +2099,8 @@ div#contenuactualites {
 		-moz-border-radius: 0px;
 		-ms-border-radius: 0px;
 		-o-border-radius: 0px;
+		border-radius: 0px;
+
 		&:hover {
 			background-color: #e80000;
 			text-decoration: none;
@@ -2168,16 +2172,17 @@ body {
 			color: $secondary !important;
 			img {
 				height: 20px;
+
+				-webkit-filter: brightness(0) saturate(100%) invert(95%) sepia(67%) saturate(1888%) hue-rotate(328deg);
 				filter: brightness(0) saturate(100%) invert(95%) sepia(67%) saturate(1888%) hue-rotate(328deg)
 					brightness(109%) contrast(96%);
-				-webkit-filter: brightness(0) saturate(100%) invert(95%) sepia(67%) saturate(1888%) hue-rotate(328deg);
 			}
 			&:hover {
 				img {
-					filter: brightness(0) saturate(100%) invert(95%) sepia(67%) saturate(1888%) hue-rotate(328deg)
-						brightness(109%) contrast(96%);
 					-webkit-filter: brightness(0) saturate(100%) invert(95%) sepia(67%) saturate(1888%)
 						hue-rotate(328deg) brightness(109%) contrast(96%);
+					filter: brightness(0) saturate(100%) invert(95%) sepia(67%) saturate(1888%) hue-rotate(328deg)
+						brightness(109%) contrast(96%);
 				}
 			}
 		}
@@ -2667,6 +2672,7 @@ div#actualiteengagement {
 }
 div#finengagements {
 	margin-top: 2.4em;
+	margin-bottom: 180px;
 	.wp-block-button {
 		margin-top: 3em;
 
@@ -2679,7 +2685,6 @@ div#finengagements {
 			margin-top: 1em;
 			a {
 				&:nth-of-type(1) {
-					border-radius: 0px;
 					width: 302px;
 					height: 70px;
 					display: flex;
@@ -2701,6 +2706,8 @@ div#finengagements {
 					-moz-border-radius: 0px;
 					-ms-border-radius: 0px;
 					-o-border-radius: 0px;
+					border-radius: 0px;
+
 					width: 100% !important;
 					max-width: 487px !important;
 					&:hover {
@@ -2712,7 +2719,6 @@ div#finengagements {
 				&:nth-of-type(2) {
 					margin-top: 3em !important;
 					a {
-						border-radius: 0px;
 						width: 302px;
 						height: 70px;
 						display: flex;
@@ -2734,6 +2740,8 @@ div#finengagements {
 						-moz-border-radius: 0px;
 						-ms-border-radius: 0px;
 						-o-border-radius: 0px;
+						border-radius: 0px;
+
 						width: 100% !important;
 						max-width: 487px !important;
 					}
@@ -2777,4 +2785,132 @@ div#finengagements {
 		text-align: left;
 		color: #545454;
 	}
+}
+body {
+	&.page-id-39 {
+		background: #fafafa;
+
+		iframe {
+			min-height: 660px;
+			margin-bottom: 39px;
+		}
+		.forminator-row {
+			margin-bottom: 60px !important;
+		}
+		#forminator-module-233.forminator-design--flat .forminator-input {
+			background: rgb(255, 255, 255) !important;
+			font-size: 1.25em;
+			height: 65px;
+			padding-left: 1em !important;
+			display: flex;
+		}
+		.forminator-ui#forminator-module-233.forminator-design--flat .forminator-textarea {
+			background: #fff !important;
+			font-size: 1.25em;
+			min-height: 330px !important;
+		}
+		.forminator-ui#forminator-module-233.forminator-design--flat .forminator-button-submit {
+			width: 251px;
+			height: 70px;
+			display: flex;
+			align-content: center;
+			align-items: center;
+			justify-content: center;
+			font-size: 19.3px;
+			font-weight: 600;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: 1.21;
+			letter-spacing: normal;
+			text-align: center;
+			color: #fff;
+			text-transform: uppercase;
+			font-family: "Montserrat";
+			background-color: #0a6535;
+			-webkit-border-radius: 0px;
+			-moz-border-radius: 0px;
+			-ms-border-radius: 0px;
+			-o-border-radius: 0px;
+			border-radius: 0px;
+			&:hover {
+				background-color: #e80000;
+			}
+		}
+		.forminator-ui#forminator-module-233.forminator-design--flat .forminator-label {
+			display: none;
+		}
+		.forminator-field {
+			label {
+				display: none;
+			}
+		}
+		#pagecontent {
+			padding-top: 7em;
+			padding-bottom: 4.1em;
+			.contenudelapage {
+				max-width: 85vw;
+				width: 100%;
+				margin-top: 0em;
+				position: relative;
+				.wp-block-heading {
+					&:nth-of-type(1) {
+						margin-top: 0em;
+					}
+					&:nth-of-type(2) {
+						margin-top: 0em;
+					}
+				}
+
+				h2 {
+					font-family: "Montserrat";
+					font-size: 43px;
+					font-weight: bold;
+					font-stretch: normal;
+					font-style: normal;
+					line-height: 2.8;
+					letter-spacing: normal;
+					text-align: left;
+					color: #e80000;
+					position: relative;
+					&::after {
+						width: 70px;
+						height: 7px;
+						background-color: #e80000;
+						content: "";
+						left: 0;
+						display: block;
+						bottom: 8px;
+						position: absolute;
+					}
+					margin-bottom: 1.5rem;
+				}
+				p {
+					font-family: "Montserrat";
+					font-size: 23px;
+					font-weight: normal;
+					font-stretch: normal;
+					font-style: normal;
+					line-height: 2.1;
+					letter-spacing: normal;
+					text-align: left;
+					color: #707070;
+					&:nth-of-type(1) {
+						margin-bottom: 0em;
+					}
+					&:nth-of-type(2) {
+						padding-right: 3em;
+					}
+				}
+			}
+		}
+	}
+}
+div#contactcolumn1 {
+	margin-top: 0em;
+	position: relative;
+}
+
+div#contactcolumn2 {
+	margin-top: 8.1em;
+	padding-left: 3.4em;
 }
