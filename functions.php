@@ -836,10 +836,10 @@ function display_posts_from_category_15($atts) {
 
 <a class="greenda <?php echo $color;?>" href="<?php the_permalink();?>" rel="dofollow">
     <div class="row">
-        <div class="col-md-6 <?php echo $flip ? 'order-md-2' : '' ?>">
+        <div class="col-md-6 imagez <?php echo $flip ? 'order-md-2' : '' ?>">
             <?php the_post_thumbnail(); ?>
         </div>
-        <div class="col-md-6 <?php echo $flip ? 'order-md-1' : '' ?>">
+        <div class="col-md-6 textez <?php echo $flip ? 'order-md-1' : '' ?>">
             <div class="freddy">
                 <div class="psotdate"><?php the_time('j FY'); ?></div>
                 <h2><?php the_title(); ?></h2>
