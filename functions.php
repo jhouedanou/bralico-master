@@ -840,8 +840,8 @@ function display_posts_from_category_15($atts) {
             <?php the_post_thumbnail(); ?>
         </div>
         <div class="col-md-6 textez <?php echo $flip ? 'order-md-1' : '' ?>">
-            <div class="freddy">
-                <div class="psotdate"><?php the_time('j FY'); ?></div>
+            <div class="freddzy">
+                <div class="psotdate"><?php the_time('j F Y'); ?></div>
                 <h2><?php the_title(); ?></h2>
                 <p><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
             </div>
