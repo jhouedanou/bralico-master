@@ -14,6 +14,21 @@ jQuery(document).ready(function ($) {
 			var filterValue = this.value;
 			$grid.isotope({ filter: filterValue });
 		});
+		//filtre des lieu
+		$('#lieu-filter').on('change', function() {
+			var filterValue = this.value;
+			$grid.isotope({ filter: filterValue });
+		});
+		//filtre des secteurs
+		$('#secteurs-filter').on('change', function() {
+			var filterValue = this.value;
+			$grid.isotope({ filter: filterValue });
+		});
+		//filtre des type de contrat
+		$('#fonctions-filter').on('change', function() {
+			var filterValue = this.value;
+			$grid.isotope({ filter: filterValue });
+		});
 	}
 	
 	$('#sidebarCollapse').on('click', function () {
