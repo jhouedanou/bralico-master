@@ -783,6 +783,36 @@ function arphabet_widgets_init()
         'after_title' => '</h2>',
     ));
 
+    //register 3 more widgets , 1 titled "titre espace candidat" , 1 titled "tittre formulaire inscription" , 1 titteld "creation compte"
+    
+    register_sidebar(array(
+        'name' => 'Titre espace candidat',
+        'id' => 'titre-espace-candidat',
+        'before_widget' => '<div>',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ));
+
+    register_sidebar(array(
+        'name' => 'Titre formulaire connexion',
+        'id' => 'titre-formulaire-connexion',
+        'before_widget' => '<div>',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ));
+    
+    register_sidebar(array(
+        'name' => 'Création compte',
+        'id' => 'creation-compte',
+        'before_widget' => '<div>',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="rounded">',
+        'after_title' => '</h2>',
+    ));
+    
+
 }
 add_action('widgets_init', 'arphabet_widgets_init');
 // css pour l'admin
@@ -952,5 +982,124 @@ function modify_read_more_link() {
 }
 add_filter('the_content_more_link', 'modify_read_more_link');
 
+//fonction pour ajouter un champ personnalisé à la page d'accueil
+function ajouter_champ_personnalise() {
+    // Vérifiez si nous sommes sur la page avec l'ID 290
+    global $post;
+    if ($post->ID == 290) {
+        // Ajoutez votre champ personnalisé
+        add_meta_box(
+            'mon_champ_personnalise', // ID de la metabox
+            'Sous-titre de la page', // Titre de la metabox
+            'afficher_champ_personnalise', // Fonction d'affichage
+            'page', // Type de post
+            'normal', // Contexte
+            'high' // Priorité
+        );
+    }
+}
 
+//sous titre de la section emploi 
+
+add_action('add_meta_boxes', 'ajouter_champ_personnalise');
+
+function afficher_champ_personnalise($post) {
+    // Utilisez nonce pour la vérification
+    wp_nonce_field(plugin_basename(__FILE__), 'mon_champ_personnalise_nonce');
+
+    // Récupérez la valeur du champ personnalisé si elle existe
+    $valeur = get_post_meta($post->ID, 'mon_champ_personnalise', true);
+
+    // Affichez le formulaire de champ personnalisé
+    echo '<label for="mon_champ_personnalise">Sous-titre de la page</label>';
+    echo '<input type="text" id="mon_champ_personnalise" name="mon_champ_personnalise" value="'.esc_attr($valeur).'" size="25" />';
+}
+
+function sauvegarder_champ_personnalise($post_id) {
+    // Vérifiez si notre nonce est défini.
+    if (!isset($_POST['mon_champ_personnalise_nonce'])) {
+        return $post_id;
+    }
+
+    // Vérifiez si le nonce est valide.
+    if (!wp_verify_nonce($_POST['mon_champ_personnalise_nonce'], plugin_basename(__FILE__))) {
+        return $post_id;
+    }
+
+    // Si c'est une sauvegarde automatique, notre formulaire n'a pas été soumis, donc nous ne voulons rien faire.
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return $post_id;
+    }
+
+    // Vérifiez les permissions de l'utilisateur.
+    if ('page' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
+            return $post_id;
+        }
+    } else {
+        if (!current_user_can('edit_post', $post_id)) {
+            return $post_id;
+        }
+    }
+
+    // OK, il est sécuritaire pour nous de sauvegarder les données maintenant.
+
+    // Sanitisez l'entrée de l'utilisateur.
+    $ma_data = sanitize_text_field($_POST['mon_champ_personnalise']);
+
+    // Mettez à jour la meta post dans la base de données.
+    update_post_meta($post_id, 'mon_champ_personnalise', $ma_data);
+}
+add_action('save_post', 'sauvegarder_champ_personnalise');
+
+// Ajouter le champ dans la page de profil de l'utilisateur
+add_action('show_user_profile', 'extra_user_profile_fields');
+add_action('edit_user_profile', 'extra_user_profile_fields');
+
+function extra_user_profile_fields($user) {
+    ?>
+<h3><?php _e("Informations supplémentaires", "blank"); ?></h3>
+
+<table class="form-table">
+    <tr>
+        <th><label for="phone"><?php _e("Téléphone"); ?></label></th>
+        <td>
+            <input type="text" name="phone" id="phone"
+                value="<?php echo esc_attr(get_the_author_meta('phone', $user->ID)); ?>" class="regular-text" /><br />
+            <span class="description"><?php _e("Veuillez entrer votre numéro de téléphone."); ?></span>
+        </td>
+    </tr>
+</table>
+<?php
+}
+
+// Sauvegarder la valeur du champ
+add_action('personal_options_update', 'save_extra_user_profile_fields');
+add_action('edit_user_profile_update', 'save_extra_user_profile_fields');
+
+function save_extra_user_profile_fields($user_id) {
+    if (!current_user_can('edit_user', $user_id)) { 
+        return false; 
+    }
+    update_user_meta($user_id, 'phone', $_POST['phone']);
+}
+//desactiver l'accès à l'admin pour les utilisateurs non-administrateurs
+
+function disable_admin_access_for_subscribers() {
+    // Si l'utilisateur actuel est un abonné et nous sommes dans l'administration de WordPress
+    if (current_user_can('subscriber') && is_admin()) {
+        // Redirigez l'utilisateur vers la page d'accueil
+        wp_redirect(home_url());
+        exit;
+    }
+}
+add_action('admin_init', 'disable_admin_access_for_subscribers');
+//désactiver la barre d'administration pour les abonnés
+/* function desactiver_barre_admin_pour_abonnes($show_admin_bar) {
+    if (current_user_can('subscriber')) {
+        $show_admin_bar = false;
+    }
+    return $show_admin_bar;
+}
+add_filter('show_admin_bar', 'desactiver_barre_admin_pour_abonnes'); */
 ?>
