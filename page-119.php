@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying all pages
+ * The template for displaying the emploi
  *
  * This is the template that displays all pages by default.
  * Please note that this is the WordPress construct of pages
@@ -13,24 +13,81 @@
  */
 get_header();
 ?>
-<div id="thumbnailpage">
-	<?php the_post_thumbnail('full');?>
-</div>
-<div id="pagecontent">
-	<div class="contenudelapage">
-	<?php 		
-		while ( have_posts() ) :
-		the_post();
-	?>
-		<h1><?php //the_title();?></h1>
-		<?php the_content();?>
-	<?php
-		endwhile; 
-	?>
-	</div>
-</div>
 
+<div id="pagecontent" style="padding-top:18em">
+    <div class="contenudelapage">
+        <div id="filtre" class="row">
+            <div class="col-md-6">
+                <?php 
+$statut_terms = get_terms('statut');
+if ($statut_terms && !is_wp_error($statut_terms)) {
+    echo '<select id="statut-filter">';
+    echo '<option value="">Tous les statuts</option>';
+    foreach ($statut_terms as $term) {
+        echo '<option value=".' . $term->slug . '">' . $term->name . '</option>';
+    }
+    echo '</select>';
+} ?>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+        </div>
+        <div id="emploi" class="row">
+            <?php
+			// Arguments pour WP_Query
+			$args = array(
+				'post_type' => 'offre-emploi',
+				'showposts' => -1,
+				'orderby' => 'date',
+				'order' => 'ASC'
+			);
 
+			// Nouvelle instance de WP_Query
+			$query = new WP_Query($args);
+
+			// Vérifiez si nous avons des posts
+			if ($query->have_posts()) {
+				// Boucle à travers les posts
+				while ($query->have_posts()) {
+					$query->the_post();
+	
+					// Obtenez les termes de la taxonomie "statut"
+					$statut_terms = get_the_terms(get_the_ID(), 'statut');
+					$fonction_terms = get_the_terms(get_the_ID(), 'fonction');
+					$secteurs_terms = get_the_terms(get_the_ID(), 'secteurs');
+					$lieu_terms = get_the_terms(get_the_ID(), 'lieu');
+					$term_classes = '';
+			
+    // Ajoutez les slugs des termes à la chaîne de classes
+    foreach (array($fonction_terms, $secteurs_terms, $lieu_terms, $statut_terms) as $terms) {
+        if ($terms && !is_wp_error($terms)) {
+            foreach ($terms as $term) {
+                $term_classes .= ' ' . $term->slug;
+            }
+        }
+    }
+					?>
+            <div id="post-<?php echo get_the_ID(); ?>"
+                class="item<?php echo $term_classes; ?> col-md-3 col-xs-12 col-xs-12 ">
+                <a href="<?php the_permalink();?>" class="paddingzsa">
+                    <?php the_post_thumbnail('poleemploiaccueil'); ?>
+                    <div class="resumeduposte">
+                        <?php the_title(); ?>
+                        <?php the_content(); ?>
+                    </div>
+                </a>
+            </div>
+            <?php
+				}
+
+				// Réinitialisez la requête principale
+				wp_reset_postdata();
+			}
+			?>
+        </div>
+    </div>
+</div>
 
 <?php
 get_footer();

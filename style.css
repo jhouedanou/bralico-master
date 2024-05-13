@@ -3157,4 +3157,11 @@ div#popupvideo .wp-block-column p {
 #bienvenue a:hover {
   background-color: #e80000;
   text-decoration: none;
+}
+
+body.page-id-119 {
+  background: red;
+}
+body #pagecontent .contenudelapage {
+  width: 90vw !important;
 }/*# sourceMappingURL=style.css.map */

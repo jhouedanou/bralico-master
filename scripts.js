@@ -1,5 +1,21 @@
 jQuery(document).ready(function ($) {
-
+	//si la div #emploi existe
+	if ($('#emploi').length) {
+		var $grid = $('#emploi').imagesLoaded(function() {
+			// initialise Isotope après que toutes les images aient été chargées
+			$grid.isotope({
+				itemSelector: '.item',
+				layoutMode: 'fitRows'
+			});
+			
+		});
+		//filtre des statuts
+		$('#statut-filter').on('change', function() {
+			var filterValue = this.value;
+			$grid.isotope({ filter: filterValue });
+		});
+	}
+	
 	$('#sidebarCollapse').on('click', function () {
 	});
 	

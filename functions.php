@@ -233,7 +233,7 @@ add_action('wp_enqueue_scripts', 'bootstrap_css');
 function enqueue_scripts()
 {
     // Enqueue jQuery
-    wp_enqueue_script('jquery-slim', 'https://code.jquery.com/jquery-3.5.1.slim.min.js', array(), '3.5.1', true);
+    wp_enqueue_script('jquery-slim', 'https://code.jquery.com/jquery-3.5.1.min.js', array(), '3.5.1', true);
 
     // Enqueue Popper.js
     wp_enqueue_script('popper', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js', array('jquery-slim'), '1.16.0', true);
@@ -1103,4 +1103,122 @@ function desactiver_barre_admin_pour_abonnes($show_admin_bar) {
     return $show_admin_bar;
 }
 add_filter('show_admin_bar', 'desactiver_barre_admin_pour_abonnes');
+//fonction pour éditer les termes des taxonomies "statut" ,"fonctions", "secteurs" et "lieu" depuis l'interface d'administration et la liste des articles du type de contenu "offre-emploi"
+
+    // Ajoutez de nouvelles colonnes à la liste des posts
+function add_new_columns($columns) {
+    $columns['statut'] = __('Statut', 'textdomain');
+    $columns['fonctions'] = __('Fonctions', 'textdomain');
+    $columns['secteurs'] = __('Secteurs', 'textdomain');
+    $columns['lieu'] = __('Lieu', 'textdomain');
+    return $columns;
+}
+add_filter('manage_edit-offre-emploi_columns', 'add_new_columns');
+
+// Affichez les termes de la taxonomie dans les nouvelles colonnes
+function custom_columns_content($column, $post_id) {
+    switch ($column) {
+        case 'statut':
+            $terms = get_the_term_list($post_id, 'statut', '', ', ', '');
+            if (is_string($terms)) echo $terms;
+            break;
+
+        case 'fonctions':
+            $terms = get_the_term_list($post_id, 'fonctions', '', ', ', '');
+            if (is_string($terms)) echo $terms;
+            break;
+
+        case 'secteurs':
+            $terms = get_the_term_list($post_id, 'secteurs', '', ', ', '');
+            if (is_string($terms)) echo $terms;
+            break;
+
+        case 'lieu':
+            $terms = get_the_term_list($post_id, 'lieu', '', ', ', '');
+            if (is_string($terms)) echo $terms;
+            break;
+    }
+}
+add_action('manage_offre-emploi_posts_custom_column', 'custom_columns_content', 10, 2);
+// Ajoutez des champs à la boîte de modification rapide
+// Ajoutez des champs à la boîte de modification rapide
+function add_quick_edit_fields($column_name, $post_type) {
+    if ($post_type == 'offre-emploi' && ($column_name == 'statut' || $column_name == 'fonctions' || $column_name == 'secteurs' || $column_name == 'lieu')) {
+        $taxonomy = get_taxonomy($column_name);
+        $terms = get_terms($column_name, array('hide_empty' => false));
+        ?>
+<fieldset class="inline-edit-col-right">
+    <div class="inline-edit-col">
+        <label>
+            <span class="title"><?php echo ucfirst($column_name); ?></span>
+            <span class="input-text-wrap">
+                <?php foreach ($terms as $term) { ?>
+                <input type="radio" name="<?php echo $column_name; ?>" value="<?php echo $term->slug; ?>">
+                <?php echo $term->name; ?><br>
+                <?php } ?>
+            </span>
+        </label>
+    </div>
+</fieldset>
+<?php
+    }
+}
+add_action('quick_edit_custom_box', 'add_quick_edit_fields', 10, 2);
+
+// Enregistrez les données de la boîte de modification rapide
+function save_quick_edit_data($post_id) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    if (isset($_POST['statut'])) {
+        wp_set_object_terms($post_id, sanitize_text_field($_POST['statut']), 'statut', false);
+    }
+
+    if (isset($_POST['fonctions'])) {
+        wp_set_object_terms($post_id, sanitize_text_field($_POST['fonctions']), 'fonctions', false);
+    }
+
+    if (isset($_POST['secteurs'])) {
+        wp_set_object_terms($post_id, sanitize_text_field($_POST['secteurs']), 'secteurs', false);
+    }
+
+    if (isset($_POST['lieu'])) {
+        wp_set_object_terms($post_id, sanitize_text_field($_POST['lieu']), 'lieu', false);
+    }
+}
+add_action('save_post', 'save_quick_edit_data');
+
+
+// Remplacez les champs de texte par des boutons radio
+function replace_textbox_with_radios($args, $post_id) {
+    if (!empty($args['taxonomy'])) {
+        if (empty($args['walker']) || is_a($args['walker'], 'Walker')) {
+            if (!class_exists('Walker_Radio_Checklist')) {
+                class Walker_Radio_Checklist extends Walker_Category_Checklist {
+                    function start_el(&$output, $category, $depth = 0, $args = array(), $id = 0) {
+                        extract($args);
+                        if (empty($taxonomy)) $taxonomy = 'category';
+                        if ($taxonomy == 'category') $name = 'post_category';
+                        else $name = 'tax_input[' . $taxonomy . ']';
+                        $class = in_array($category->term_id, $popular_cats) ? ' class="popular-category"' : '';
+                        $output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" . '<label class="selectit"><input value="' . $category->term_id . '" type="radio" name="'.$name.'[]" id="in-' . $taxonomy . '-' . $category->term_id . '"' . checked(in_array($category->term_id, $selected_cats), true, false) . disabled(empty($args['disabled']), false, false) . ' /> ' . esc_html(apply_filters('the_category', $category->name)) . '</label>';
+                    }
+                }
+            }
+            $args['walker'] = new Walker_Radio_Checklist;
+        }
+    }
+    return $args;
+}
+add_filter('wp_terms_checklist_args', 'replace_textbox_with_radios', 10, 2);
+
+//isotope pour les offres d'emploi
+function enqueue_isotope() {
+    // Enregistrez et mettez en file d'attente Isotope depuis le CDN
+    wp_enqueue_script('isotope', 'https://cdn.jsdelivr.net/npm/isotope-layout@3.0.6/dist/isotope.pkgd.min.js', array('jquery'), '3.0.6', true);
+
+    // Enregistrez et mettez en file d'attente imagesLoaded depuis le CDN
+    wp_enqueue_script('imagesloaded', 'https://cdn.jsdelivr.net/npm/imagesloaded@4.1.4/dist/imagesloaded.pkgd.min.js', array('jquery'), '4.1.4', true);
+}
+add_action('wp_enqueue_scripts', 'enqueue_isotope');
 ?>
