@@ -971,6 +971,7 @@ function add_salif_image_size() {
     add_image_size('engagementhumb',180,180,true);
     add_image_size('engagementhumbune',743,460,true);
     add_image_size('emploithumbnail',960,463,true);
+    add_image_size('poleemploiaccueil',428,466,true);
 }
 //miniature de 492px sur 310px
 
@@ -1095,11 +1096,11 @@ function disable_admin_access_for_subscribers() {
 }
 add_action('admin_init', 'disable_admin_access_for_subscribers');
 //désactiver la barre d'administration pour les abonnés
-/* function desactiver_barre_admin_pour_abonnes($show_admin_bar) {
+function desactiver_barre_admin_pour_abonnes($show_admin_bar) {
     if (current_user_can('subscriber')) {
         $show_admin_bar = false;
     }
     return $show_admin_bar;
 }
-add_filter('show_admin_bar', 'desactiver_barre_admin_pour_abonnes'); */
+add_filter('show_admin_bar', 'desactiver_barre_admin_pour_abonnes');
 ?>

@@ -21,55 +21,46 @@ get_header();
 
 <div id="pagecontent">
     <div class="contenudelapage">
-        <?php 		
-        while ( have_posts() ) :
-            the_post();
-        ?>
-        <h1><?php //the_title(); ?></h1>
-        <?php //the_content(); ?>
-        <?php
-            if (!is_user_logged_in()) { // Si l'utilisateur n'est pas connecté
+        <div id="section1poleemploi">
+            <?php 		
+            while ( have_posts() ) :
+                the_post();
             ?>
-        <div id="connecion" class="row">
-            <div id="espacecandidat" class="col">
-                <!--widget titre espace candidat-->
-                <div id="titreespacecandidat">
-                    <?php 
-                            if ( is_active_sidebar( 'titre-espace-candidat' ) ) {
-                                dynamic_sidebar( 'titre-espace-candidat' );
-                            }
-                            ?>
-                </div>
-                <div id="titreformulaireu">
-                    <?php 
-                            if ( is_active_sidebar( 'titre-formulaire-connexion' ) ) {
-                                dynamic_sidebar( 'titre-formulaire-connexion' );
-                            }
-                            ?>
-                </div>
+            <h1><?php //the_title(); ?></h1>
+            <?php //the_content(); ?>
+            <?php
+                if (!is_user_logged_in()) { // Si l'utilisateur n'est pas connecté
+                    // formulaire de connexion
+                    include('connexionforms.php');
+                }
+                ?>
+            <?php if(is_user_logged_in()){?>
+            <!-- afficher le nom d'utilisateur et un message de bienvenue -->
+            <div id="bienvenue">
+                <h2><?php echo __('Bienvenue','bralico'); ?><?php echo wp_get_current_user()->user_login; ?> !</h2>
 
-                <?php echo do_shortcode('[forminator_form id="303"]'); ?>
+                <div class="row">
+                    <div class="col">
+                        <a
+                            href="<?php echo get_permalink('304');?>"><?php echo __('Allez à l\'espace candidat','bralico');?></a>
+                    </div>
+                    <div class="col">
+                        <!-- afficher le bouton de déconnexion avec un lien ramenant à la page 290-->
+                        <a href="<?php echo wp_logout_url( home_url() ); ?>"
+                            class="deconnexion"><?php echo __('Déconnexion','bralico');?></a>
+                    </div>
+                </div>
             </div>
-            <div id="creationcompte" class="col">
-                <?php 
-                        if(is_active_sidebar('creation-compte')){
-                            dynamic_sidebar('creation-compte');
-                        }
-                        ?>
-                <?php echo do_shortcode('[forminator_form id="301"]'); ?>
+            <?php } ?>
+            <?php endwhile; ?>
+        </div>
+        <div id="section2poleemploi">
+            <div class="safezone">
+
+                <?php include('emploicarousel.php');?>
+                <a href="<?php echo get_permalink('119');?>">Voir plus</a>
             </div>
         </div>
-        <?php
-            }
-            ?>
-        <?php if(is_user_logged_in()){
-            ?>
-        <h1>Yue</h1>
-        <?php
-            } ?>
-        <?php
-        endwhile; 
-        ?>
     </div>
 </div>
 
