@@ -3187,4 +3187,8 @@ body #pagecontent .contenudelapage {
   left: 0;
   width: 100%;
   z-index: 1000;
+}
+
+.formi-disabled-input {
+  pointer-events: none;
 }/*# sourceMappingURL=style.css.map */

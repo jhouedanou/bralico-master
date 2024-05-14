@@ -22,8 +22,8 @@ get_header();
 		while ( have_posts() ) :
 		the_post();
 	?>
-        <h1><?php //the_title();?></h1>
-        <?php //0he_content();?>
+        <h1><?php the_title();?></h1>
+        <?php the_content();?>
         <?php
             if (!is_user_logged_in()) { // Si l'utilisateur n'est pas connecté
                 // php include connexionforms.php
