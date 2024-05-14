@@ -19,7 +19,7 @@ get_header();
             <?php
             $args = array(
                 'post_type' => 'Diapositives',
-                'posts_per_page' => -1,
+                'showposts' => 6,
             );
             $the_query = new WP_Query($args);
             if ($the_query->have_posts()) {
@@ -108,16 +108,16 @@ get_header();
             </div><!-- #primary-sidebar -->
             <?php endif;?>
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Précédent</span>
                 </a>
                 <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Suivant</span>
-                </a>  
-            <div class="carousel-inner">
-              
+                </a>
+                <div class="carousel-inner">
+
                     <?php
                     $args = array('post_type' => 'post', 'posts_per_page' => 6);
                     $loop = new WP_Query($args);
@@ -171,30 +171,30 @@ get_header();
                     }
                     ?>
                 </div>
-           
-            <!-- lien vers la catégorie avec un id 5 -->
-            <a href="<?php echo get_category_link(5); ?>" class="btn btn-primary">Plus d'actualités</a>
+
+                <!-- lien vers la catégorie avec un id 5 -->
+                <a href="<?php echo get_category_link(5); ?>" class="btn btn-primary">Plus d'actualités</a>
             </div>
-    </div>
-    <div id="valeurdumoisdumai">
-        <div class="innerz">
-            <?php if (is_active_sidebar('valeur-du-mois')): ?>
-            <div id="valeur-du-mois" class="valeur-du-mois widget-area" role="complementary">
-                <?php dynamic_sidebar('valeur-du-mois');?>
-            </div>
-            <?php endif;?>
         </div>
-    </div>
-    <div id="homepageproductwrapper">
-        <div id="homepageproduct">
-            <div id="contenuhomepageproduct">
-                <?php if (is_active_sidebar('titre-produits')): ?>
-                <div id="titre-produits" class="titre-produits widget-area bralico-title" role="complementary">
-                    <?php dynamic_sidebar('titre-produits');?>
-                </div><!-- #primary-sidebar -->
+        <div id="valeurdumoisdumai">
+            <div class="innerz">
+                <?php if (is_active_sidebar('valeur-du-mois')): ?>
+                <div id="valeur-du-mois" class="valeur-du-mois widget-area" role="complementary">
+                    <?php dynamic_sidebar('valeur-du-mois');?>
+                </div>
                 <?php endif;?>
-                <div id="mayi" class="row no-gutter">
-                    <?php
+            </div>
+        </div>
+        <div id="homepageproductwrapper">
+            <div id="homepageproduct">
+                <div id="contenuhomepageproduct">
+                    <?php if (is_active_sidebar('titre-produits')): ?>
+                    <div id="titre-produits" class="titre-produits widget-area bralico-title" role="complementary">
+                        <?php dynamic_sidebar('titre-produits');?>
+                    </div><!-- #primary-sidebar -->
+                    <?php endif;?>
+                    <div id="mayi" class="row no-gutter">
+                        <?php
                     $terms = get_terms(
                         array(
                             'taxonomy' => 'type-de-boisson',
@@ -207,41 +207,42 @@ get_header();
                             $type_de_boisson_image = get_term_meta($term->term_id, 'type_de_boisson_image', true);
                             ?>
 
-                    <a class="col m-0 p-0" href="<?php echo $term_link; ?>">
-                        <span class="responsive-img img-fluid" style="background-image: url('<?php echo $type_de_boisson_image; ?>');"></span>
-                    </a>
+                        <a class="col m-0 p-0" href="<?php echo $term_link; ?>">
+                            <span class="responsive-img img-fluid"
+                                style="background-image: url('<?php echo $type_de_boisson_image; ?>');"></span>
+                        </a>
 
-                    <?php
+                        <?php
                         }
                     }
                     ?>
-                    <?php wp_reset_query();?>
-                </div>
+                        <?php wp_reset_query();?>
+                    </div>
 
+                </div>
             </div>
         </div>
-    </div>
-    <div id="bralicocitywrapper">
-        <div id="bralicocuty">
-            <div class="row">
-                <div id="textebralico" class="col-md-5 col-sm-12 col-xs-12">
-                    <div class="row">
-                        <?php dynamic_sidebar('pub-bralico-texte');?>
+        <div id="bralicocitywrapper">
+            <div id="bralicocuty">
+                <div class="row">
+                    <div id="textebralico" class="col-md-5 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <?php dynamic_sidebar('pub-bralico-texte');?>
 
-                        <div class="col">
-                            <?php dynamic_sidebar('pub-bralico-playstore');?>
-                        </div>
-                        <div class="col">
-                            <?php dynamic_sidebar('pub-bralico-appstore');?>
+                            <div class="col">
+                                <?php dynamic_sidebar('pub-bralico-playstore');?>
+                            </div>
+                            <div class="col">
+                                <?php dynamic_sidebar('pub-bralico-appstore');?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="decoapp" class="col-md-7 col-sm-12 col-xs-12">
-                    <?php dynamic_sidebar('pub-bralico');?>
+                    <div id="decoapp" class="col-md-7 col-sm-12 col-xs-12">
+                        <?php dynamic_sidebar('pub-bralico');?>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <?php
+        <?php
     get_footer();
     ?>

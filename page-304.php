@@ -22,13 +22,17 @@ get_header();
 		while ( have_posts() ) :
 		the_post();
 	?>
-        <h1><?php the_title();?></h1>
-        <?php the_content();?>
+
         <?php
             if (!is_user_logged_in()) { // Si l'utilisateur n'est pas connecté
                 // php include connexionforms.php
                 include('connexionforms.php');
-            } else {
+            } else {?>
+
+        <h1><?php the_title();?></h1>
+        <?php the_content();?>
+        <?php
+                
                 ?>
         <?php echo __('Liste des offres d\'emploi', 'bralico'); ?>
         <div class="row">
