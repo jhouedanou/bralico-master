@@ -16,7 +16,7 @@ get_header();
 
 <div id="pagecontent" style="padding-top:18em">
     <div class="contenudelapage">
-        <div id="filtre" class="row">
+        <div id="filtre" class="row filters">
             <div class="col-md-6">
                 <?php 
                 $statut_terms = get_terms('statut');
@@ -35,7 +35,7 @@ get_header();
                 $lieu_terms = get_terms('lieu');
                 if ($lieu_terms && !is_wp_error($lieu_terms)) {
                     echo '<select class="filter" id="lieu-filter">';
-                    echo '<option value="">Tous les lieus</option>';
+                    echo '<option value="">Tous les lieux</option>';
                     foreach ($lieu_terms as $term) {
                         echo '<option value=".' . $term->slug . '">' . $term->name . '</option>';
                     }
@@ -69,6 +69,9 @@ get_header();
                 }
                 ?>
             </div>
+            <div class="col-md-12">
+                <a id="resetfilter" href="">Reset filters</a>
+            </div>
         </div>
         <div id="emploi" class="row">
             <?php
@@ -77,7 +80,7 @@ get_header();
                 'post_type' => 'offre-emploi',
                 'showposts' => -1,
                 'orderby' => 'date',
-                'order' => 'ASC'
+                'order' => 'DESC'
             );
 
             // Nouvelle instance de WP_Query
@@ -106,12 +109,49 @@ get_header();
                     }
             ?>
             <div id="post-<?php echo get_the_ID(); ?>"
-                class="item<?php echo $term_classes; ?> col-md-3 col-xs-12 col-xs-12 ">
+                class="element-item item <?php echo $term_classes; ?> col-md-3 col-xs-12 col-xs-12 ">
                 <a href="<?php the_permalink(); ?>" class="paddingzsa">
                     <?php the_post_thumbnail('poleemploiaccueil'); ?>
                     <div class="resumeduposte">
                         <?php the_title(); ?>
-                        <?php the_content(); ?>
+                        <?php
+                        //le contenu avant la  balise more
+                        the_content();
+                         
+                        ?>
+                        <div class="terms">
+
+                            <?php //liste des termes 
+                        if ($statut_terms && !is_wp_error($statut_terms)) {
+                            echo '<ul>';
+                            foreach ($statut_terms as $term) {
+                                echo '<li>' . $term->name . '</li>';
+                            }
+                            echo '</ul>';
+                        }
+                        if ($fonctions_terms && !is_wp_error($fonctions_terms)) {
+                            echo '<ul>';
+                            foreach ($fonctions_terms as $term) {
+                                echo '<li>' . $term->name . '</li>';
+                            }
+                            echo '</ul>';
+                        }
+                        if ($secteurs_terms && !is_wp_error($secteurs_terms)) {
+                            echo '<ul>';
+                            foreach ($secteurs_terms as $term) {
+                                echo '<li>' . $term->name . '</li>';
+                            }
+                            echo '</ul>';
+                        }
+                        if ($lieu_terms && !is_wp_error($lieu_terms)) {
+                            echo '<ul>';
+                            foreach ($lieu_terms as $term) {
+                                echo '<li>' . $term->name . '</li>';
+                            }
+                            echo '</ul>';
+                        }
+                        ?>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -122,7 +162,10 @@ get_header();
                 wp_reset_postdata();
             }
             ?>
+
         </div>
+        <button id="showMore" class="button showMore" id="showMore">
+            <?php _e('Voir plus', 'bralico'); ?></button>
     </div>
 </div>
 

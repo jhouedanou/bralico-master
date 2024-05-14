@@ -3164,4 +3164,27 @@ body.page-id-119 {
 }
 body #pagecontent .contenudelapage {
   width: 90vw !important;
+}
+
+.visible_item {
+  display: none;
+}
+
+.empo {
+  margin: 15em auto 1em auto;
+  max-width: 80vw;
+}
+
+#actions {
+  position: relative;
+}
+
+.fixed {
+  position: fixed;
+  top: 72px;
+  background: red;
+  z-index: 1000;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }/*# sourceMappingURL=style.css.map */
