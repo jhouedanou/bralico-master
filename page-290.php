@@ -16,7 +16,11 @@ get_header();
 
 <div id="thumbnailpage">
     <div id="lepaddingdesteven"></div>
-    <?php the_post_thumbnail('full'); ?>
+    <?php //wordpress post thumbnail
+        if (has_post_thumbnail()) {
+            the_post_thumbnail();
+        }
+     ?>
 </div>
 
 <div id="pagecontent">
@@ -26,7 +30,6 @@ get_header();
             while ( have_posts() ) :
                 the_post();
             ?>
-            <h1><?php //the_title(); ?></h1>
             <?php //the_content(); ?>
             <?php
                 if (!is_user_logged_in()) { // Si l'utilisateur n'est pas connecté

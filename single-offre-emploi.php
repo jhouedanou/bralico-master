@@ -36,71 +36,105 @@ get_header();
                 <div class="chevydealership">
                     <div class="emploi-fields">
                         <h3>Intitulé du poste</h3>
-                        <?php the_field( 'intitule_du_poste' ); ?>
+                        <?php if (get_field('intitule_du_poste')) : ?>
+                        <?php the_field('intitule_du_poste'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Département</h3>
-                        <?php the_field( 'departement' ); ?>
+                        <?php if (get_field('departement')) : ?>
+                        <?php the_field('departement'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Service</h3>
-                        <?php the_field( 'service' ); ?>
+                        <?php if (get_field('service')) : ?>
+                        <?php the_field('service'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>N° du poste</h3>
-                        <?php the_field( 'n°_du_poste' ); ?>
+                        <?php if (get_field('n°_du_poste')) : ?>
+                        <?php the_field('n°_du_poste'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Supérieur hiérarchique</h3>
-                        <?php the_field( 'superieur_hierarchique' ); ?>
+                        <?php if (get_field('superieur_hierarchique')) : ?>
+                        <?php the_field('superieur_hierarchique'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Nombre de personnes sous sa direction</h3>
-                        <?php the_field( 'nombre_de_personnes_sous_sa_direction' ); ?>
+                        <?php if (get_field('nombre_de_personnes_sous_sa_direction')) : ?>
+                        <?php the_field('nombre_de_personnes_sous_sa_direction'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Lieu</h3>
-                        <?php the_field( 'lieu' ); ?>
+                        <?php if (get_field('lieu')) : ?>
+                        <?php the_field('lieu'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Objectif du poste</h3>
-                        <?php the_field( 'objectif_du_poste' ); ?>
+                        <?php if (get_field('objectif_du_poste')) : ?>
+                        <?php the_field('objectif_du_poste'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Responsabilités principales</h3>
-                        <?php the_field( 'responsabilites_principales' ); ?>
+                        <?php if (get_field('responsabilites_principales')) : ?>
+                        <?php the_field('responsabilites_principales'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Diplôme requis pour le poste</h3>
-                        <?php the_field( 'diplome_requis_pour_le_poste' ); ?>
+                        <?php if (get_field('diplome_requis_pour_le_poste')) : ?>
+                        <?php the_field('diplome_requis_pour_le_poste'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Spécialité</h3>
-                        <?php the_field( 'specialite' ); ?>
+                        <?php if (get_field('specialite')) : ?>
+                        <?php the_field('specialite'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Compétences fonctionnelles</h3>
-                        <?php the_field( 'competences_fonctionnelles' ); ?>
+                        <?php if (get_field('competences_fonctionnelles')) : ?>
+                        <?php the_field('competences_fonctionnelles'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Expérience professionnelle</h3>
-                        <?php the_field( 'experience_professionnelle' ); ?>
+                        <?php if (get_field('experience_professionnelle')) : ?>
+                        <?php the_field('experience_professionnelle'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Secteur/domaine</h3>
-                        <?php the_field( 'secteurdomaine' ); ?>
+                        <?php if (get_field('secteurdomaine')) : ?>
+                        <?php the_field('secteurdomaine'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Aptitudes</h3>
-                        <?php the_field( 'aptitudes' ); ?>
+                        <?php if (get_field('aptitudes')) : ?>
+                        <?php the_field('aptitudes'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Lieu du poste</h3>
-                        <?php the_field( 'lieu_du_poste' ); ?>
+                        <?php if (get_field('lieu_du_poste')) : ?>
+                        <?php the_field('lieu_du_poste'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="emploi-fields">
                         <h3>Date limite de réception des dossiers</h3>
-                        <?php the_field( 'date_limite_de_reception_des_dossiers_' ); ?>
+                        <?php if (get_field('date_limite_de_reception_des_dossiers_')) : ?>
+                        <?php the_field('date_limite_de_reception_des_dossiers_'); ?>
+                        <?php endif; ?>
                     </div>
                 </div>
 
