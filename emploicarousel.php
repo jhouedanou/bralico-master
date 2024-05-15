@@ -45,15 +45,15 @@ if ($query->have_posts()) {
         }
         ?>
                 <div class="col-md-4 <?php echo $class; ?>">
-                    <a href="<?php the_permalink();?>" class="paddingzsa">
+                    <div class="paddingzsa">
                         <?php the_post_thumbnail('poleemploiaccueil'); ?>
-                        <div class="resumeduposte">
+                        <a href="<?php the_permalink();?>" class="resumeduposte">
                             <h5><?php echo __("Offre d'emploi","bralico");?></h5>
                             <h3><?php the_title(); ?></h3>
                             <h4> <?php the_content(); ?></h4>
 
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
                 <?php
         if ($counter % 3 == 2 || $counter == $query->post_count - 1) {

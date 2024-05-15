@@ -58,7 +58,6 @@ get_header();
         <div id="section2poleemploi">
             <div class="safezone">
                 <!--insert wordpress widget-->
-
                 <?php dynamic_sidebar('notre-pole-emploi'); ?>
                 <div id="naado" class="row">
                     <div class="col">
