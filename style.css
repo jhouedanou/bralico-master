@@ -3194,8 +3194,6 @@ body #pagecontent .contenudelapage {
 }
 
 #bienvenue {
-  position: fixed;
-  bottom: 0;
   z-index: 1000;
   width: 100vw;
   background: white;
@@ -3205,12 +3203,29 @@ body #pagecontent .contenudelapage {
   flex-direction: column;
 }
 
+body.page-id-290 button.forminator-button.forminator-button-submit {
+  width: 215px !important;
+  height: 48.4px !important;
+  -o-border-radius: 5px !important;
+  background-color: #b20202 !important;
+  border-radius: 5px !important;
+  font-family: "Montserrat";
+  font-size: 22px !important;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1 !important;
+  letter-spacing: 0.72px;
+  text-align: left;
+  color: #fff;
+}
 body.page-id-290 #section1poleemploi {
   position: relative;
 }
 body.page-id-290 #section1poleemploi .col {
   padding-top: 50px !important;
   min-height: 866px !important;
+  padding-bottom: 50px !important;
 }
 body.page-id-290 #lepaddingdesteven {
   padding-top: 8em !important;
@@ -3220,7 +3235,7 @@ body.page-id-290 #thumbnailpage {
   min-height: 615px !important;
 }
 body.page-id-290 #section2poleemploi .safezone {
-  max-width: 80vw;
+  max-width: 70vw;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -3250,6 +3265,7 @@ body.page-id-290 .forminator-input {
   margin: 0em 0em 1em !important;
   font-size: 28px !important;
   padding: 1em !important;
+  max-width: 640px;
 }
 body.page-id-290 #pagecontent {
   width: 100vw;
@@ -3260,7 +3276,7 @@ body.page-id-290 #pagecontent .contenudelapage {
 }
 body div#titreespacecandidat {
   border-bottom: 2px solid #fae837;
-  padding-bottom: 4.6em;
+  padding-bottom: 2.7em;
 }
 body div#titreformulaireu {
   padding-top: 4em;
@@ -3278,7 +3294,7 @@ body #connecion h2 {
   letter-spacing: normal;
   text-align: left;
   color: #fae837;
-  margin-bottom: 1.5em;
+  margin-bottom: 2.1em;
 }
 body #connecion p {
   font-family: "Montserrat";
@@ -3316,4 +3332,129 @@ body #creationcompte .gbox {
 }
 body #creationcompte .forminator-row.forminator-row-last {
   float: right;
+}
+body .forminator-ui#forminator-module-301.forminator-design--default .forminator-description {
+  background: #fae837;
+  padding: 1rem;
+  margin-bottom: 2em;
+  color: #332f10;
+  font-size: 15px;
+}
+
+#naado {
+  padding-top: 3em;
+  padding-bottom: 6em;
+}
+
+.safezone .textwidget {
+  position: relative;
+  height: 206px;
+  /* background: red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.safezone .textwidget h3 {
+  font-family: "Montserrat";
+  font-size: 30px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.4;
+  letter-spacing: normal;
+  text-align: center;
+  color: #b20202;
+  margin-top: 35px;
+}
+.safezone .textwidget h4 {
+  font-family: "Montserrat";
+  font-size: 24px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #040404;
+}
+.safezone .textwidget::after {
+  z-index: 15;
+  content: "";
+  width: 60px;
+  height: 3px;
+  display: block;
+  position: absolute;
+  margin: 1em auto;
+  background-color: #b20202;
+  bottom: -6px;
+}
+.safezone .col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.safezone .col a {
+  width: 396.3px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25.6px;
+  font-family: "Montserrat";
+  font-size: 22.4px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: center;
+}
+.safezone .col a:hover {
+  text-decoration: none;
+}
+.safezone .col:nth-of-type(2) {
+  display: flex;
+  justify-content: flex-start;
+}
+.safezone .col:nth-of-type(2) a {
+  border-radius: 5px;
+  background-color: white;
+  color: #0a6535;
+  border: 1px solid #0a6535;
+}
+.safezone .col:nth-of-type(1) {
+  display: flex;
+  justify-content: flex-end;
+}
+.safezone .col:nth-of-type(1) a {
+  border-radius: 5px;
+  color: #fff;
+  background-color: #0a6535;
+  border: 1px solid #0a6535;
+}
+
+.resumeposte {
+  min-height: 233px;
+  display: flex;
+  padding: 1em;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
+.rouge a {
+  background-color: #b20202 !important;
+  display: block;
+}
+.vert a {
+  background-color: #0a6535 !important;
+  display: block;
+}
+.jaune a {
+  display: block;
+  background-color: #ffc400 !important;
 }/*# sourceMappingURL=style.css.map */

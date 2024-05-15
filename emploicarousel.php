@@ -48,8 +48,10 @@ if ($query->have_posts()) {
                     <a href="<?php the_permalink();?>" class="paddingzsa">
                         <?php the_post_thumbnail('poleemploiaccueil'); ?>
                         <div class="resumeduposte">
-                            <?php the_title(); ?>
-                            <?php the_content(); ?>
+                            <h5><?php echo __("Offre d'emploi","bralico");?></h5>
+                            <h3><?php the_title(); ?></h3>
+                            <h4> <?php the_content(); ?></h4>
+
                         </div>
                     </a>
                 </div>

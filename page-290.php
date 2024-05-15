@@ -35,9 +35,7 @@ get_header();
                 if (!is_user_logged_in()) { // Si l'utilisateur n'est pas connecté
                     // formulaire de connexion
                     include('connexionforms.php');
-                }
-                ?>
-            <?php if(is_user_logged_in()){?>
+                }else{?>
             <!-- afficher le nom d'utilisateur et un message de bienvenue -->
             <div id="bienvenue">
                 <h2><?php echo __('Bienvenue','bralico'); ?><?php echo wp_get_current_user()->user_login; ?> !</h2>
@@ -59,7 +57,17 @@ get_header();
         </div>
         <div id="section2poleemploi">
             <div class="safezone">
+                <!--insert wordpress widget-->
 
+                <?php dynamic_sidebar('notre-pole-emploi'); ?>
+                <div id="naado" class="row">
+                    <div class="col">
+                        <a href="#"><?php echo __('Offres','bralico'); ?></a>
+                    </div>
+                    <div class="col">
+                        <a href="#"><?php echo __('Candidature spontanée','bralico');?></a>
+                    </div>
+                </div>
                 <?php include('emploicarousel.php');?>
                 <a href="<?php echo get_permalink('119');?>">Voir plus</a>
             </div>
