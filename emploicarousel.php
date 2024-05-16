@@ -50,8 +50,6 @@ if ($query->have_posts()) {
                         <a href="<?php the_permalink();?>" class="resumeduposte">
                             <h5><?php echo __("Offre d'emploi","bralico");?></h5>
                             <h3><?php the_title(); ?></h3>
-                            <h4> <?php the_content(); ?></h4>
-
                         </a>
                     </div>
                 </div>

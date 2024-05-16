@@ -13,8 +13,15 @@
  */
 get_header();
 ?>
-
-<div id="pagecontent" style="padding-top:18em">
+<div id="thumbnailpage">
+    <div id="lepaddingdesteven"></div>
+    <?php //wordpress post thumbnail
+        if (has_post_thumbnail()) {
+            the_post_thumbnail();
+        }
+     ?>
+</div>
+<div id="pagecontent">
     <div class="contenudelapage">
         <div id="filtre" class="row filters">
             <div class="col-md-6">

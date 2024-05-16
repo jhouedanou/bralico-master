@@ -1,4 +1,11 @@
 jQuery(document).ready(function ($) {
+	//si la div #thumbnailpage existe
+	if ($('#thumbnailpage').length) {
+		// véfifier si elle contient une image et récupérer la hauteur de l'image
+		var imgHeight = $('#thumbnailpage img').height();
+		// ajuster la taille du pseudo element ::before à la taille de l'image
+		$('#thumbnailpage').css('height', imgHeight);
+	}
 	//si la div #porsche existe
 	if ($('#porsche').length) {
 		// rendre la div #porsche sticky lorsque l'utilisateur srolle à plus de 100px

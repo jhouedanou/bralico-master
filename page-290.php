@@ -31,19 +31,22 @@ get_header();
                 the_post();
             ?>
             <?php //the_content(); ?>
-            <?php
+            <div class="mouff">
+                <?php
                 if (!is_user_logged_in()) { // Si l'utilisateur n'est pas connecté
                     // formulaire de connexion
                     include('connexionforms.php');
-                }else{?>
-            <!-- afficher le nom d'utilisateur et un message de bienvenue -->
-            <div id="bienvenue">
-                <h2><?php echo __('Bienvenue','bralico'); ?><?php echo wp_get_current_user()->user_login; ?> !</h2>
+                }else{
+                    ?>
+                <!-- afficher le nom d'utilisateur et un message de bienvenue -->
+            </div>
 
+            <div id="bienvenue">
+                <h2><?php echo __('Bienvenue','bralico'); ?>&nbsp;<?php echo wp_get_current_user()->user_login; ?> !
+                </h2>
                 <div class="row">
                     <div class="col">
-                        <a
-                            href="<?php echo get_permalink('304');?>"><?php echo __('Allez à l\'espace candidat','bralico');?></a>
+                        <a href="<?php echo get_permalink('304');?>"><?php echo __('Uploader votre CV','bralico');?></a>
                     </div>
                     <div class="col">
                         <!-- afficher le bouton de déconnexion avec un lien ramenant à la page 290-->
@@ -61,14 +64,17 @@ get_header();
                 <?php dynamic_sidebar('notre-pole-emploi'); ?>
                 <div id="naado" class="row">
                     <div class="col">
-                        <a href="#"><?php echo __('Offres','bralico'); ?></a>
+                        <a href="?page_id=119"><?php echo __('Offres','bralico'); ?></a>
                     </div>
                     <div class="col">
-                        <a href="#"><?php echo __('Candidature spontanée','bralico');?></a>
+                        <a href="?page_id=304"><?php echo __('Candidature spontanée','bralico');?></a>
                     </div>
                 </div>
-                <?php include('emploicarousel.php');?>
-                <a href="<?php echo get_permalink('119');?>">Voir plus</a>
+                <div id="dad">
+                    <?php include('emploicarousel.php');?>
+
+                </div>
+                <a id="jimmy" href="<?php echo get_permalink('119');?>">Voir plus</a>
             </div>
         </div>
     </div>
