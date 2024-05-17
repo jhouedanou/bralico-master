@@ -43,7 +43,7 @@ get_header(); ?>
     if ($the_query->have_posts()) {
         while ($the_query->have_posts()) {
             $the_query->the_post(); ?>
-    <div class='product col-md-3 col-xs-12'>
+    <div class='product col-md-3 col-sm-6 col-xs-6'>
         <div class="paddingz">
             <a href='<?php the_permalink(); ?>' class="nza">
                 <?php if (has_post_thumbnail()) {
@@ -77,7 +77,9 @@ get_header(); ?>
                             <h2><?php the_title(); ?></h2>
 
                             <div class="tyler">
-                                <?php echo "<p>" . esc_html($format) . "</p>"; ?>
+                                <?php if(!empty($format)){
+                                    echo "<p>" . esc_html($format) . " CL </p>";
+                                    }?>
                                 <?php if (!empty($taux_alcool)) {
                                             echo "<p>&nbsp;" . "|&nbsp;" . esc_html($taux_alcool) . " %";
                                         } ?>

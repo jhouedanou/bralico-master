@@ -13,42 +13,15 @@
  */
 get_header();
 ?>
-<div id="thumbnailpage">
-    <?php the_post_thumbnail('full');?>
-</div>
-<div id="pagecontent">
+
+<div id="pagecontent" class="container-fluid">
     <div class="contenudelapage">
         <?php 		
 		while ( have_posts() ) :
 		the_post();
 	?>
-
-        <?php
-            if (!is_user_logged_in()) { // Si l'utilisateur n'est pas connecté
-                // php include connexionforms.php
-                include('connexionforms.php');
-            } else {?>
-
         <h1><?php the_title();?></h1>
         <?php the_content();?>
-        <?php
-                
-                ?>
-        <?php echo __('Liste des offres d\'emploi', 'bralico'); ?>
-        <div class="row">
-            <div class="col">
-                <a href="<?php echo get_permalink('290');?>"><?php echo __('Allez au pôle emploi','bralico');?></a>
-            </div>
-            <div class="col">
-                <!-- afficher le bouton de déconnexion avec un lien ramenant à la page 290-->
-                <a href="<?php echo wp_logout_url( home_url() ); ?>"
-                    class=" deconnexion"><?php echo __('Déconnexion','bralico');?></a>
-            </div>
-        </div>
-
-        <?php 
-            
-            }?>
         <?php
 		endwhile; 
 	?>

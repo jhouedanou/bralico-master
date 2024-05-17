@@ -20,8 +20,9 @@
         <header id="masthead" class="site-header fixed">
             <div class="row">
                 <div id="btnlogowrapper" class="col">
-                    <a href="#" type="button" id="sidebarCollapse"><img
-                            src="<?php echo get_template_directory_uri(); ?>/img/icon.svg" /></a>
+                    <a href="#" type="button" id="sidebarCollapse">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/icon.svg" />
+                    </a>
                     <!-- end sidebar -->
                     <?php
 								the_custom_logo();

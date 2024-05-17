@@ -38,7 +38,6 @@ get_header();
                     include('connexionforms.php');
                 }else{
                     ?>
-                <!-- afficher le nom d'utilisateur et un message de bienvenue -->
             </div>
 
             <div id="bienvenue">

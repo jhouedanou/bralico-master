@@ -154,7 +154,7 @@ get_header();
                                         ?>
                                 </div>
                             </div>
-                            <div class="obvf d-none d-md-block">
+                            <div class="obvf d-md-block">
                                 <h5><?php the_title();?></h5>
                                 <p><?php the_excerpt();?></p>
                             </div>

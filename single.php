@@ -9,9 +9,9 @@
 
 get_header();
 ?>
-<div id="pagecontent" class="container-fluid what">
+<div id="pagecontent" class="container what">
     <div class="row">
-        <div id="article" class="col-md-8">
+        <div id="article" class="col-md-12">
 
 
             <main id="primary" class="site-main">
@@ -24,8 +24,8 @@ get_header();
 
 		the_post_navigation(
 			array(
-				'prev_text' => '<span class="nav-subtitle">' . esc_html__( 'Previous:', 'bralico' ) . '</span> <span class="nav-title">%title</span>',
-				'next_text' => '<span class="nav-subtitle">' . esc_html__( 'Next:', 'bralico' ) . '</span> <span class="nav-title">%title</span>',
+				'prev_text' => '<span class="nav-subtitle">' . esc_html__( '<', 'bralico' ) . '</span> <span class="nav-title">%title</span>',
+				'next_text' => '<span class="nav-subtitle">' .  '</span> <span class="nav-title">%title</span>'.esc_html__( ' >', 'bralico' ) ,
 			)
 		);
 
@@ -38,9 +38,6 @@ get_header();
 	?>
 
             </main><!-- #main -->
-        </div>
-        <div id="actions" class="col-md-4">
-
         </div>
     </div>
 </div>

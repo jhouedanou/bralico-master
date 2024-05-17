@@ -1,4 +1,13 @@
 jQuery(document).ready(function ($) {
+
+    var win = $(this); // this = window
+	console(win);
+    if (win.width() <= 1024) { 
+        $('.carousel-item').removeClass('active');
+        $('.carousel-item').first().addClass('active');
+        $('.carousel-item').not(':first').remove();
+    }
+
 	//si la div #thumbnailpage existe
 	if ($('#thumbnailpage').length) {
 		// véfifier si elle contient une image et récupérer la hauteur de l'image
@@ -6,7 +15,17 @@ jQuery(document).ready(function ($) {
 		// ajuster la taille du pseudo element ::before à la taille de l'image
 		$('#thumbnailpage').css('height', imgHeight);
 	}
+	if($('#filtre').length){
+		//rendre chaque .modal-header sticky lorsque l'utilisateur srolle à plus de 100px
+	
+		$(".modal-header").stickOnScroll({
+			setParentOnStick:   true,
+			setWidthOnStick:    true,
+		});
+		}
+		
 	//si la div #porsche existe
+
 	if ($('#porsche').length) {
 		// rendre la div #porsche sticky lorsque l'utilisateur srolle à plus de 100px
 		$("#porsche").stickOnScroll({
@@ -16,6 +35,7 @@ jQuery(document).ready(function ($) {
 			topOffset: $('#masthead').outerHeight(),
 		});
 	}
+
 	//si la div #emploi existe
 	if ($('#emploi').length) {
 		// initialisation de Isotope
@@ -190,4 +210,10 @@ $(() => {
 			500
 		);
 	});
+});
+
+
+
+document.getElementById('secteurs-filter').addEventListener('change', function() {
+    this.classList.add('no-border');
 });

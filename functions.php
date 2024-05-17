@@ -948,7 +948,7 @@ function get_latest_engagement_post() {
             $output .= '</div>';
             $output .= '<div class="col-md-8">';
             $output .= '<p class="post-date">' . get_the_date( 'd M Y', $post ) . '</p>';
-            $output .= '<h2 class="post-title">' . $post->post_title . '</h2>';
+            $output .= '<h2 class="post-title"><a href="' . get_permalink( $post ) . '">' . $post->post_title . '</a></h2>';
             $content = get_the_content(null, false, $post);
             $more_position = strpos($content, '<!--more-->');
             if ($more_position !== false) {
