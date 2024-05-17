@@ -4637,4 +4637,20 @@ body.page-id-304 #connecion input {
   font-size: 28px !important;
   padding: 1em !important;
   max-width: 640px;
+}
+
+.sharingan {
+  width: 100%;
+  display: block;
+  clear: both;
+  height: auto;
+  overflow: hidden;
+}
+
+.shuffeldiv {
+  display: none;
+}
+
+body.home .modal-backdrop {
+  z-index: 10 !important;
 }/*# sourceMappingURL=style.css.map */

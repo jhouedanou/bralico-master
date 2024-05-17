@@ -4896,3 +4896,20 @@ body {
 		}
 	}
 }
+.sharingan {
+	width: 100%;
+	display: block;
+	clear: both;
+	height: auto;
+	overflow: hidden;
+}
+.shuffeldiv {
+	display: none;
+}
+body {
+	&.home {
+		.modal-backdrop {
+			z-index: 10 !important;
+		}
+	}
+}
