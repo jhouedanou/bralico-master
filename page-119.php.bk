@@ -80,7 +80,7 @@ get_header();
                 $fonctions_terms = get_terms('fonctions');
                 if ($fonctions_terms && !is_wp_error($fonctions_terms)) {
                     echo '<select class="filter" id="fonctions-filter">';
-                    echo '<option value="">Toutes les fonctions</option>';
+                    echo '<option value="">Tous les fonctions</option>';
                     foreach ($fonctions_terms as $term) {
                         echo '<option value=".' . $term->slug . '">' . $term->name . '</option>';
                     }
@@ -130,8 +130,10 @@ get_header();
                 'orderby' => 'date',
                 'order' => 'DESC'
             );
+
             // Nouvelle instance de WP_Query
             $query = new WP_Query($args);
+
             // Vérifiez si nous avons des posts
             if ($query->have_posts()) {
                 // Boucle à travers les posts
@@ -162,6 +164,7 @@ get_header();
 
                         <span class="resumeduposte">
                             <?php the_title(); ?>
+                            <?php?>
                         </span>
                         <span class="dateexpiration">
                             <?php if (get_field('date_limite_de_reception_des_dossiers_')) : ?>

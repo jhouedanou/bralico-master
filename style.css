@@ -4201,7 +4201,8 @@ body.page-id-304 #text-2 .forminator-datepicker {
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.5;
+  /* line-height: 1.5; */
+  line-height: 1.9;
   letter-spacing: 0.08px;
   color: #333333;
 }
@@ -4637,4 +4638,82 @@ body.page-id-304 #connecion input {
   font-size: 28px !important;
   padding: 1em !important;
   max-width: 640px;
+}
+
+.sharingan {
+  width: 100%;
+  display: block;
+  clear: both;
+  height: auto;
+  overflow: hidden;
+}
+
+.shuffeldiv {
+  display: none;
+}
+
+body.home .modal-backdrop {
+  z-index: 10 !important;
+}
+
+.theactual {
+  padding-top: 14em;
+}
+
+.entry-content {
+  padding-bottom: 4em;
+}
+.entry-content strong {
+  font-weight: bolder !important;
+}
+
+#post-853 .wp-block-file * + .wp-block-file__button {
+  color: #fff !important;
+  text-transform: uppercase !important;
+  font-family: "Montserrat" !important;
+  background-color: #0a6535 !important;
+  font-weight: bolder;
+}
+#post-853 a#wp-block-file--media-f0268aad-1a3d-48f5-8e80-e82fbc2636af {
+  padding: 1em;
+  background: #eee;
+  display: inline;
+}
+
+img.attachment-poleemploiaccueil.size-poleemploiaccueil.not-transparent.wp-post-image {
+  width: 100%;
+}
+
+.paddingzsa img {
+  width: 100% !important;
+}
+
+#juslikeme {
+  border-radius: 0px;
+  width: 302px;
+  height: 70px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 25.6px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "Montserrat";
+  background-color: #0a6535;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  -o-border-radius: 0px;
+  margin: 1em 0;
+  border: none;
+}
+#juslikeme:hover {
+  background-color: #b20202;
 }/*# sourceMappingURL=style.css.map */

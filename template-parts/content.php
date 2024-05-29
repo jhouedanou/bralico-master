@@ -25,6 +25,7 @@
 				bralico_posted_on();
 				//bralico_posted_by();
 				?>
+
         </div><!-- .entry-meta -->
         <?php endif; ?>
     </header><!-- .entry-header -->
@@ -32,6 +33,7 @@
     <?php bralico_post_thumbnail(); ?>
 
     <div class="entry-content">
+
         <?php
 		the_content(
 			sprintf(
@@ -55,6 +57,9 @@
 			)
 		);
 		?>
+        <div class="sharingan">
+            <?php echo do_shortcode('[DISPLAY_ULTIMATE_SOCIAL_ICONS]'); ?>
+        </div>
     </div><!-- .entry-content -->
 
     <footer class="entry-footer">
