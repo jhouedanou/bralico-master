@@ -89,13 +89,13 @@ get_header();
                     </div><!-- #primary-sidebar -->
                     <?php endif;?>
                 </div>
-                <div class="col">
-                    <?php if (is_active_sidebar('chiffre-cle-4')): ?>
+                <!-- <div class="col">
+                    <?php //if (is_active_sidebar('chiffre-cle-4')): ?>
                     <div id="chiffre-cle-4" class="chiffre-cle-4 widget-area" role="complementary">
-                        <?php dynamic_sidebar('chiffre-cle-4');?>
-                    </div><!-- #primary-sidebar -->
-                    <?php endif;?>
-                </div>
+                        <?php //dynamic_sidebar('chiffre-cle-4');?>
+                    </div>
+                <?php //endif;?>
+            </div> -->
             </div>
         </div>
     </div>
@@ -222,6 +222,15 @@ get_header();
                 </div>
             </div>
         </div>
+        <div id="popupvideop">
+            <div id="popupvideopwrapper">
+                <?php if (is_active_sidebar('popup-video')): ?>
+                <div id="popup-video" class="popup-video widget-area" role="complementary">
+                    <?php dynamic_sidebar('popup-video');?>
+                </div>
+                <?php endif;?>
+            </div>
+        </div>
         <div id="bralicocitywrapper">
             <div id="bralicocuty">
                 <div class="row">
@@ -243,6 +252,8 @@ get_header();
                 </div>
             </div>
         </div>
+
+
         <?php
     get_footer();
     ?>
