@@ -4974,3 +4974,66 @@ img.attachment-poleemploiaccueil.size-poleemploiaccueil.not-transparent.wp-post-
 		background-color: #b20202;
 	}
 }
+div#popupvideop {
+	background: url(img/background.jpg) no-repeat center center fixed;
+	background-size: cover;
+	position: relative;
+	min-height: 573px;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	h2 {
+		font-family: "Raleway";
+		font-size: 30px;
+		font-weight: 500;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.2;
+		letter-spacing: normal;
+		text-align: center;
+		color: #fff;
+		margin-bottom: 20px;
+	}
+	p {
+		font-family: "Montserrat";
+		font-size: 16px;
+		font-weight: 300;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.75;
+		letter-spacing: normal;
+		text-align: center;
+		color: #fff;
+		display: flex;
+		max-width: 570px;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		margin: 0 auto;
+	}
+	&::before {
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 1;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		content: "";
+		display: block;
+		z-index: 0;
+	}
+	img {
+		width: 100px;
+		height: 100px;
+	}
+	#popupvideopwrapper {
+		z-index: 1;
+		position: absolute;
+		left: 0;
+		right: 0;
+		margin: auto;
+		align-items: center;
+		justify-content: center;
+	}
+}
