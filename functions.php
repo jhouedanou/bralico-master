@@ -230,11 +230,12 @@ function bootstrap_css()
 }
 add_action('wp_enqueue_scripts', 'bootstrap_css');
 
+
 function enqueue_scripts()
 {
     
 // Enqueue jQuery
-    wp_enqueue_script('jquery-slim', 'https://code.jquery.com/jquery-3.5.1.min.js', array(), '3.5.1', true);
+    wp_enqueue_script('jquery-slim', 'https://code.jquery.com/jquery-3.7.1;min.js', array(), '3.7.1', true);
 
     // Enqueue Popper.js
     wp_enqueue_script('popper', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js', array('jquery-slim'), '1.16.0', true);
@@ -249,6 +250,26 @@ function enqueue_scripts()
 
 }
 add_action('wp_enqueue_scripts', 'enqueue_scripts');
+
+function enqueue_acf_scripts() {
+    // Enqueue jQuery
+    //wp_enqueue_script('jquery');
+    // Enqueue ACF scripts and styles
+    wp_enqueue_script('acf-input');
+    wp_enqueue_script('acf-field-group');
+    wp_enqueue_style('acf-global');
+    wp_enqueue_style('acf-input');
+    wp_enqueue_style('acf-field-group');
+    // Enqueue jQuery UI scripts
+    wp_enqueue_script('jquery-ui-core');
+    wp_enqueue_script('jquery-ui-widget');
+    wp_enqueue_script('jquery-ui-mouse');
+    wp_enqueue_script('jquery-ui-sortable');
+    wp_enqueue_script('jquery-ui-autocomplete');
+}
+add_action('wp_enqueue_scripts', 'enqueue_acf_scripts');
+
+
 
 register_nav_menus(array(
     'Socialmenu' => 'Navigation du haut pour les réseaux sociaux',
@@ -1107,9 +1128,8 @@ function save_extra_user_profile_fields($user_id) {
     update_user_meta($user_id, 'phone', $_POST['phone']);
 }
 //desactiver l'accès à l'admin pour les utilisateurs non-administrateurs
-
+/* 
 function disable_admin_access_for_subscribers() {
-    // Si l'utilisateur actuel est un abonné et nous sommes dans l'administration de WordPress
     if (current_user_can('subscriber') && is_admin()) {
         // Redirigez l'utilisateur vers la page d'accueil
         wp_redirect(home_url());
@@ -1117,7 +1137,6 @@ function disable_admin_access_for_subscribers() {
     }
 }
 add_action('admin_init', 'disable_admin_access_for_subscribers');
-//désactiver la barre d'administration pour les abonnés
 function desactiver_barre_admin_pour_abonnes($show_admin_bar) {
     if (current_user_can('subscriber')) {
         $show_admin_bar = false;
@@ -1125,6 +1144,7 @@ function desactiver_barre_admin_pour_abonnes($show_admin_bar) {
     return $show_admin_bar;
 }
 add_filter('show_admin_bar', 'desactiver_barre_admin_pour_abonnes');
+ */
 //fonction pour éditer les termes des taxonomies "statut" ,"fonctions", "secteurs" et "lieu" depuis l'interface d'administration et la liste des articles du type de contenu "offre-emploi"
 
     // Ajoutez de nouvelles colonnes à la liste des posts
@@ -1243,4 +1263,5 @@ function enqueue_isotope() {
     wp_enqueue_script('imagesloaded', 'https://cdn.jsdelivr.net/npm/imagesloaded@4.1.4/dist/imagesloaded.pkgd.min.js', array('jquery'), '4.1.4', true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_isotope');
+
 ?>

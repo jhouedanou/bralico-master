@@ -1065,8 +1065,9 @@ body {
 		padding: 0;
 	}
 }
+
 #btnlogowrapper {
-	max-width: 353px;
+	max-width: 216px;
 	margin: 0;
 	padding: 0;
 	border-right: 1px rgba(255, 255, 255, 0.22) solid;
@@ -1087,6 +1088,10 @@ body {
 		justify-content: center;
 		height: 133px;
 		width: 257px;
+		img {
+			max-width: 169px;
+			width: 100%;
+		}
 	}
 }
 #headermenu {
@@ -3511,10 +3516,7 @@ body {
 			}
 		}
 	}
-	div#titreespacecandidat {
-		border-bottom: 2px solid #fae837;
-		padding-bottom: 2.7em;
-	}
+
 	div#titreformulaireu {
 		padding-top: 4em;
 	}
@@ -4736,13 +4738,13 @@ body {
 		}
 	}
 	#rmp_menu_trigger-397 {
-		top: 2em !important;
+		top: 0 !important;
 		background: $third !important;
 	}
 
 	#btnlogowrapper .custom-logo-link {
 		width: 100% !important;
-		margin-left: -44px;
+		margin: 0 !important;
 	}
 	#creditsfooter {
 		.col {
@@ -5004,11 +5006,7 @@ div#popupvideop {
 		letter-spacing: normal;
 		text-align: center;
 		color: #fff;
-		display: flex;
 		max-width: 570px;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
 		margin: 0 auto;
 	}
 	&::before {
@@ -5035,5 +5033,31 @@ div#popupvideop {
 		margin: auto;
 		align-items: center;
 		justify-content: center;
+	}
+}
+div#titreespacecandidat {
+	border-bottom: 2px solid #fae837;
+	padding-bottom: 2.7em;
+	padding: 1em;
+	background: $primary;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	h2 {
+		font-family: "Montserrat";
+		font-size: 30px;
+		font-weight: bold;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 0.73;
+		letter-spacing: normal;
+		text-align: center;
+		color: #fae837;
+		margin-bottom: 2.1em;
+	}
+	p {
+		margin-bottom: 2.1em;
+		color: $secondary;
 	}
 }
