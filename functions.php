@@ -266,6 +266,9 @@ function enqueue_acf_scripts() {
     wp_enqueue_script('jquery-ui-mouse');
     wp_enqueue_script('jquery-ui-sortable');
     wp_enqueue_script('jquery-ui-autocomplete');
+    wp_enqueue_script('jquery-ui-dialog');
+    wp_enqueue_style('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css');
+
 }
 add_action('wp_enqueue_scripts', 'enqueue_acf_scripts');
 
@@ -1263,5 +1266,44 @@ function enqueue_isotope() {
     wp_enqueue_script('imagesloaded', 'https://cdn.jsdelivr.net/npm/imagesloaded@4.1.4/dist/imagesloaded.pkgd.min.js', array('jquery'), '4.1.4', true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_isotope');
+function display_acf_form() {
+    $user_id = get_current_user_id();
+    $post_count = count_user_posts($user_id, 'curriculum_vitae');
+    $args = array(
+        'author'        =>  $user_id,
+        'post_type'     => 'curriculum_vitae',
+        'orderby'       =>  'post_date',
+        'order'         =>  'DESC',
+        'posts_per_page' => 1
+    );
+    $recent_post = get_posts( $args ); 
+ /*        echo $recent_post[0]->ID;
+        echo $post_count; */
+    // Si l'utilisateur a déjà soumis 1 post, afficher un lien pour le modifier
+    if ($post_count > 0) {
+        echo 'Veuillez mettre à jour votre curriculum vitae.';
+        $options = array(
+            'post_id' => $recent_post[0]->ID,
+            'post_title' => true,
+            'submit_value' => 'Modifier'
+        );
+        acf_form($options);
+        
+        return;
+    }
+
+ // Sinon, afficher le formulaire d'édition pour créer un nouveau post de type curriculum vitae
+ $options = array(
+    'post_id' => 'new_post',
+    'new_post' => array(
+        'post_type' => 'curriculum_vitae',
+        'post_status' => 'publish'
+    ),
+    'post_title' => true,
+    'submit_value' => 'Créer'
+);
+acf_form($options);
+}
+add_shortcode('acf_form', 'display_acf_form');
 
 ?>

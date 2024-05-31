@@ -5061,3 +5061,9 @@ div#titreespacecandidat {
 		color: $secondary;
 	}
 }
+#toggle {
+	display: none;
+}
+.active {
+	display: block;
+}

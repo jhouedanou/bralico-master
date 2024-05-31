@@ -4803,4 +4803,12 @@ div#titreespacecandidat h2 {
 div#titreespacecandidat p {
   margin-bottom: 2.1em;
   color: #fae837;
+}
+
+#toggle {
+  display: none;
+}
+
+.active {
+  display: block;
 }/*# sourceMappingURL=style.css.map */

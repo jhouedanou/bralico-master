@@ -1,4 +1,19 @@
 jQuery(document).ready(function ($) {
+	//si la div #toggle existe
+	if ($('#toggle').length) {
+		//afficher la div #toggle lorsque l'utilisateur clique sur le bouton #toogle
+		$('#toogle').click(function () {
+			console.log('click');
+			$('#toggle').slideToggle();
+			$('#overlay').toggleClass('open');
+		});
+	}
+    $("#open-modal").click(function() {
+		$("#modal").dialog({
+			width: 400,
+			modal: true
+		});
+	});
 
     var win = $(this); // this = window
     if (win.width() <= 1024) { 
@@ -6,7 +21,6 @@ jQuery(document).ready(function ($) {
         $('.carousel-item').first().addClass('active');
         $('.carousel-item').not(':first').remove();
     }
-
 	//si la div #thumbnailpage existe
 	if ($('#thumbnailpage').length) {
 		// véfifier si elle contient une image et récupérer la hauteur de l'image
