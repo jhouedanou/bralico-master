@@ -1266,8 +1266,10 @@ function enqueue_isotope() {
     wp_enqueue_script('imagesloaded', 'https://cdn.jsdelivr.net/npm/imagesloaded@4.1.4/dist/imagesloaded.pkgd.min.js', array('jquery'), '4.1.4', true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_isotope');
+
+//formulaire de création de curriculum vitae
 function display_acf_form() {
-    $user_id = get_current_user_id();
+    $user_id = get_current_user_id();   
     $post_count = count_user_posts($user_id, 'curriculum_vitae');
     $args = array(
         'author'        =>  $user_id,
@@ -1305,5 +1307,13 @@ function display_acf_form() {
 acf_form($options);
 }
 add_shortcode('acf_form', 'display_acf_form');
+//definir un cookie qui indique que l'utiliateur s'est connecté 
+function set_login_cookie( $user_login, $user ) {
+    // Définir un cookie qui expire dans 30 jours 
+    setcookie( 'user_logged_in', '1', time() + (30 * 24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN );
+    //Définir un cookie avec le nom de l'utilisateur
+    setcookie( 'user_login', $user_login, time() + (30 * 24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN );
+}
+add_action( 'wp_login', 'set_login_cookie', 10, 2 );
 
 ?>

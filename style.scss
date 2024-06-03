@@ -4116,6 +4116,15 @@ a.btn.btn-primary.btn-postuler {
 	position: fixed;
 	bottom: 0;
 	right: 0;
+	left: 0;
+	margin: 0 auto;
+	border-top: none !important;
+	align-items: center;
+	justify-content: center;
+	border: 0px;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
 }
 .modal-content {
 	position: relative;
@@ -5066,4 +5075,36 @@ div#titreespacecandidat {
 }
 .active {
 	display: block;
+}
+#convingtopn .wp-block-button__link {
+	margin-top: 2em;
+	width: 417px;
+	height: 78px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	background-color: #b20202;
+	font-family: "Montserrat";
+	font-size: 22px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.56;
+	letter-spacing: 0.88px;
+	text-align: left;
+	color: #fff;
+	&:hover {
+		background-color: #0a6535;
+	}
+}
+.modal-footer {
+	position: fixed;
+	left: 0;
+	right: 0;
+	border: none;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

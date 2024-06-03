@@ -1,19 +1,6 @@
 jQuery(document).ready(function ($) {
 	//si la div #toggle existe
-	if ($('#toggle').length) {
-		//afficher la div #toggle lorsque l'utilisateur clique sur le bouton #toogle
-		$('#toogle').click(function () {
-			console.log('click');
-			$('#toggle').slideToggle();
-			$('#overlay').toggleClass('open');
-		});
-	}
-    $("#open-modal").click(function() {
-		$("#modal").dialog({
-			width: 400,
-			modal: true
-		});
-	});
+
 
     var win = $(this); // this = window
     if (win.width() <= 1024) { 
