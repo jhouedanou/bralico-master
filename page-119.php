@@ -125,7 +125,7 @@ get_header();
             <?php
             // Arguments pour WP_Query
             $args = array(
-                'post_type' => 'offre-emploi',
+                'post_type' => 'job_listing',
                 'showposts' => -1,
                 'orderby' => 'date',
                 'order' => 'DESC'
@@ -176,6 +176,7 @@ get_header();
                             <?php the_field('date_limite_de_reception_des_dossiers_'); ?>
                             <?php endif; ?>
                         </span>
+
                     </div>
                 </a>
                 <!-- Modal -->
@@ -193,25 +194,26 @@ get_header();
                             </div>
                             <div class="modal-body">
                                 <div class="chevydealership">
+
                                     <?php
                                     $fields = array(
-                                        'intitule_du_poste',
+                                        /* 'intitule_du_poste',
                                         'departement',
                                         'service',
                                         'n°_du_poste',
                                         'superieur_hierarchique',
                                         'nombre_de_personnes_sous_sa_direction',
-                                        'lieu',
+                                         */'lieu',
                                         'objectif_du_poste',
                                         'responsabilites_principales',
                                         'diplome_requis_pour_le_poste',
                                         'specialite',
                                         'competences_fonctionnelles',
                                         'experience_professionnelle',
-                                        'secteurdomaine',
+                                        /* 'secteurdomaine',
                                         'aptitudes',
                                         'lieu_du_poste',
-                                        'date_limite_de_reception_des_dossiers_'
+                                         */'date_limite_de_reception_des_dossiers_'
                                     );
 
                                     foreach ($fields as $field) {
@@ -229,6 +231,7 @@ get_header();
 
                             </div>
                             <div class="modal-footer">
+
                                 <?php
                                     $post_id = get_the_ID();
                                     $post_title = get_the_title($post_id);
@@ -239,8 +242,10 @@ get_header();
                                     }
                                     $query_param = urlencode($post_title);
                                 ?>
+                                <!--  <a class="btn btn-primary btn-postuler"
+                                    href="?page_id=304&titredupost=<?php echo $query_param; ?>"><?php  echo __('Cliquez ici pour postuler','bralico');?></a> -->
                                 <a class="btn btn-primary btn-postuler"
-                                    href="?page_id=304&titredupost=<?php echo $query_param; ?>"><?php  echo __('Cliquez ici pour postuler','bralico');?></a>
+                                    href="<?php the_job_permalink(); ?>"><?php  echo __('Cliquez ici pour postuler','bralico');?></a>
 
                             </div>
                         </div>

@@ -843,7 +843,7 @@ function arphabet_widgets_init()
         
         'name' => 'Notre pôle emploi',
         'id' => 'notre-pole-emploi',
-        'before_widget' => '<div>',
+        'before_widget' => '<div id="polemploi">',
         'after_widget' => '</div>',
         'before_title' => '<h2 class="rounded">',
         'after_title' => '</h2>',
@@ -1268,9 +1268,96 @@ function enqueue_isotope() {
 add_action('wp_enqueue_scripts', 'enqueue_isotope');
 
 //formulaire de création de curriculum vitae
+
+function display_curriculum_vitae_form() {
+    if (!is_user_logged_in()) {
+        echo 'Vous devez être connecté pour soumettre ou éditer un curriculum vitae.';
+        return;
+    }
+
+    $current_user = wp_get_current_user();
+    $args = array(
+        'post_type' => 'curriculum_vitae',
+        'author' => $current_user->ID,
+        'posts_per_page' => 1,
+    );
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+
+            // Formulaire d'édition
+            $form_args = array(
+                'post_id' => get_the_ID(),
+                'post_title' => true,
+                'post_content' => true,
+                'fields' => array(), // Remplacez par les clés de vos champs ACF
+                'submit_value' => 'Mettre à jour le CV',
+                'updated_message' => 'CV mis à jour avec succès',
+            );
+            acf_form($form_args);
+        }
+    } else {
+        // Formulaire de création
+        $form_args = array(
+            'post_id' => 'new_post',
+            'post_title' => true,
+            'post_content' => true,
+            'fields' => array(), // Remplacez par les clés de vos champs ACF
+            'new_post' => array(
+                'post_type' => 'curriculum_vitae',
+                'post_status' => 'publish',
+            ),
+            'submit_value' => 'Créer un nouveau CV',
+            'updated_message' => 'CV créé avec succès',
+        );
+        acf_form($form_args);
+    }
+
+    wp_reset_postdata();
+}
+
+// Ajouter le shortcode pour afficher le formulaire
+add_shortcode('acf_curriculum_vitae_form', 'display_curriculum_vitae_form');
+
+// Modifier le titre du post avant de le sauvegarder
+function set_cv_post_title($post_id) {
+    // Vérifier que nous sommes en train de sauvegarder un "curriculum_vitae"
+    if (get_post_type($post_id) != 'curriculum_vitae') {
+        return;
+    }
+
+    // Récupérer les informations de l'utilisateur actuel
+    $current_user = wp_get_current_user();
+    $user_name = $current_user->display_name;
+
+    // Définir le nouveau titre
+    $new_title = 'cv-' . $user_name;
+
+    // Mettre à jour le titre du post
+    wp_update_post(array(
+        'ID' => $post_id,
+        'post_title' => $new_title,
+    ));
+}
+// Attacher la fonction au hook acf/save_post
+add_action('acf/save_post', 'set_cv_post_title', 20);
+
+
+//definir un cookie qui indique que l'utiliateur s'est connecté
+function set_login_cookie( $user_login, $user ) {
+// Définir un cookie qui expire dans 30 jours
+setcookie( 'user_logged_in', '1', time() + (30 * 24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN );
+//Définir un cookie avec le nom de l'utilisateur
+setcookie( 'user_login', $user_login, time() + (30 * 24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN );
+}
+add_action( 'wp_login', 'set_login_cookie', 10, 2 );
+
+//formulaire pour postuler
 function display_acf_form() {
     $user_id = get_current_user_id();   
-    $post_count = count_user_posts($user_id, 'curriculum_vitae');
     $args = array(
         'author'        =>  $user_id,
         'post_type'     => 'curriculum_vitae',
@@ -1279,41 +1366,57 @@ function display_acf_form() {
         'posts_per_page' => 1
     );
     $recent_post = get_posts( $args ); 
- /*        echo $recent_post[0]->ID;
-        echo $post_count; */
-    // Si l'utilisateur a déjà soumis 1 post, afficher un lien pour le modifier
-    if ($post_count > 0) {
-        echo 'Veuillez mettre à jour votre curriculum vitae.';
+
+    // Si l'utilisateur a déjà soumis un post, afficher un formulaire pour le modifier
+    if (!empty($recent_post)) {
+        $post_title = isset($_GET['titredupost']) ? $_GET['titredupost'] : $recent_post[0]->post_title;
         $options = array(
             'post_id' => $recent_post[0]->ID,
-            'post_title' => true,
+            'field_groups' => array('group_1'), // Remplacez par votre groupe de champs
+            'form' => array(
+                'fields' => array(
+                    'field_1' => array( // Remplacez par votre champ de nom
+                        'value' => wp_get_current_user()->user_firstname,
+                    ),
+                    'field_2' => array( // Remplacez par votre champ de prénom
+                        'value' => wp_get_current_user()->user_lastname,
+                    ),
+                    'field_3' => array( // Remplacez par votre champ de titre
+                        'value' => $post_title,
+                    ),
+                ),
+            ),
             'submit_value' => 'Modifier'
         );
         acf_form($options);
-        
         return;
     }
 
- // Sinon, afficher le formulaire d'édition pour créer un nouveau post de type curriculum vitae
- $options = array(
-    'post_id' => 'new_post',
-    'new_post' => array(
-        'post_type' => 'curriculum_vitae',
-        'post_status' => 'publish'
-    ),
-    'post_title' => true,
-    'submit_value' => 'Créer'
-);
-acf_form($options);
+    // Sinon, afficher le formulaire d'édition pour créer un nouveau post de type curriculum vitae
+    $options = array(
+        'post_id' => 'new_post',
+        'new_post' => array(
+            'post_type' => 'curriculum_vitae',
+            'post_status' => 'publish'
+        ),
+        'field_groups' => array('group_1'), // Remplacez par votre groupe de champs
+        'form' => array(
+            'fields' => array(
+                'field_1' => array( // Remplacez par votre champ de nom
+                    'value' => wp_get_current_user()->user_firstname,
+                ),
+                'field_2' => array( // Remplacez par votre champ de prénom
+                    'value' => wp_get_current_user()->user_lastname,
+                ),
+                'field_3' => array( // Remplacez par votre champ de titre
+                    'value' => isset($_GET['titredupost']) ? $_GET['titredupost'] : '',
+                ),
+            ),
+        ),
+        'submit_value' => 'Créer'
+    );
+    acf_form($options);
 }
-add_shortcode('acf_form', 'display_acf_form');
-//definir un cookie qui indique que l'utiliateur s'est connecté 
-function set_login_cookie( $user_login, $user ) {
-    // Définir un cookie qui expire dans 30 jours 
-    setcookie( 'user_logged_in', '1', time() + (30 * 24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN );
-    //Définir un cookie avec le nom de l'utilisateur
-    setcookie( 'user_login', $user_login, time() + (30 * 24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN );
-}
-add_action( 'wp_login', 'set_login_cookie', 10, 2 );
+add_shortcode('display_acf_form', 'display_acf_form');
 
 ?>
