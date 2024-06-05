@@ -1,7 +1,7 @@
            <div id="ilauncompte" class="col-md-6 col-xs-12">
                <div class="gbox">
                    <p class="mello">2</p>
-                   <h4>Vous avez déjà un compte ??</h4>
+                   <h4>Vous avez déjà un compte ?</h4>
                    <ul>
                        <li>Connectez-vous pour mettre à jour votre CV et postuler aux offres.</li>
                        <li>Gérez vos candidatures et suivez leur avancement.</li>
