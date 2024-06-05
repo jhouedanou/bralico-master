@@ -51,9 +51,10 @@ get_header();
                             // L'utilisateur ne s'est jamais connecté, affichez le formulaire de connexion et le formulaire de création de compte
                             ?>
                         </div>
-                        <p>L'espace candidat est vous offre la possibilité de mettre en ligne votre cv et de le rendre
-                            consultable par notre service de recrutement</p>
-                        <div id="connexioncenter" class="row">
+                        <p class="mouff white">Votre espace personnel pour gérer votre candidature et postuler à nos
+                            offres.</p>
+
+                        <div id=" connexioncenter" class="row">
 
                             <?php 
                                 include('creationDeCompte.php');

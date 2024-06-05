@@ -1,8 +1,13 @@
            <div id="ilauncompte" class="col-md-6 col-xs-12">
                <div class="gbox">
                    <p class="mello">2</p>
-                   <button id="open-login-modal" data-toggle="modal" data-target="#login-modal">Se
-                       connecter</button>
+                   <h4>Vous avez déjà un compte ??</h4>
+                   <ul>
+                       <li>Connectez-vous pour mettre à jour votre CV et postuler aux offres.</li>
+                       <li>Gérez vos candidatures et suivez leur avancement.</li>
+                   </ul>
+                   <button id="open-login-modal" data-toggle="modal" data-target="#login-modal">Se connecter</button>
+
                    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog"
                        aria-labelledby="login-modal-label" aria-hidden="true">
                        <div class="modal-dialog" role="document">
