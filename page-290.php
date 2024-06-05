@@ -149,25 +149,25 @@ get_header();
                                                 <div class="modal-body">
                                                     <div class="chevydealership">
                                                         <?php
-                                                        $fields = array(
-                                                            'intitule_du_poste',
-                                                            'departement',
-                                                            'service',
-                                                            'n°_du_poste',
-                                                            'superieur_hierarchique',
-                                                            'nombre_de_personnes_sous_sa_direction',
-                                                            'lieu',
-                                                            'objectif_du_poste',
-                                                            'responsabilites_principales',
-                                                            'diplome_requis_pour_le_poste',
-                                                            'specialite',
-                                                            'competences_fonctionnelles',
-                                                            'experience_professionnelle',
-                                                            'secteurdomaine',
-                                                            'aptitudes',
-                                                            'lieu_du_poste',
-                                                            'date_limite_de_reception_des_dossiers_'
-                                                        );
+                                                      $fields = array(
+                                                        /* 'intitule_du_poste',
+                                                        'departement',
+                                                        'service',
+                                                        'n°_du_poste',
+                                                        'superieur_hierarchique',
+                                                        'nombre_de_personnes_sous_sa_direction',
+                                                         */'lieu',
+                                                        'objectif_du_poste',
+                                                        'responsabilites_principales',
+                                                        'diplome_requis_pour_le_poste',
+                                                        'specialite',
+                                                        'competences_fonctionnelles',
+                                                        'experience_professionnelle',
+                                                        /* 'secteurdomaine',
+                                                        'aptitudes',
+                                                        'lieu_du_poste',
+                                                         */'date_limite_de_reception_des_dossiers_'
+                                                    );
 
                                                         foreach ($fields as $field) {
                                                             $field_object = get_field_object($field);
@@ -196,10 +196,11 @@ get_header();
                                                     $query_param = urlencode($post_title);
                                                     ?>
                                                     <?php
-                                                    if (is_user_logged_in()) {
-                                                        // L'utilisateur est connecté, affichez le bouton
-                                                        echo '<a class="btn btn-primary btn-postuler" href="?page_id=304&titredupost=' . $query_param . '">' . __('Cliquez ici pour postuler', 'bralico') . '</a>';
-                                                    } else {
+                                                    if (is_user_logged_in()) {?>
+                                                    <a class="btn btn-primary btn-postuler"
+                                                        href="<?php the_job_permalink(); ?>"><?php  echo __('Cliquez ici pour postuler','bralico');?></a>
+
+                                                    <?php  } else {
                                                         // L'utilisateur n'est pas connecté, affichez un avertissement Bootstrap
                                                         echo '<div class="alert alert-warning" role="alert">
                                                                 Veuillez créer un compte afin de postuler avant de postuler à cette offre d\'emploi.

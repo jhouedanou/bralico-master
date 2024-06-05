@@ -22,9 +22,12 @@ get_header();
 	?>
         <h1><?php the_title();?></h1>
 
-        <?php //the_content();
+        <?php 
+        the_content();
 
         ?>
+        <h2>Vos candidatures</h2>
+        <?php echo do_shortcode('[past_applications]');?>
         <?php
 		endwhile; 
 	?>

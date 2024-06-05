@@ -5195,7 +5195,7 @@ div#titreespacecandidat {
 			align-items: center;
 			width: 90%;
 			margin: 1em;
-			justify-content: center;
+			justify-content: flex-end;
 			flex-direction: column;
 			-webkit-transition: all 0.4s ease-in-out 0.2s;
 			-moz-transition: all 0.4s ease-in-out 0.2s;
@@ -5312,5 +5312,31 @@ div#section2poleemploi {
 				bottom: -6px;
 			}
 		}
+	}
+}
+body.single-job_listing,
+body.single {
+	padding-top: 18em;
+}
+.job-manager-error {
+	font-size: 0em !important;
+	background: green;
+	border: none;
+	&::before {
+		display: none !important;
+	}
+	&::after {
+		display: block;
+		text-align: justify;
+		font-family: "Nunito Sans";
+		font-size: 23px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.5;
+		line-height: 1.9;
+		letter-spacing: 0.08px;
+		color: #333;
+		content: "Nous avons bien reçu votre candidature ";
 	}
 }

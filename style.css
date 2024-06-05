@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*!
 Theme Name: Bralico
 Theme URI: http://underscores.me/
@@ -4952,7 +4953,7 @@ div#titreespacecandidat p {
   align-items: center;
   width: 90%;
   margin: 1em;
-  justify-content: center;
+  justify-content: flex-end;
   flex-direction: column;
   transition: all 0.4s ease-in-out 0.2s;
   position: relative;
@@ -5055,4 +5056,32 @@ div#section2poleemploi #polemploi h4::after {
   right: 0;
   background-color: #b20202;
   bottom: -6px;
+}
+
+body.single-job_listing,
+body.single {
+  padding-top: 18em;
+}
+
+.job-manager-error {
+  font-size: 0em !important;
+  background: green;
+  border: none;
+}
+.job-manager-error::before {
+  display: none !important;
+}
+.job-manager-error::after {
+  display: block;
+  text-align: justify;
+  font-family: "Nunito Sans";
+  font-size: 23px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  line-height: 1.9;
+  letter-spacing: 0.08px;
+  color: #333;
+  content: "Nous avons bien reçu votre candidature ";
 }/*# sourceMappingURL=style.css.map */

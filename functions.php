@@ -1268,7 +1268,7 @@ function enqueue_isotope() {
 add_action('wp_enqueue_scripts', 'enqueue_isotope');
 
 //formulaire de création de curriculum vitae
-
+/* 
 function display_curriculum_vitae_form() {
     if (!is_user_logged_in()) {
         echo 'Vous devez être connecté pour soumettre ou éditer un curriculum vitae.';
@@ -1345,7 +1345,7 @@ function set_cv_post_title($post_id) {
 // Attacher la fonction au hook acf/save_post
 add_action('acf/save_post', 'set_cv_post_title', 20);
 
-
+ */
 //definir un cookie qui indique que l'utiliateur s'est connecté
 function set_login_cookie( $user_login, $user ) {
 // Définir un cookie qui expire dans 30 jours
@@ -1356,7 +1356,7 @@ setcookie( 'user_login', $user_login, time() + (30 * 24 * 60 * 60), COOKIEPATH, 
 add_action( 'wp_login', 'set_login_cookie', 10, 2 );
 
 //formulaire pour postuler
-function display_acf_form() {
+/* function display_acf_form() {
     $user_id = get_current_user_id();   
     $args = array(
         'author'        =>  $user_id,
@@ -1417,6 +1417,14 @@ function display_acf_form() {
     );
     acf_form($options);
 }
-add_shortcode('display_acf_form', 'display_acf_form');
+add_shortcode('display_acf_form', 'display_acf_form'); */
+//disable editor for custom post type emploi
+function prefix_disable_gutenberg($current_status, $post_type)
+{
+    // Use your post type key instead of 'job_listing'
+    if ($post_type === 'job_listing') return false;
+    return $current_status;
+}
+add_filter('use_block_editor_for_post_type', 'prefix_disable_gutenberg', 10, 2);
 
 ?>
