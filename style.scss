@@ -5357,3 +5357,6 @@ body.single {
 		content: "Nous avons bien reçu votre candidature ";
 	}
 }
+.modal-backdrop {
+	z-index: 0 !important	;
+}

@@ -1,2 +1,25 @@
-.formwrapper{display:flex;flex-direction:column;flex-wrap:wrap}.formwrapper .formgroup{flex-direction:column;flex-wrap:wrap;display:flex}.formwrapper .formgroup label{width:95%;display:block;margin-bottom:1em;font-weight:800;color:#000}.formwrapper .formgroup input{width:95%;display:block;margin-bottom:1em;background:#f8f8f8;padding:1em;border:#d8d7d7 1px solid}
-/*# sourceMappingURL=admin-style.css.map */
+.formwrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.formwrapper .formgroup {
+  flex-direction: column;
+  flex-wrap: wrap;
+  display: flex;
+}
+.formwrapper .formgroup label {
+  width: 95%;
+  display: block;
+  margin-bottom: 1em;
+  font-weight: 800;
+  color: black;
+}
+.formwrapper .formgroup input {
+  width: 95%;
+  display: block;
+  margin-bottom: 1em;
+  background: #f8f8f8;
+  padding: 1em;
+  border: #d8d7d7 1px solid;
+}/*# sourceMappingURL=admin-style.css.map */
