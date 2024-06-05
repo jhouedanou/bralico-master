@@ -9,7 +9,7 @@
 
 get_header();
 ?>
-<div id="pagecontent" class="container-fluid what">
+<div id="pagecontent" class="container-fluid liresume">
     <div class="row">
         <div id="article" class="col-md-12">
 
@@ -22,7 +22,7 @@ get_header();
 
 		get_template_part( 'template-parts/content', get_post_type() );
 
-		the_post_navigation(
+/* 		the_post_navigation(
 			array(
 				'prev_text' => '<span class="nav-subtitle">' . esc_html__( '<', 'bralico' ) . '</span> <span class="nav-title">%title</span>',
 				'next_text' => '<span class="nav-subtitle">' .  '</span> <span class="nav-title">%title</span>'.esc_html__( ' >', 'bralico' ) ,
@@ -32,7 +32,7 @@ get_header();
 		// If comments are open or we have at least one comment, load up the comment template.
 		if ( comments_open() || get_comments_number() ) :
 			comments_template();
-		endif;
+		endif; */
 
 	endwhile; // End of the loop.
 	?>

@@ -1426,5 +1426,133 @@ function prefix_disable_gutenberg($current_status, $post_type)
     return $current_status;
 }
 add_filter('use_block_editor_for_post_type', 'prefix_disable_gutenberg', 10, 2);
+//ajouter des chaps 
 
-?>
+
+// Add fields to admin
+add_filter( 'resume_manager_resume_fields', 'wpjms_admin_resume_form_fields' );
+function wpjms_admin_resume_form_fields( $fields ) {
+   
+    // Add "nombres d'années d'expérience" field
+    $fields['_candidate_experience_years'] = array(
+        'label'         => __( "Nombre d'années d'expérience", 'job_manager' ),
+        'type'          => 'text',
+        'placeholder'   => __( '5 years', 'job_manager' ),
+        'description'   => '',
+        'priority'      => 1
+    );
+
+    // Add "nationalité" field
+    $fields['_candidate_nationality'] = array(
+        'label'         => __( 'Nationalité', 'job_manager' ),
+        'type'          => 'text',
+        'placeholder'   => __( 'French', 'job_manager' ),
+        'description'   => '',
+        'priority'      => 2
+    );
+
+    // Add "date de naissance" field
+    $fields['_candidate_date_of_birth'] = array(
+        'label'         => __( 'Date de naissance', 'job_manager' ),
+        'type'          => 'text',
+        'placeholder'   => __( 'YYYY-MM-DD', 'job_manager' ),
+        'description'   => '',
+        'priority'      => 3
+    );
+
+    // Add "téléphone" field
+    $fields['_candidate_phone'] = array(
+        'label'         => __( 'Téléphone', 'job_manager' ),
+        'type'          => 'text',
+        'placeholder'   => __( '+123456789', 'job_manager' ),
+        'description'   => '',
+        'priority'      => 4
+    );
+ 
+    return $fields;   
+}
+
+// Add fields to frontend
+add_filter( 'submit_resume_form_fields', 'wpjms_frontend_resume_form_fields' );
+function wpjms_frontend_resume_form_fields( $fields ) {
+   
+    // Add "nombres d'années d'expérience" field
+    $fields['resume_fields']['candidate_experience_years'] = array(
+        'label'     => __( "Nombre d'années d'expérience", 'job_manager' ),
+        'type'      => 'text',
+        'required'  => true,
+        'placeholder'   => '',
+        'priority'  => 1
+    );
+
+    // Add "nationalité" field
+    $fields['resume_fields']['candidate_nationality'] = array(
+        'label'     => __( 'Nationalité', 'job_manager' ),
+        'type'      => 'text',
+        'required'  => true,
+        'placeholder'   => '',
+        'priority'  => 2
+    );
+
+    // Add "date de naissance" field
+    $fields['resume_fields']['candidate_date_of_birth'] = array(
+        'label'     => __( 'Date de naissance', 'job_manager' ),
+        'type'      => 'text',
+        'required'  => true,
+        'placeholder'   => '',
+        'priority'  => 3
+    );
+
+    // Add "téléphone" field
+    $fields['resume_fields']['candidate_phone'] = array(
+        'label'     => __( 'Téléphone', 'job_manager' ),
+        'type'      => 'text',
+        'required'  => true,
+        'placeholder'   => '',
+        'priority'  => 4
+    );
+
+    return $fields;
+}
+
+// Add lines to the notification email with custom fields
+add_filter( 'apply_with_resume_email_message', 'wpjms_custom_field_email_message', 10, 2 );
+function wpjms_custom_field_email_message( $message, $resume_id ) {
+    $message[] = "\n" . "Nombre d'années d'expérience: " . get_post_meta( $resume_id, '_candidate_experience_years', true );
+    $message[] = "\n" . "Nationalité: " . get_post_meta( $resume_id, '_candidate_nationality', true );
+    $message[] = "\n" . "Date de naissance: " . get_post_meta( $resume_id, '_candidate_date_of_birth', true );
+    $message[] = "\n" . "Téléphone: " . get_post_meta( $resume_id, '_candidate_phone', true );
+
+    return $message;
+}
+
+add_filter( 'submit_resume_form_fields', 'remove_submit_resume_form_fields' );
+ 
+//suprimer les champs inutiles 
+function remove_submit_resume_form_fields( $fields ) {
+ 
+  // Unset any of the fields you'd like to remove - copy and repeat as needed
+  unset( $fields['resume_fields']['candidate_title'] );
+    unset( $fields['resume_fields']['resume_content'] );
+    unset( $fields['resume_fields']['candidate_video'] );
+ unset( $fields['resume_fields']['links'] );
+  // And return the modified fields
+  return $fields;
+   
+}
+
+//rendre les champs nécessaires obligatoires
+add_filter( 'submit_resume_form_fields', 'resume_file_required' );
+ 
+// This is your function which takes the fields, modifies them, and returns them
+function resume_file_required( $fields ) {
+ 
+    // Here we target one of the job fields (candidate name) and change it's label
+    $fields['resume_fields']['candidate_education']['required'] = true;
+    $fields['resume_fields']['candidate_experience_years']['required'] = true;
+    $fields['resume_fields']['candidate_experience']['required'] = true;
+    $fields['resume_fields']['resume_file']['required'] = true;
+    
+    // And return the modified fields
+    return $fields;
+}

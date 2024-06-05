@@ -1,6 +1,12 @@
 jQuery(document).ready(function ($) {
-	//si la div #toggle existe
-
+//si la div #postsidebar existe, rendre la div #postsidebar sticky lorsque l'utilisateur srolle à plus de 100px en dessous de la div #masthead
+	if ($('#postsidebar').length) {
+		$("#postsidebar").stickOnScroll({
+			topOffset: $('#masthead').outerHeight(),
+			setParentOnStick:   true,
+			setWidthOnStick:    true,
+		});
+	}
 
     var win = $(this); // this = window
     if (win.width() <= 1024) { 

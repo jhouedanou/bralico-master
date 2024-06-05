@@ -3089,7 +3089,7 @@ div#popupvideo .wp-block-column p {
 }
 
 .modal-backdrop {
-  z-index: 100;
+  z-index: 0 !important;
   display: block;
 }
 
@@ -4148,16 +4148,17 @@ body.page-id-304 #text-2 .forminator-datepicker {
 }
 #article h1 {
   font-family: "Montserrat";
-  font-size: 51px;
+  font-size: 30px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.01;
-  letter-spacing: 0.38px;
+  line-height: 0.73;
+  letter-spacing: normal;
   text-align: left;
-  color: #171717;
-  margin-bottom: 1.65rem;
-  color: #0a6535;
+  color: #494a4a;
+  padding-bottom: 1em;
+  border-bottom: 2px solid #8d8e8d;
+  margin-bottom: 1px;
 }
 #article h2 {
   font-family: "Montserrat";
@@ -4263,10 +4264,6 @@ body.page-id-304 #text-2 .forminator-datepicker {
   letter-spacing: normal;
   text-align: left;
   color: #000;
-}
-
-body.single-post #pagecontent {
-  padding-top: 10em;
 }
 
 #catgrid {
@@ -4964,6 +4961,9 @@ div#titreespacecandidat p {
   border-radius: 5px;
   z-index: 0;
 }
+.welcomemessage .col-md-6 .gbox .modal {
+  z-index: 15;
+}
 .welcomemessage .col-md-6 .gbox h4 {
   color: white;
 }
@@ -5015,6 +5015,7 @@ div#titreespacecandidat p {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  z-index: 0 !important;
 }
 
 div#section2poleemploi #polemploi .textwidget {
@@ -5066,30 +5067,7 @@ div#section2poleemploi #polemploi h4::after {
 
 body.single-job_listing,
 body.single {
-  padding-top: 18em;
-}
-
-.job-manager-error {
-  font-size: 0em !important;
-  background: green;
-  border: none;
-}
-.job-manager-error::before {
-  display: none !important;
-}
-.job-manager-error::after {
-  display: block;
-  text-align: justify;
-  font-family: "Nunito Sans";
-  font-size: 23px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.5;
-  line-height: 1.9;
-  letter-spacing: 0.08px;
-  color: #333;
-  content: "Nous avons bien reçu votre candidature ";
+  padding-top: 0em;
 }
 
 .modal-backdrop {
@@ -5097,11 +5075,11 @@ body.single {
 }
 
 #section1poleemploi .modal-body {
-  background-color: #f9f9f9;
   padding: 20px;
-  border-radius: 5px;
   width: 100%;
-  max-width: 400px;
+  /* 		max-width: 400px;
+  	background-color: $background-color_1;
+  */
   margin: 0 auto;
 }
 #section1poleemploi .modal-body form {
@@ -5146,4 +5124,413 @@ body.single {
 }
 #section1poleemploi .modal-body .login-remember input {
   margin-right: 5px;
+}
+
+.what {
+  padding-top: 12em !important;
+  width: 90vw !important;
+  margin: 0;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  max-width: 90vw !important;
+}
+.what .row {
+  width: 100% !important;
+}
+
+/* General table styling */
+table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  border-collapse: collapse;
+}
+
+/* Table headers */
+table th {
+  padding: 0.75rem;
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+/* Table cells */
+table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Alternating row colors */
+table tbody tr:nth-child(odd) {
+  background-color: #f8f9fa;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #e9ecef;
+}
+
+/* Bordered table containers */
+#resume-manager-candidate-dashboard,
+#job-manager-past-applications {
+  border: 1px solid #dee2e6;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Additional styling for links in table */
+table a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+table a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Additional styling for action links */
+.candidate-dashboard-actions li {
+  display: inline;
+  margin-right: 0.5rem;
+}
+
+.candidate-dashboard-action-edit,
+.candidate-dashboard-action-hide,
+.candidate-dashboard-action-delete {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.candidate-dashboard-action-edit:hover,
+.candidate-dashboard-action-hide:hover,
+.candidate-dashboard-action-delete:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+#resume-manager-candidate-dashboard a,
+.job-manager-past-applications a {
+  color: #0a6535;
+  font-weight: normal;
+}
+#resume-manager-candidate-dashboard a:hover,
+.job-manager-past-applications a:hover {
+  text-decoration: none;
+}
+
+/* Style pour la barre latérale */
+#postsidebar {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+  padding-bottom: 0em !important;
+  margin-bottom: 0em !important;
+}
+#postsidebar .entry-content {
+  padding-bottom: 0em !important;
+  margin-bottom: 0em !important;
+}
+#postsidebar .company {
+  display: none;
+}
+#postsidebar h1 {
+  font-size: 18px;
+}
+#postsidebar * {
+  font-size: 15px !important;
+}
+#postsidebar .job-type {
+  display: none;
+}
+#postsidebar .location {
+  display: none;
+}
+#postsidebar .application_button,
+#postsidebar input[type=submit] {
+  margin-top: 2em;
+  width: 217px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: #b20202;
+  font-family: "Montserrat";
+  font-size: 22px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: 0.88px;
+  text-align: left;
+  color: #fff;
+}
+
+/* Style pour le contenu de la barre latérale */
+#postsidebar .content {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Style pour les liens dans la barre latérale */
+#postsidebar .content a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+#postsidebar .content a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* 
+.job-manager-error {
+	font-size: 0em !important;
+	background: green;
+	border: none;
+	&::before {
+		display: none !important;
+	}
+	&::after {
+		display: block;
+		text-align: justify;
+		font-family: "Nunito Sans";
+		font-size: 23px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.5;
+		line-height: 1.9;
+		letter-spacing: 0.08px;
+		color: #333;
+		content: "Nous avons bien reçu votre candidature ";
+	}
+} */
+form#submit-resume-form a {
+  color: #0a6535;
+}
+form#submit-resume-form .button,
+form#submit-resume-form input#file-upload-button {
+  margin-top: 2em;
+  width: 217px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: #e6e6e6;
+  font-family: "Montserrat";
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: 0.88px;
+  text-align: left;
+  color: #0a6535;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.liresume {
+  padding-top: 11em;
+}
+
+.photoducandidat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.photoducandidat img {
+  border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -ms-border-radius: 100%;
+  -o-border-radius: 100%;
+}
+
+.contactsdsm .resume_contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.contactsdsm .resume_contact_button {
+  width: 100% !important;
+  height: 53px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: #0a6535;
+  font-family: "Montserrat";
+  font-size: 20px !important;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: 0.88px;
+  color: #fff;
+  line-height: 0 !important;
+  border-radius: 43px;
+  margin: 1em auto !important;
+  border: none !important;
+}
+
+#sios {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+body.single-resume {
+  background-color: #e7e7e7;
+}
+body.single-resume #page {
+  margin-top: 4em;
+}
+body.single-resume .entry-title {
+  display: none;
+}
+body.single-resume #pagecontent {
+  background: #fff;
+  padding: 1em !important;
+  display: flex;
+  margin: 9em auto 4em auto !important;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 80vw !important;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+}
+body.single-resume #pagecontent .row {
+  width: 100% !important;
+}
+
+.liresume {
+  padding-top: 12em !important;
+  margin: 0;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.lkecarotutc {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+.lkecarotutc p,
+.lkecarotutc a {
+  color: #919191 !important;
+  margin: 10px 10px 10px 0;
+  font-size: 20px;
+}
+
+#contenucv {
+  /* Style pour le badge */
+  /* Style pour le badge dans le titre du poste */
+  /* Style pour le badge dans la localisation */
+}
+#contenucv h2 {
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.25rem !important;
+  color: #414141;
+}
+#contenucv h3 {
+  font-size: 16px !important;
+  font-weight: normal !important;
+  margin-bottom: 0em !important;
+}
+#contenucv hr {
+  margin-bottom: 2em !important;
+}
+#contenucv .badge {
+  padding: 0.5em 1em;
+  display: flex;
+  color: rgb(255, 255, 255) !important;
+  height: 30px !important;
+  border-radius: 0.25em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 1em !important;
+}
+#contenucv .badge * {
+  font-size: 1em !important;
+  color: rgb(255, 255, 255) !important;
+}
+#contenucv .job-title.badge {
+  background-color: #808080; /* Rouge */
+}
+#contenucv .location.badge {
+  background-color: #808080; /* Rouge */
+}
+
+.boxedin {
+  padding: 1em;
+  border: 1px solid #ccc;
+}
+
+.single-resume .resume-manager-education h3:before,
+.single-resume .resume-manager-experience h3:before {
+  background: #0a6535 !important;
+}
+
+.single-resume .resume-manager-education,
+.single-resume .resume-manager-experience {
+  /* 	border: 1px #8b8b8b solid !important; */
+}
+
+body.job_listing-template-default p,
+body.job_listing-template-default li {
+  font-size: 17px !important;
+  line-height: 2 !important;
+}
+
+.date-posted {
+  background: #eee !important;
+  font-size: 15px !important;
+}
+
+.single-resume .resume-manager-education h3:before,
+.single-resume .resume-manager-experience h3:before {
+  top: 26px !important;
+  left: 0px !important;
+}
+
+.single-resume .resume-manager-education p,
+.single-resume .resume-manager-experience p,
+.single-resume .resume_contact .resume_contact_details p {
+  list-style: none;
+  display: inline-block !important;
+  font-size: 1em !important;
+  color: #414141 !important;
+  padding: 0.35rem 1.25rem !important;
+}
+
+.resume-file-pdf {
+  margin: 0;
+  padding: 0;
+  list-style-type: none !important;
+  list-style: none;
+  display: inline-block !important;
+  font-size: 1em !important;
+  color: #414141 !important;
+  padding: 0.35rem 1.25rem !important;
+}
+.resume-file-pdf a {
+  display: block !important;
+  height: 40px;
+  background: #444 !important;
+  /* font-size: 0em !important; */
+  color: #414141 !important;
+  width: 100% !important;
+  min-width: 100% !important;
 }/*# sourceMappingURL=style.css.map */
