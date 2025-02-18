@@ -26,6 +26,11 @@ jQuery(document).ready(function($) {
         $filterRow.append($filterGroup);
     }
 
+    // Ajout du champ de recherche
+    var $searchWrapper = $('<div class="search-wrapper"></div>');
+    $searchWrapper.append('<input type="text" id="search-cv" class="form-control" placeholder="Recherche rapide (saisir un ou plusieurs mots clés)" style="padding: 1em; width: 100%;">');
+    $('.wp-list-table').before($searchWrapper);
+
     // Insertion des filtres avant le tableau
     $('.wp-list-table').before($filterRow);
 
@@ -49,6 +54,28 @@ jQuery(document).ready(function($) {
             return $(a).text().localeCompare($(b).text());
         });
         $select.empty().append($options);
+    });
+
+    // Ajout du champ de recherche
+    $('#search-cv').on('input', function() {
+        var searchText = $(this).val().toLowerCase();
+    
+        $('.wp-list-table tbody tr').each(function() {
+            var row = $(this);
+            var specialite = row.find('td:nth-child(2)').text().toLowerCase();
+            var experience = row.find('td:nth-child(3)').text().toLowerCase();
+            var diplome = row.find('td:nth-child(4)').text().toLowerCase();
+        
+            if (specialite.includes(searchText) || 
+                experience.includes(searchText) || 
+                diplome.includes(searchText)) {
+                row.show();
+            } else {
+                row.hide();
+            }
+        });
+    
+        updateResultCount();
     });
 
     // Fonction de filtrage
@@ -126,7 +153,6 @@ jQuery(document).ready(function($) {
         var url = $(this).attr('href');
         tb_show('', url);
     });
-
     // Initialisation du compteur
     updateResultCount();
 });

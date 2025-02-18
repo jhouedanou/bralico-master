@@ -1282,14 +1282,13 @@ function enqueue_isotope() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_isotope');
 
-//definir un cookie qui indique que l'utiliateur s'est connecté
-function set_login_cookie( $user_login, $user ) {
-// Définir un cookie qui expire dans 30 jours
-setcookie( 'user_logged_in', '1', time() + (30 * 24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN );
-//Définir un cookie avec le nom de l'utilisateur
-setcookie( 'user_login', $user_login, time() + (30 * 24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN );
+function set_login_cookie($user_login, $user) {
+    // Définir un cookie qui expire dans 1 jour (24 * 60 * 60 secondes)
+    setcookie('user_logged_in', '1', time() + (24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN);
+    setcookie('user_login', $user_login, time() + (24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN);
 }
-add_action( 'wp_login', 'set_login_cookie', 10, 2 );
+add_action('wp_login', 'set_login_cookie', 10, 2);
+
 
 //changement des labels de champs 
 add_filter('submit_resume_form_fields', 'modifier_libelles_formulaire_candidature');
@@ -2711,6 +2710,8 @@ function afficher_page_cv() {
     ?>
     <div class="wrap">
         <h1>Gestion des CV</h1>
+        <?php ?>
+    
         <table class="wp-list-table widefat fixed striped">
             <thead>
                 <tr>
@@ -2783,3 +2784,7 @@ function charger_scripts_admin_cv($hook) {
     wp_enqueue_style('admin-cv-style', get_template_directory_uri() . '/css/admin.css', array(), '1.0.0');
 }
 add_action('admin_enqueue_scripts', 'charger_scripts_admin_cv');
+
+
+
+//vérifier que l'utlisateur a crée son cv avant de faire une candidature spontannée 
