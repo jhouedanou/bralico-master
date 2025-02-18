@@ -35,7 +35,7 @@ get_header();
                 </span>
                 <div class="liste">
                     <?php 
-                $statut_terms = get_terms('statut');
+                $statut_terms = get_terms('statut', array('hide_empty' => false));
                 if ($statut_terms && !is_wp_error($statut_terms)) {
                     echo '<select class="filter" id="statut-filter">';
                     echo '<option value="">Tous les statuts</option>';
@@ -56,7 +56,7 @@ get_header();
                 </span>
                 <div class="liste">
                     <?php 
-                $lieu_terms = get_terms('lieu');
+                $lieu_terms = get_terms('lieu', array('hide_empty' => false));
                 if ($lieu_terms && !is_wp_error($lieu_terms)) {
                     echo '<select class="filter" id="lieu-filter">';
                     echo '<option value="">Tous les lieux</option>';
@@ -70,39 +70,18 @@ get_header();
             </div>
 
         </div>
-        <div class="col-md-6">
+        <!--<div class="col-md-6">
             <div class="zwrapper">
                 <span>
-                    <?php echo __("Fonctions","bralico");?>
-                </span>
-                <div class="liste">
-                    <?php 
-                $fonctions_terms = get_terms('fonctions');
-                if ($fonctions_terms && !is_wp_error($fonctions_terms)) {
-                    echo '<select class="filter" id="fonctions-filter">';
-                    echo '<option value="">Toutes les fonctions</option>';
-                    foreach ($fonctions_terms as $term) {
-                        echo '<option value=".' . $term->slug . '">' . $term->name . '</option>';
-                    }
-                    echo '</select>';
-                }
-                ?>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-md-6">
-            <div class="zwrapper">
-                <span>
-                    <?php echo __("Secteurs","bralico");?>
+                    <?php echo __("Métiers","bralico");?>
                 </span>
                 <div class="liste">
 
                     <?php 
-                $secteurs_terms = get_terms('secteurs');
+                $secteurs_terms = get_terms('secteurs', array('hide_empty' => false));
                 if ($secteurs_terms && !is_wp_error($secteurs_terms)) {
                     echo '<select class="filter" id="secteurs-filter">';
-                    echo '<option value="">Tous les secteurs</option>';
+                    echo '<option value="">Tous les métiers</option>';
                     foreach ($secteurs_terms as $term) {
                         echo '<option value=".' . $term->slug . '">' . $term->name . '</option>';
                     }
@@ -112,6 +91,80 @@ get_header();
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="zwrapper">
+                <span>
+                    <?php echo __(" Pôles","bralico");?>
+                </span>
+                <div class="liste">
+                    <?php 
+                $fonctions_terms = get_terms('fonctions', array('hide_empty' => false));
+                if ($fonctions_terms && !is_wp_error($fonctions_terms)) {
+                    echo '<select class="filter" id="fonctions-filter">';
+                    echo '<option value="">Tous les pôles</option>';
+                    foreach ($fonctions_terms as $term) {
+                        echo '<option value=".' . $term->slug . '">' . $term->name . '</option>';
+                    }
+                    echo '</select>';
+                }
+                ?>
+                </div>
+            </div>
+
+        </div>-->
+
+        <div class="col-md-6">
+    <div class="zwrapper">
+        <span><?php echo __("Métiers","bralico");?></span>
+        <div class="liste">
+            <?php 
+            $secteurs_terms = get_terms('secteurs', array('hide_empty' => false, 'parent' => 0));
+            if ($secteurs_terms && !is_wp_error($secteurs_terms)) {
+                echo '<select class="filter-no" id="secteurs-filter">';
+                echo '<option value="">Tous les métiers</option>';
+                foreach ($secteurs_terms as $term) {
+                    echo '<option value="' . $term->term_id . '">' . $term->name . '</option>';
+                }
+                echo '</select>';
+            }
+            ?>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="zwrapper">
+        <span><?php echo __("Pôles","bralico");?></span>
+        <div class="liste sous-secteurs">
+            <?php
+            // Ajout du select par défaut
+            echo '<select class="filter sous-secteur-select" id="sous-secteur-default">';
+            echo '<option value="">Veuillez sélectionner un métier</option>';
+            echo '</select>';
+
+            foreach ($secteurs_terms as $parent_term) {
+                echo '<select class="filter sous-secteur-select" id="sous-secteur-' . $parent_term->term_id . '" style="display:none;">';
+                echo '<option value="">Tous les pôles de ' . $parent_term->name . '</option>';
+                
+                $sous_secteurs = get_terms('secteurs', array(
+                    'hide_empty' => false,
+                    'parent' => $parent_term->term_id
+                ));
+                
+                if ($sous_secteurs && !is_wp_error($sous_secteurs)) {
+                    foreach ($sous_secteurs as $term) {
+                        echo '<option value=".' . $term->slug . '">' . $term->name . '</option>';
+                    }
+                }
+                echo '</select>';
+            }
+            ?>
+        </div>
+    </div>
+</div>
+
+
+
         <div class="col-md-12">
             <a id="resetfilter" href=""><?php echo __('Réinitialisation des filtres','bralico');?></a>
         </div>
@@ -128,7 +181,9 @@ get_header();
                 'post_type' => 'job_listing',
                 'showposts' => -1,
                 'orderby' => 'date',
-                'order' => 'DESC'
+                'order' => 'DESC',
+                'post__not_in' => array(15862) // Exclure le post avec l'ID 4
+
             );
             // Nouvelle instance de WP_Query
             $query = new WP_Query($args);
@@ -263,6 +318,10 @@ get_header();
             <?php _e('Voir plus', 'bralico'); ?></button>
     </div>
 </div>
+
+
+
+
 
 <?php
 get_footer();

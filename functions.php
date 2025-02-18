@@ -9,7 +9,7 @@
 
 if (!defined('_S_VERSION')) {
     // Replace the version number of the theme on each release.
-    define('_S_VERSION', '1.0.0');
+    define('_S_VERSION', '2.0.0');
 }
 
 /**
@@ -130,7 +130,7 @@ function bralico_widgets_init()
         array(
             'name' => esc_html__('Sidebar', 'bralico'),
             'id' => 'sidebar-1',
-            'description' => esc_html__('Add widgets here.', 'bralico'),
+            'de ion' => esc_html__('Add widgets here.', 'bralico'),
             'before_widget' => '<section id="%1$s" class="widget %2$s">',
             'after_widget' => '</section>',
             'before_title' => '<h2 class="widget-title">',
@@ -224,42 +224,36 @@ add_filter('body_class', 'add_page_id_to_body_class');
 
 //inclure les cdn de bootstrap css et js
 
-function bootstrap_css()
-{
+function bootstrap_css() {
     wp_enqueue_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
 }
 add_action('wp_enqueue_scripts', 'bootstrap_css');
 
-
-function enqueue_scripts()
-{
-    
-// Enqueue jQuery
-    wp_enqueue_script('jquery-slim', 'https://code.jquery.com/jquery-3.7.1;min.js', array(), '3.7.1', true);
-
+function enqueue_scripts() {
     // Enqueue Popper.js
-    wp_enqueue_script('popper', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js', array('jquery-slim'), '1.16.0', true);
+    wp_enqueue_script('popper', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js', array('jquery'), '1.16.0', true);
 
     // Enqueue Bootstrap JS
-    wp_enqueue_script('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', array('jquery-slim', 'popper'), '4.5.2', true);
- //enqueue jquery.stickOnScroll.js 
- wp_enqueue_script('stickOnScroll', get_template_directory_uri() . '/js/jquery.stickOnScroll.js', array('jquery-slim', 'popper', 'bootstrap'), '1.0', true);
-    // Enqueue scripts.js
-    wp_enqueue_script('scripts', get_template_directory_uri() . '/scripts.js', array('jquery-slim', 'popper', 'bootstrap'), '1.0', true);
-   
+    wp_enqueue_script('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', array('jquery', 'popper'), '4.5.2', true);
 
+    // Enqueue jquery.stickOnScroll.js
+    wp_enqueue_script('stickOnScroll', get_template_directory_uri() . '/js/jquery.stickOnScroll.js', array('jquery'), '1.0', true);
+
+    // Enqueue scripts.js
+    wp_enqueue_script('scripts', get_template_directory_uri() . '/scripts.js', array('jquery'), '1.0', true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_scripts');
+
 
 function enqueue_acf_scripts() {
     // Enqueue jQuery
     //wp_enqueue_script('jquery');
     // Enqueue ACF scripts and styles
-    wp_enqueue_script('acf-input');
-    wp_enqueue_script('acf-field-group');
-    wp_enqueue_style('acf-global');
-    wp_enqueue_style('acf-input');
-    wp_enqueue_style('acf-field-group');
+    // wp_enqueue_script('acf-input');
+    // wp_enqueue_script('acf-field-group');
+    // wp_enqueue_style('acf-global');
+    // wp_enqueue_style('acf-input');
+    // wp_enqueue_style('acf-field-group');
     // Enqueue jQuery UI scripts
     wp_enqueue_script('jquery-ui-core');
     wp_enqueue_script('jquery-ui-widget');
@@ -391,45 +385,66 @@ function produits_register_taxonomy()
 }
 add_action('init', 'produits_register_taxonomy');
 // Ajouter le champ d'image lors de la création d'un nouveau terme
-function add_type_de_boisson_image_field()
+// Ajouter les champs d'image et d'icône lors de la création d'un nouveau terme
+function add_type_de_boisson_fields()
 {
     echo '<div class="form-field">
         <label for="type_de_boisson_image">Image</label>
         <input type="text" name="type_de_boisson_image" id="type_de_boisson_image" value="">
         <p class="description">Entrez l\'URL de l\'image.</p>
     </div>';
+    
+    echo '<div class="form-field">
+        <label for="type_de_boisson_icon">Icône</label>
+        <input type="text" name="type_de_boisson_icon" id="type_de_boisson_icon" value="">
+        <p class="description">Entrez l\'URL de l\'icône.</p>
+    </div>';
 }
-add_action('type-de-boisson_add_form_fields', 'add_type_de_boisson_image_field');
+add_action('type-de-boisson_add_form_fields', 'add_type_de_boisson_fields');
 
-// Enregistrer le champ d'image lors de la création d'un nouveau terme
-function save_type_de_boisson_image_field($term_id)
+// Enregistrer les champs d'image et d'icône lors de la création d'un nouveau terme
+function save_type_de_boisson_fields($term_id)
 {
     if (isset($_POST['type_de_boisson_image'])) {
         update_term_meta($term_id, 'type_de_boisson_image', esc_url_raw($_POST['type_de_boisson_image']));
     }
+    if (isset($_POST['type_de_boisson_icon'])) {
+        update_term_meta($term_id, 'type_de_boisson_icon', esc_url_raw($_POST['type_de_boisson_icon']));
+    }
 }
-add_action('created_type-de-boisson', 'save_type_de_boisson_image_field');
+add_action('created_type-de-boisson', 'save_type_de_boisson_fields');
 
-// Ajouter le champ d'image lors de l'édition d'un terme existant
-function edit_type_de_boisson_image_field($term)
+// Ajouter les champs d'image et d'icône lors de l'édition d'un terme existant
+function edit_type_de_boisson_fields($term)
 {
     $image_url = get_term_meta($term->term_id, 'type_de_boisson_image', true);
+    $icon_url = get_term_meta($term->term_id, 'type_de_boisson_icon', true);
+    
     echo '<tr class="form-field">
         <th scope="row"><label for="type_de_boisson_image">Image</label></th>
         <td><input type="text" name="type_de_boisson_image" id="type_de_boisson_image" value="' . esc_url($image_url) . '">
         <p class="description">Entrez l\'URL de l\'image.</p></td>
     </tr>';
+    
+    echo '<tr class="form-field">
+        <th scope="row"><label for="type_de_boisson_icon">Icône</label></th>
+        <td><input type="text" name="type_de_boisson_icon" id="type_de_boisson_icon" value="' . esc_url($icon_url) . '">
+        <p class="description">Entrez l\'URL de l\'icône.</p></td>
+    </tr>';
 }
-add_action('type-de-boisson_edit_form_fields', 'edit_type_de_boisson_image_field');
+add_action('type-de-boisson_edit_form_fields', 'edit_type_de_boisson_fields');
 
-// Enregistrer le champ d'image lors de l'édition d'un terme existant
-function update_type_de_boisson_image_field($term_id)
+// Enregistrer les champs d'image et d'icône lors de l'édition d'un terme existant
+function update_type_de_boisson_fields($term_id)
 {
     if (isset($_POST['type_de_boisson_image'])) {
         update_term_meta($term_id, 'type_de_boisson_image', esc_url_raw($_POST['type_de_boisson_image']));
     }
+    if (isset($_POST['type_de_boisson_icon'])) {
+        update_term_meta($term_id, 'type_de_boisson_icon', esc_url_raw($_POST['type_de_boisson_icon']));
+    }
 }
-add_action('edited_type-de-boisson', 'update_type_de_boisson_image_field');
+add_action('edited_type-de-boisson', 'update_type_de_boisson_fields');
 // Add meta box for custom fields
 function produits_add_meta_box()
 {
@@ -1267,85 +1282,6 @@ function enqueue_isotope() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_isotope');
 
-//formulaire de création de curriculum vitae
-/* 
-function display_curriculum_vitae_form() {
-    if (!is_user_logged_in()) {
-        echo 'Vous devez être connecté pour soumettre ou éditer un curriculum vitae.';
-        return;
-    }
-
-    $current_user = wp_get_current_user();
-    $args = array(
-        'post_type' => 'curriculum_vitae',
-        'author' => $current_user->ID,
-        'posts_per_page' => 1,
-    );
-
-    $query = new WP_Query($args);
-
-    if ($query->have_posts()) {
-        while ($query->have_posts()) {
-            $query->the_post();
-
-            // Formulaire d'édition
-            $form_args = array(
-                'post_id' => get_the_ID(),
-                'post_title' => true,
-                'post_content' => true,
-                'fields' => array(), // Remplacez par les clés de vos champs ACF
-                'submit_value' => 'Mettre à jour le CV',
-                'updated_message' => 'CV mis à jour avec succès',
-            );
-            acf_form($form_args);
-        }
-    } else {
-        // Formulaire de création
-        $form_args = array(
-            'post_id' => 'new_post',
-            'post_title' => true,
-            'post_content' => true,
-            'fields' => array(), // Remplacez par les clés de vos champs ACF
-            'new_post' => array(
-                'post_type' => 'curriculum_vitae',
-                'post_status' => 'publish',
-            ),
-            'submit_value' => 'Créer un nouveau CV',
-            'updated_message' => 'CV créé avec succès',
-        );
-        acf_form($form_args);
-    }
-
-    wp_reset_postdata();
-}
-
-// Ajouter le shortcode pour afficher le formulaire
-add_shortcode('acf_curriculum_vitae_form', 'display_curriculum_vitae_form');
-
-// Modifier le titre du post avant de le sauvegarder
-function set_cv_post_title($post_id) {
-    // Vérifier que nous sommes en train de sauvegarder un "curriculum_vitae"
-    if (get_post_type($post_id) != 'curriculum_vitae') {
-        return;
-    }
-
-    // Récupérer les informations de l'utilisateur actuel
-    $current_user = wp_get_current_user();
-    $user_name = $current_user->display_name;
-
-    // Définir le nouveau titre
-    $new_title = 'cv-' . $user_name;
-
-    // Mettre à jour le titre du post
-    wp_update_post(array(
-        'ID' => $post_id,
-        'post_title' => $new_title,
-    ));
-}
-// Attacher la fonction au hook acf/save_post
-add_action('acf/save_post', 'set_cv_post_title', 20);
-
- */
 //definir un cookie qui indique que l'utiliateur s'est connecté
 function set_login_cookie( $user_login, $user ) {
 // Définir un cookie qui expire dans 30 jours
@@ -1355,69 +1291,20 @@ setcookie( 'user_login', $user_login, time() + (30 * 24 * 60 * 60), COOKIEPATH, 
 }
 add_action( 'wp_login', 'set_login_cookie', 10, 2 );
 
-//formulaire pour postuler
-/* function display_acf_form() {
-    $user_id = get_current_user_id();   
-    $args = array(
-        'author'        =>  $user_id,
-        'post_type'     => 'curriculum_vitae',
-        'orderby'       =>  'post_date',
-        'order'         =>  'DESC',
-        'posts_per_page' => 1
-    );
-    $recent_post = get_posts( $args ); 
+//changement des labels de champs 
+add_filter('submit_resume_form_fields', 'modifier_libelles_formulaire_candidature');
 
-    // Si l'utilisateur a déjà soumis un post, afficher un formulaire pour le modifier
-    if (!empty($recent_post)) {
-        $post_title = isset($_GET['titredupost']) ? $_GET['titredupost'] : $recent_post[0]->post_title;
-        $options = array(
-            'post_id' => $recent_post[0]->ID,
-            'field_groups' => array('group_1'), // Remplacez par votre groupe de champs
-            'form' => array(
-                'fields' => array(
-                    'field_1' => array( // Remplacez par votre champ de nom
-                        'value' => wp_get_current_user()->user_firstname,
-                    ),
-                    'field_2' => array( // Remplacez par votre champ de prénom
-                        'value' => wp_get_current_user()->user_lastname,
-                    ),
-                    'field_3' => array( // Remplacez par votre champ de titre
-                        'value' => $post_title,
-                    ),
-                ),
-            ),
-            'submit_value' => 'Modifier'
-        );
-        acf_form($options);
-        return;
-    }
+function modifier_libelles_formulaire_candidature($fields) {
+    // Modification du libellé du champ nom
+    $fields['resume_fields']['candidate_name']['label'] = 'Nom et prénoms *';
+    // Modification du libellé du champ localisation
+    $fields['resume_fields']['candidate_location']['label'] = 'Lieu de résidence *';
+    $fields['resume_fields']['resume_file']['label'] = 'Votre CV (format PDF uniquement) *';
+    $fields['resume_fields']['candidate_email']['label']="Votre adresse email*";
 
-    // Sinon, afficher le formulaire d'édition pour créer un nouveau post de type curriculum vitae
-    $options = array(
-        'post_id' => 'new_post',
-        'new_post' => array(
-            'post_type' => 'curriculum_vitae',
-            'post_status' => 'publish'
-        ),
-        'field_groups' => array('group_1'), // Remplacez par votre groupe de champs
-        'form' => array(
-            'fields' => array(
-                'field_1' => array( // Remplacez par votre champ de nom
-                    'value' => wp_get_current_user()->user_firstname,
-                ),
-                'field_2' => array( // Remplacez par votre champ de prénom
-                    'value' => wp_get_current_user()->user_lastname,
-                ),
-                'field_3' => array( // Remplacez par votre champ de titre
-                    'value' => isset($_GET['titredupost']) ? $_GET['titredupost'] : '',
-                ),
-            ),
-        ),
-        'submit_value' => 'Créer'
-    );
-    acf_form($options);
+    return $fields;
 }
-add_shortcode('display_acf_form', 'display_acf_form'); */
+
 //disable editor for custom post type emploi
 function prefix_disable_gutenberg($current_status, $post_type)
 {
@@ -1435,86 +1322,458 @@ function wpjms_admin_resume_form_fields( $fields ) {
    
     // Add "nombres d'années d'expérience" field
     $fields['_candidate_experience_years'] = array(
-        'label'         => __( "Nombre d'années d'expérience", 'job_manager' ),
+        'label'         => __( "Nombre d'années d'expérience *", 'job_manager' ),
         'type'          => 'text',
         'placeholder'   => __( '5 years', 'job_manager' ),
         'description'   => '',
-        'priority'      => 1
+        'required'  => true,
+          'priority'      => 1
     );
-
     // Add "nationalité" field
-    $fields['_candidate_nationality'] = array(
-        'label'         => __( 'Nationalité', 'job_manager' ),
-        'type'          => 'text',
-        'placeholder'   => __( 'French', 'job_manager' ),
-        'description'   => '',
-        'priority'      => 2
-    );
-
-    // Add "date de naissance" field
+    // Add "nationalité" field avec liste déroulante
+    // Add "date de naissance" field avec datepicker
     $fields['_candidate_date_of_birth'] = array(
-        'label'         => __( 'Date de naissance', 'job_manager' ),
-        'type'          => 'text',
-        'placeholder'   => __( 'YYYY-MM-DD', 'job_manager' ),
-        'description'   => '',
-        'priority'      => 3
+        'label' => __('Date de naissance *', 'job_manager'),
+        'type' => 'date',
+        'required'  => true,
+        'priority' => 3
     );
 
     // Add "téléphone" field
     $fields['_candidate_phone'] = array(
-        'label'         => __( 'Téléphone', 'job_manager' ),
-        'type'          => 'text',
+        'label'         => __( 'Téléphone *', 'job_manager' ),
+         'required'  => true,
+         'type'          => 'text',
         'placeholder'   => __( '+123456789', 'job_manager' ),
         'description'   => '',
         'priority'      => 4
     );
  
-    return $fields;   
+    // Add "diplôme" field
+    $fields['_candidate_diploma'] = array(
+        'label' => __('Dernier diplôme obtenu *', 'job_manager'),
+        'type' => 'select',        
+        'required'  => true,
+        'options' => array(
+            'bac' => 'Baccalauréat',
+            'bts' => 'BTS',
+            'licence' => 'Licence',
+            'master' => 'Master',
+            'doctorat' => 'Doctorat',
+            'autre' => 'Autre'
+        ),
+        'priority' => 5
+    );
+
+    return $fields;
 }
 
 // Add fields to frontend
 add_filter( 'submit_resume_form_fields', 'wpjms_frontend_resume_form_fields' );
 function wpjms_frontend_resume_form_fields( $fields ) {
-   
+     // Limitation du champ education à une seule entrée
+    //  $fields['resume_fields']['candidate_education'] = array(
+    //     'label' => __('Formation', 'job_manager'),
+    //     'type' => 'education',
+    //     'required' => true,
+    //     'placeholder' => '',
+    //     'priority' => 0,
+    //     'max_items' => 1
+    // );
     // Add "nombres d'années d'expérience" field
     $fields['resume_fields']['candidate_experience_years'] = array(
-        'label'     => __( "Nombre d'années d'expérience", 'job_manager' ),
-        'type'      => 'text',
+        'label'     => __( "Nombre d'années d'expérience *", 'job_manager' ),
+        'type'      => 'select',
         'required'  => true,
-        'placeholder'   => '',
-        'priority'  => 1
+        'placeholder'   => 'Expérience professionnelle ( nombre d\'années )',
+        'options'=>array(
+            '1' => '1 an',
+            '2' => '2 ans',
+            '3' => '3 ans',
+            '4' => '4 ans',
+            '5' => '5 ans',
+            '6' => '6 ans',
+            '7' => '7 ans',
+            '8' => '8 ans',
+            '9' => '9 ans',
+            '10' => '10 ans',
+            '11' => '11 ans',
+            '12' => '12 ans',
+            '13' => '13 ans',
+            '14' => '14 ans',
+            '15' => '15 ans',
+            '16' => '16 ans',
+            '17' => '17 ans',
+            '18' => '18 ans',
+            '19' => '19 ans',
+            '20' => '20 ans',
+            '21' => '21 ans',
+            '22' => '22 ans',
+            '23' => '23 ans',
+            '24' => '24 ans',
+            '25' => '25 ans',
+            '26' => '26 ans',
+            '27' => '27 ans',
+            '28' => '28 ans',
+            '29' => '29 ans',
+            '30' => '30 ans',
+            '31' => '31 ans',
+            '32' => '32 ans',
+            '33' => '33 ans',
+            '34' => '34 ans',
+            '35' => '35 ans',
+            '36' => '36 ans',
+            '37' => '37 ans',
+            '38' => '38 ans',
+            '39' => '39 ans',
+            '40' => '40 ans',
+            '41' => '41 ans',
+            '42' => '42 ans',
+            '43' => '43 ans',
+            '44' => '44 ans',
+            '45' => '45 ans',
+            '46' => '46 ans',
+            '47' => '47 ans',
+            '48' => '48 ans',
+            '49' => '49 ans',
+            '50' => '50 ans',
+            '51' => '51 ans',
+            '52' => '52 ans',
+            '53' => '53 ans',
+            '54' => '54 ans',
+            '55' => '55 ans',
+            '56' => '56 ans',
+            '57' => '57 ans',
+            '58' => '58 ans',
+            '59' => '59 ans',
+            '60' => '60 ans',
+            '61' => '61 ans',
+            '62' => '62 ans',
+            '63' => '63 ans',
+            '64' => '64 ans',
+            '65' => '65 ans',
+            '66' => '66 ans',
+            '67' => '67 ans',
+            '68' => '68 ans',
+            '69' => '69 ans',
+            '70' => '70 ans',
+            '71' => '71 ans',
+            '72' => '72 ans',
+            '73' => '73 ans',
+            '74' => '74 ans',
+            '75' => '75 ans',
+            '76' => '76 ans',
+            '77' => '77 ans',
+            '78' => '78 ans',
+            '79' => '79 ans',
+            '80' => '80 ans',
+            '81' => '81 ans',
+            '82' => '82 ans',
+            '83' => '83 ans',
+            '84' => '84 ans',
+            '85' => '85 ans',
+            '86' => '86 ans',
+            '87' => '87 ans',
+            '88' => '88 ans',
+            '89' => '89 ans',
+            '90' => '90 ans',
+            '91' => '91 ans',
+            '92' => '92 ans',
+            '93' => '93 ans',
+            '94' => '94 ans',
+            '95' => '95 ans',
+            '96' => '96 ans',
+            '97' => '97 ans',
+            '98' => '98 ans',
+            '99' => '99 ans',
+        ),        'priority'  => 1
     );
+ // Add "nationalité" field avec liste déroulante
+ $fields['resume_fields']['candidate_nationality_type'] = array(
+    'label' => __('Nationalité *', 'job_manager'),
+    'type' => 'radio',
+    'required' => true,
+    'options' => array(
+        'congolaise' => 'Congolaise',
+        'autres' => 'Autres'
+    ),
+    'priority' => 2,
+    'fieldset' => 'nationality_type_fieldset'
+);
+$fields['resume_fields']['candidate_nationality'] = array(
+    'label' => __('Sélectionnez votre nationalité *', 'job_manager'),
+    'type' => 'select',
+    'required' => true,
+    'default' => 'congolaise-',
+    'options' => array(
+        'afghane' => 'Afghane',
+        'albanaise' => 'Albanaise',
+        'algerienne' => 'Algérienne',
+        'allemande' => 'Allemande',
+        'americaine' => 'Américaine',
+        'andorrane' => 'Andorrane',
+        'angolaise' => 'Angolaise',
+        'antiguaise-et-barbudienne' => 'Antiguaise-et-Barbudienne',
+        'argentine' => 'Argentine',
+        'armenienne' => 'Arménienne',
+        'australienne' => 'Australienne',
+        'autrichienne' => 'Autrichienne',
+        'azerbaidjanaise' => 'Azerbaïdjanaise',
+        'bahamienne' => 'Bahamienne',
+        'bahreïnienne' => 'Bahreïnienne',
+        'bangladaise' => 'Bangladaise',
+        'barbadienne' => 'Barbadienne',
+        'belarusse' => 'Bélarusse',
+        'belge' => 'Belge',
+        'beninoise' => 'Béninoise',
+        'bhoutanaise' => 'Bhoutanaise',
+        'bolivienne' => 'Bolivienne',
+        'bosnienne' => 'Bosnienne',
+        'botswanaise' => 'Botswanaise',
+        'bresilienne' => 'Brésilienne',
+        'britannique' => 'Britannique',
+        'bruneienne' => 'Brunéienne',
+        'bulgare' => 'Bulgare',
+        'burkinabe' => 'Burkinabé',
+        'burundaise' => 'Burundaise',
+        'cambodgienne' => 'Cambodgienne',
+        'camerounaise' => 'Camerounaise',
+        'canadienne' => 'Canadienne',
+        'cap-verdienne' => 'Cap-verdienne',
+        'centrafricaine' => 'Centrafricaine',
+        'chilienne' => 'Chilienne',
+        'chinoise' => 'Chinoise',
+        'chypriote' => 'Chypriote',
+        'colombienne' => 'Colombienne',
+        'comorienne' => 'Comorienne',
+        'congolaise-rdc' => 'Congolaise (République démocratique du Congo)',
+        'congolaise-' => 'Congolaise (République du Congo)',
+        'costaricienne' => 'Costaricienne',
+        'croate' => 'Croate',
+        'cubaine' => 'Cubaine',
+        'danoise' => 'Danoise',
+        'djiboutienne' => 'Djiboutienne',
+        'dominicaine' => 'Dominicaine',
+        'dominiquaise' => 'Dominiquaise',
+        'egyptienne' => 'Égyptienne',
+        'emiratie' => 'Émiratie',
+        'equatorienne' => 'Équatorienne',
+        'erythreenne' => 'Érythréenne',
+        'espagnole' => 'Espagnole',
+        'estonienne' => 'Estonienne',
+        'ethiopienne' => 'Éthiopienne',
+        'fidjienne' => 'Fidjienne',
+        'finlandaise' => 'Finlandaise',
+        'francaise' => 'Française',
+        'gabonaise' => 'Gabonaise',
+        'gambienne' => 'Gambienne',
+        'georgienne' => 'Georgienne',
+        'ghaneenne' => 'Ghanéenne',
+        'grenadienne' => 'Grenadienne',
+        'guatemalteque' => 'Guatémaltèque',
+        'guineenne' => 'Guinéenne',
+        'guineenne-equatoriale' => 'Guinéenne équatoriale',
+        'guyanienne' => 'Guyanienne',
+        'haitienne' => 'Haïtienne',
+        'hondurienne' => 'Hondurienne',
+        'hongroise' => 'Hongroise',
+        'indienne' => 'Indienne',
+        'indonesienne' => 'Indonésienne',
+        'irakienne' => 'Irakienne',
+        'iranienne' => 'Iranienne',
+        'irlandaise' => 'Irlandaise',
+        'islandaise' => 'Islandaise',
+        'israelienne' => 'Israélienne',
+        'italienne' => 'Italienne',
+        'ivoirienne' => 'Ivoirienne',
+        'jamaicaine' => 'Jamaïcaine',
+        'japonaise' => 'Japonaise',
+        'jordanienne' => 'Jordanienne',
+        'kazakhe' => 'Kazakhe',
+        'kenyane' => 'Kényane',
+        'kirghize' => 'Kirghize',
+        'kiribatienne' => 'Kiribatienne',
+        'kosovare' => 'Kosovare',
+        'koweitienne' => 'Koweïtienne',
+        'laotienne' => 'Laotienne',
+        'lesothane' => 'Lesothane',
+        'lettone' => 'Lettone',
+        'libanaise' => 'Libanaise',
+        'liberienne' => 'Libérienne',
+        'libyenne' => 'Libyenne',
+        'liechtensteinoise' => 'Liechtensteinoise',
+        'lituanienne' => 'Lituanienne',
+        'luxembourgeoise' => 'Luxembourgeoise',
+        'macedonienne' => 'Macédonienne',
+        'malaisienne' => 'Malaisienne',
+        'malawienne' => 'Malawienne',
+        'maldivienne' => 'Maldivienne',
+        'malienne' => 'Malienne',
+        'maltaise' => 'Maltaise',
+        'marocaine' => 'Marocaine',
+        'marshallaise' => 'Marshallaise',
+        'mauricienne' => 'Mauricienne',
+        'mauritanienne' => 'Mauritanienne',
+        'mexicaine' => 'Mexicaine',
+        'micronesienne' => 'Micronésienne',
+        'moldave' => 'Moldave',
+        'monegasque' => 'Monegasque',
+        'mongole' => 'Mongole',
+        'montenegrine' => 'Monténégrine',
+        'mozambicaine' => 'Mozambicaine',
+        'myanmarienne' => 'Myanmarienne',
+        'namibienne' => 'Namibienne',
+        'nauruane' => 'Nauruane',
+        'nepalaise' => 'Népalaise',
+        'neerlandaise' => 'Néerlandaise',
+        'neo-zelandaise' => 'Néo-Zélandaise',
+        'nigeriane' => 'Nigériane',
+        'nigerienne' => 'Nigérienne',
+        'nord-coreenne' => 'Nord-coréenne',
+        'norvegienne' => 'Norvégienne',
+        'omanaise' => 'Omanaise',
+        'pakistanaise' => 'Pakistanaise',
+        'palaosienne' => 'Palaosienne',
+        'palestinienne' => 'Palestinienne',
+        'panameenne' => 'Panaméenne',
+        'papouasienne' => 'Papouasienne-Néo-Guinéenne',
+        'paraguayenne' => 'Paraguayenne',
+        'peruvienne' => 'Péruvienne',
+        'philippine' => 'Philippine',
+        'polonaise' => 'Polonaise',
+        'portugaise' => 'Portugaise',
+        'qatarienne' => 'Qatarienne',
+        'roumaine' => 'Roumaine',
+        'rwandaise' => 'Rwandaise',
+        'russe' => 'Russe',
+        'saint-lucienne' => 'Saint-Lucienne',
+        'saint-marinaise' => 'Saint-Marinaise',
+        'saint-vincentaise' => 'Saint-Vincentaise',
+        'salomonaise' => 'Salomonaise',
+        'salvadorienne' => 'Salvadorienne',
+        'samoaienne' => 'Samoaienne',
+        'sao-tomeenne' => 'Sao-toméenne',
+        'saoudienne' => 'Saoudienne',
+        'senegalaise' => 'Sénégalaise',
+        'serbe' => 'Serbe',
+        'seychelloise' => 'Seychelloise',
+        'sierra-leonaise' => 'Sierra-Léonaise',
+        'singapourienne' => 'Singapourienne',
+        'slovaque' => 'Slovaque',
+        'slovene' => 'Slovène',
+        'somalienne' => 'Somalienne',
+        'soudanaise' => 'Soudanaise',
+        'sud-africaine' => 'Sud-africaine',
+        'sud-coreenne' => 'Sud-coréenne',
+        'sud-soudanaise' => 'Sud-soudanaise',
+        'suedoise' => 'Suédoise',
+        'suisse' => 'Suisse',
+        'syrienne' => 'Syrienne',
+        'tadjike' => 'Tadjike',
+        'tanzanienne' => 'Tanzanienne',
+        'tchadienne' => 'Tchadienne',
+        'tcheque' => 'Tchèque',
+        'thailandaise' => 'Thaïlandaise',
+        'togolaise' => 'Togolaise',
+        'tongienne' => 'Tongienne',
+        'trinidadienne' => 'Trinidadienne',
+        'tunisienne' => 'Tunisienne',
+        'turkmene' => 'Turkmène',
+        'turque' => 'Turque',
+        'tuvaluane' => 'Tuvaluane',
+        'ukrainienne' => 'Ukrainienne',
+        'uruguayenne' => 'Uruguayenne',
+        'uzbekistanaise' => 'Uzbekistanaise',
+        'vanuatuane' => 'Vanuatuane',
+        'venezuelienne' => 'Vénézuélienne',
+        'vietnamienne' => 'Vietnamienne',
+        'yemenite' => 'Yéménite',
+        'zambienne' => 'Zambienne',
+        'zimbabweenne' => 'Zimbabwéenne',
 
-    // Add "nationalité" field
-    $fields['resume_fields']['candidate_nationality'] = array(
-        'label'     => __( 'Nationalité', 'job_manager' ),
-        'type'      => 'text',
-        'required'  => true,
-        'placeholder'   => '',
-        'priority'  => 2
-    );
-
+    ),
+    'priority' => 2,
+    'fieldset' => 'nationality_select_fieldset',
+    'depends_on' => array(
+        'candidate_nationality_type' => 'autres'
+    )
+);
     // Add "date de naissance" field
     $fields['resume_fields']['candidate_date_of_birth'] = array(
-        'label'     => __( 'Date de naissance', 'job_manager' ),
+        'label'     => __( 'Date de naissance *', 'job_manager' ),
         'type'      => 'text',
         'required'  => true,
         'placeholder'   => '',
         'priority'  => 3
     );
 
-    // Add "téléphone" field
-    $fields['resume_fields']['candidate_phone'] = array(
-        'label'     => __( 'Téléphone', 'job_manager' ),
-        'type'      => 'text',
-        'required'  => true,
-        'placeholder'   => '',
-        'priority'  => 4
+ // Add "téléphone" field
+ $fields['resume_fields']['candidate_phone'] = array(
+    'label' => __('Téléphone *', 'job_manager'),
+    'type' => 'text',
+    'required' => true,
+    'placeholder' => '+225 XX XX XX XX XX',
+    'priority' => 4
+);
+    // Add "diplôme" field
+   /* $fields['resume_fields']['candidate_diploma'] = array(
+        'label' => __('Dernier diplôme obtenu *', 'job_manager'),
+        'type' => 'select',
+        'required' => true,
+        'options' => array(
+            'bepc' => 'BEPC',
+            'cap' => 'CAP',
+            'bep' => 'BEP',
+            'bac_gen' => 'Baccalauréat Général',
+            'bac_tech' => 'Baccalauréat Technique',
+            'bac_pro' => 'Baccalauréat Professionnel',
+            'dut' => 'DUT',
+            'bts' => 'BTS',
+            'deug' => 'DEUG',
+            'licence_pro' => 'Licence Professionnelle',
+            'licence' => 'Licence',
+            'maitrise' => 'Maîtrise',
+            'master_pro' => 'Master Professionnel',
+            'master_rech' => 'Master Recherche',
+            'dess' => 'DESS',
+            'dea' => 'DEA',
+            'ingenieur' => 'Diplôme d\'Ingénieur',
+            'doctorat' => 'Doctorat'
+        ),
+        'priority' => 5
     );
-
+    $fields['resume_fields']['candidate_speciality'] = array(
+            'label' => __('Spécialité *', 'job_manager'),
+            'type' => 'text',
+            'required' => true,
+            'placeholder' => 'Ex: Informatique, Gestion, Marketing...',
+            'priority' => 6
+        );*/
     return $fields;
 }
+// Ajout des scripts pour le datepicker
+function add_datepicker_scripts() {
+    wp_enqueue_script('jquery-ui-datepicker');
+    wp_enqueue_style('jquery-ui-css', 'https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css');
+}
+add_action('wp_enqueue_scripts', 'add_datepicker_scripts');
 
+// Initialisation du datepicker
+function init_datepicker() {
+    ?>
+    <script>
+    jQuery(document).ready(function($) {
+        $('#candidate_date_of_birth').datepicker({
+            dateFormat: 'dd/mm/yy',
+            changeMonth: true,            
+            changeYear: true,
+            yearRange: '-65:-18'
+        });
+    });
+    </script>
+    <?php
+}
+add_action('wp_footer', 'init_datepicker');
 // Add lines to the notification email with custom fields
 add_filter( 'apply_with_resume_email_message', 'wpjms_custom_field_email_message', 10, 2 );
 function wpjms_custom_field_email_message( $message, $resume_id ) {
@@ -1532,10 +1791,14 @@ add_filter( 'submit_resume_form_fields', 'remove_submit_resume_form_fields' );
 function remove_submit_resume_form_fields( $fields ) {
  
   // Unset any of the fields you'd like to remove - copy and repeat as needed
-  unset( $fields['resume_fields']['candidate_title'] );
+    unset( $fields['resume_fields']['candidate_title'] );
     unset( $fields['resume_fields']['resume_content'] );
     unset( $fields['resume_fields']['candidate_video'] );
- unset( $fields['resume_fields']['links'] );
+    unset( $fields['resume_fields']['links'] );
+    // those has been put back thanks to the vision of ceo. Note to self :  NEVER listen to RH 
+    //unset( $fields['resume_fields']['candidate_experience'] );
+    //unset( $fields['resume_fields']['candidate_education'] );
+    unset($fields['resume_fields']['candidate_photo']);
   // And return the modified fields
   return $fields;
    
@@ -1546,13 +1809,892 @@ add_filter( 'submit_resume_form_fields', 'resume_file_required' );
  
 // This is your function which takes the fields, modifies them, and returns them
 function resume_file_required( $fields ) {
- 
-    // Here we target one of the job fields (candidate name) and change it's label
-    $fields['resume_fields']['candidate_education']['required'] = true;
+
     $fields['resume_fields']['candidate_experience_years']['required'] = true;
-    $fields['resume_fields']['candidate_experience']['required'] = true;
     $fields['resume_fields']['resume_file']['required'] = true;
-    
-    // And return the modified fields
+    $fields['resume_fields']['candidate_name']['required'] = true;
+    $fields['resume_fields']['candidate_location']['required'] = true;
+    $fields['resume_fields']['candidate_nationality']['required'] = true;
+    $fields['resume_fields']['candidate_date_of_birth']['required'] = true;
+    $fields['resume_fields']['candidate_phone']['required'] = true;
+    $fields['resume_fields']['candidate_experience']['required'] = true;
+    $fields['resume_fields']['candidate_education']['required'] = true;
+
     return $fields;
 }
+
+
+//ajout du téléphone au preview du CV 
+add_action('resume_manager_contact_details', 'ajouter_telephone_contact_details');
+
+function ajouter_telephone_contact_details() {
+    global $post;
+    $telephone = get_post_meta($post->ID, '_candidate_phone', true);
+    if ($telephone) {
+        echo '<p class="telephone"><strong>' . __('Téléphone:', 'bralico') . '</strong> ' . esc_html($telephone) . '</p>';
+    }
+}
+
+//offre d'emploi spontanée 
+
+// Ajout des scripts pour le toast
+function add_toast_scripts() {
+    wp_enqueue_script('toastr', 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js', array('jquery'));
+    wp_enqueue_style('toastr', 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css');
+}
+add_action('wp_enqueue_scripts', 'add_toast_scripts');
+
+// Fonction pour récupérer les CVs existants
+function get_user_resumes() {
+    $user_id = get_current_user_id();
+    $args = array(
+        'post_type' => 'resume',
+        'author' => $user_id,
+        'posts_per_page' => -1
+    );
+    
+    $resumes = get_posts($args);
+    if (!empty($resumes)) {
+        $output = '<div class="existing-cvs">';
+        $output .= '<h4>Sélectionnez un CV</h4>';
+        foreach ($resumes as $resume) {
+            $cv_url = get_post_meta($resume->ID, '_resume_file', true);
+            if ($cv_url) {
+                $output .= '<div class="cv-item">';
+                $output .= '<input type="radio" name="selected_cv" value="' . $resume->ID . '" required>';
+                $output .= '<span>' . $resume->post_title . '</span>';
+                $output .= '</div>';
+            }
+        }
+        $output .= '</div>';
+        return $output;
+    } else {
+        return '<div class="no-cv-message">
+            <p>Vous n\'avez pas encore de CV enregistré.</p>
+            <a href="' . esc_url(home_url('/mise-a-jour-du-cv/')) . '" class="buttonless">Créer mon CV</a>
+
+            
+        </div>';
+    }
+}
+function custom_job_application_form_shortcode($atts) {
+    $styles = '<style>
+        .char-count {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        .file-upload {
+            margin-bottom: 1rem;
+        }
+        .file-upload label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .file-requirements {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+       
+    .job-application-form {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2.5rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .form-group {
+        margin-bottom: 1.8rem;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.7rem;
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.95rem;
+    }
+
+    .input-text {
+        display: block;
+        width: 100%;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .input-text:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.15);
+        outline: none;
+    }
+
+    textarea.input-text {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .button {
+        display: inline-block;
+        font-weight: 600;
+        text-align: center;
+        padding: 0.8rem 1.8rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 8px;
+        color: #fff;
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    }
+
+    .button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+        background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+    }
+
+    .button:active {
+        transform: translateY(1px);
+    }
+
+    input[type="file"] {
+        padding: 0.6rem;
+        background: #f8f9fa;
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .file-requirements {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-top: 0.5rem;
+    }
+
+    .char-count {
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+    .cv-item {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 0.8rem;
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+
+    .cv-item:hover {
+        border-color: #007bff;
+        background: #fff;
+    }
+
+    .job-manager-error {
+        background-color: #fff3f3;
+        border-left: 4px solid #dc3545;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+        border-radius: 4px;
+        color: #dc3545;
+    }
+
+    @media (max-width: 768px) {
+        .job-application-form {
+            padding: 1.5rem;
+        }
+    }
+    </style>';
+
+    if (!is_user_logged_in()) {
+        return $styles . '<div class="login-required">Veuillez vous <a href="' . wp_login_url() . '">connecter</a> pour postuler.</div>';
+    }
+
+    $attributes = shortcode_atts(array('job_id' => '15862'), $atts);
+    $job = get_post($attributes['job_id']);
+    
+    if (!$job || $job->post_type !== 'job_listing') {
+        return 'Offre d\'emploi non trouvée.';
+    }
+
+    ob_start();
+    echo $styles;
+    ?>
+<div class="job-application-form">
+    <form method="post" class="job-manager-application-form" enctype="multipart/form-data">
+        <?php wp_nonce_field('apply_job_' . $attributes['job_id']); ?>
+        <input type="hidden" name="job_id" value="<?php echo esc_attr($attributes['job_id']); ?>">
+        <input type="hidden" name="action" value="apply_job">
+
+        <div class="form-group">
+            <label for="candidate_name">Nom complet *</label>
+            <input type="text" class="input-text" name="candidate_name" id="candidate_name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="candidate_email">Email *</label>
+            <input type="email" class="input-text" name="candidate_email" id="candidate_email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="candidate_phone">Téléphone</label>
+            <input type="tel" class="input-text" name="candidate_phone" id="candidate_phone">
+        </div>
+        <div class="form-group">
+            <label for="job_category">Catégorie de métier *</label>
+            <select class="input-text" name="job_category" id="job_category" required>
+
+
+                <optgroup label="MANAGEMENT">
+                    <option value="ressources_humaines">Ressources humaines</option>
+                    <option value="secretariat">Secrétariat</option>
+                    <option value="rse">RSE</option>
+                    <option value="hse">HSE</option>
+                    <option value="qualite">Qualité</option>
+                </optgroup>
+                <optgroup label="INFORMATIQUE">
+                    <option value="systemes_et_reseaux">Systèmes et Réseaux</option>
+                    <option value="securite_des_si">Sécurité des SI</option>
+                </optgroup>
+                <optgroup label="MARKETING">
+                    <option value="trade_marketing">Trade Marketing</option>
+                    <option value="marketing_operationnel">Marketing opérationnel</option>
+                </optgroup>
+                <optgroup label="COMMERCIAL">
+                    <option value="ventes">Ventes</option>
+                    <option value="analyse_commerciale">Analyse Commerciale</option>
+                    <option value="administration_des_ventes">Administration des ventes</option>
+                </optgroup>
+                <optgroup label="FINANCE">
+                    <option value="comptabilite">Comptabilité</option>
+                    <option value="controle_de_gestion">Contrôle de Gestion</option>
+                    <option value="tresorerie">Trésorerie</option>
+                </optgroup>
+                <optgroup label="PRODUCTION">
+                    <option value="brassage">Brassage</option>
+                    <option value="conditionnement">Conditionnement</option>
+                    <option value="fabrication">Fabrication</option>
+                    <option value="siroperie">Siroperie</option>
+                </optgroup>
+                <optgroup label="LABORATOIRE">
+                    <option value="physico_chimie">Physico-chimie</option>
+                    <option value="microbiologie">Microbiologie</option>
+                </optgroup>
+                <optgroup label="MAINTENANCE">
+                    <option value="electricite">Électricité</option>
+                    <option value="mecanique">Mécanique</option>
+                    <option value="projet_et_moyens_generaux">Projet et Moyens Généraux</option>
+                    <option value="salles_des_machines">Salles des machines</option>
+                    <option value="metrologie">Métrologie</option>
+                </optgroup>
+                <optgroup label="LOGISTIQUE">
+                    <option value="logistique">Logistique</option>
+                    <option value="parc_auto">Parc-Auto</option>
+                    <option value="transit">Transit</option>
+                    <option value="achats">Achats</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="motivation_letter">Lettre de motivation (PDF) *</label>
+            <input type="file" class="input-text" name="motivation_letter" id="motivation_letter" accept=".pdf"
+                required>
+            <div class="file-requirements">Format accepté: PDF. Taille maximale: 2MB</div>
+        </div>
+
+        <div class="form-group">
+            <label for="portfolio">Documents nécessaires/Portfolio (PDF)</label>
+            <input type="file" class="input-text" name="portfolio" id="portfolio" accept=".pdf">
+            <div class="file-requirements">Format accepté: PDF. Taille maximale: 5MB</div>
+        </div>
+
+        <div class="form-group">
+            <label for="application_message">Message * <span class="char-count">0/255 caractères</span></label>
+            <textarea class="input-text" name="application_message" id="application_message" maxlength="255"
+                required></textarea>
+        </div>
+
+        <div class="form-group">
+            <?php echo get_user_resumes(); ?>
+        </div>
+
+        <!-- <input type="submit" class="button" value="Envoyer ma candidature"> -->
+    </form>
+</div>
+
+<script>
+jQuery(document).ready(function($) {
+    $('#application_message').on('input', function() {
+        var maxLength = 255;
+        var currentLength = $(this).val().length;
+        $(this).siblings('label').find('.char-count').text(currentLength + '/' + maxLength +
+            ' caractères');
+    });
+});
+</script>
+
+<?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'apply_job') {
+        if (!wp_verify_nonce($_POST['_wpnonce'], 'apply_job_' . $attributes['job_id'])) {
+            wp_die('Action non autorisée');
+        }
+
+        $errors = array();
+        if (empty($_POST['candidate_name'])) $errors[] = 'Le nom est requis';
+        if (empty($_POST['candidate_email'])) $errors[] = 'L\'email est requis';
+        if (empty($_POST['application_message'])) $errors[] = 'Le message est requis';
+        if (empty($_POST['selected_cv'])) $errors[] = 'Veuillez sélectionner un CV';
+        if (empty($_FILES['motivation_letter'])) $errors[] = 'La lettre de motivation est requise';
+        if (empty($_POST['job_category'])) $errors[] = 'Veuillez sélectionner un métier';
+
+        if (empty($errors)) {
+            $resume_id = intval($_POST['selected_cv']);
+            $cv_path = get_post_meta($resume_id, '_resume_file', true);
+
+            $application_data = array(
+                'post_title' => wp_strip_all_tags($_POST['candidate_name']),
+                'post_content' => sanitize_textarea_field($_POST['application_message']),
+                'post_status' => 'publish',
+                'post_type' => 'job_application'
+            );
+
+            $application_id = wp_insert_post($application_data);
+
+            if ($application_id) {
+                update_post_meta($application_id, '_candidate_email', sanitize_email($_POST['candidate_email']));
+                update_post_meta($application_id, '_candidate_phone', sanitize_text_field($_POST['candidate_phone']));
+                update_post_meta($application_id, '_job_id', $attributes['job_id']);
+                update_post_meta($application_id, '_cv_path', $cv_path);
+                update_post_meta($application_id, '_resume_id', $resume_id);
+                update_post_meta($application_id, '_job_category', sanitize_text_field($_POST['job_category']));
+
+                // Gérer les fichiers uploadés
+                if (!empty($_FILES['motivation_letter'])) {
+                    $motivation_letter = wp_handle_upload($_FILES['motivation_letter'], array('test_form' => false));
+                    if (!empty($motivation_letter['url'])) {
+                        update_post_meta($application_id, '_motivation_letter', $motivation_letter['url']);
+                    }
+                }
+
+                if (!empty($_FILES['portfolio'])) {
+                    $portfolio = wp_handle_upload($_FILES['portfolio'], array('test_form' => false));
+                    if (!empty($portfolio['url'])) {
+                        update_post_meta($application_id, '_portfolio', $portfolio['url']);
+                    }
+                }
+
+
+                $to = 'jeanluc@bigfiveabidjan.com';
+                $subject = 'Nouvelle candidature pour le poste ' . get_the_title($attributes['job_id']);
+                // Récupération du CV sélectionné
+                $resume_id = intval($_POST['selected_cv']);
+                // Récupérer l'ID de l'attachement du CV
+                $cv_attachment_id = get_post_meta($resume_id, '_resume_file', true);
+                // Obtenir l'URL directe de l'attachement
+                $cv_url = get_permalink($resume_id);
+                $cv_name = get_the_title($resume_id);
+
+                // $message = "Nouvelle candidature reçue :\n\n";
+                // $message .= "Nom : " . $_POST['candidate_name'] . "\n";
+                // $message .= "Email : " . $_POST['candidate_email'] . "\n";
+
+                // $message .= "Téléphone : " . $_POST['candidate_phone'] . "\n";
+                // $message .= "Métier sélectionné : " . $_POST['job_category'] . "\n\n";
+                // $message .= "Message : \n" . $_POST['application_message'];
+
+                // $job_categories = wp_get_post_terms($attributes['job_id'], 'job_listing_category');
+                // if (!empty($job_categories)) {
+
+                //     $message .= "\n\nCatégorie du poste : " . $job_categories[0]->name;
+                //}
+// Construction du message HTML
+$message = '<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #f8f9fa; padding: 15px; border-radius: 5px; }
+    .content { margin: 20px 0; }
+    .footer { border-top: 1px solid #eee; padding-top: 15px; }
+    .btn { display: inline-block; padding: 10px 20px; background: #0a6535; color: #fff !important; text-decoration: none; border-radius: 5px; }
+    .documents { background: #f8f9fa; padding: 15px; margin: 15px 0; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Nouvelle candidature reçue</h2>
+    </div>
+    <div class="content">
+      <p><strong>Nom :</strong> ' . $_POST['candidate_name'] . '</p>
+      <p><strong>Email :</strong> ' . $_POST['candidate_email'] . '</p>
+      <p><strong>Téléphone :</strong> ' . $_POST['candidate_phone'] . '</p>
+      <p><strong>Métier sélectionné :</strong> ' . $_POST['job_category'] . '</p>
+      <p><strong>Message du candidat :</strong><br>' . nl2br($_POST['application_message']) . '</p>
+      
+      <div class="documents">
+        <p><strong>Documents du candidat :</strong></p>
+        <p>CV : <a href="' . esc_url($cv_url) . '" class="btn">Consulter le CV - ' . esc_html($cv_name) . '</a></p>
+        <p>Lettre de motivation : <a href="' . esc_url($motivation_letter['url']) . '" class="btn">Télécharger la lettre</a></p>
+      </div>
+    </div>
+    <div class="footer">
+      <p>Cette candidature a été envoyée depuis le site web de Bralico.</p>
+    </div>
+  </div>
+</body>
+</html>';
+               
+$headers = array(
+    'Content-Type: text/html; charset=UTF-8',
+    'From: Bralico Recrutement <recrutement@bralico.com>'
+);
+wp_mail($to, $subject, $message, $headers);
+
+
+
+                echo "<script>
+                    toastr.success('Votre candidature a été envoyée avec succès!', 'Succès', {
+                        timeOut: 5000,
+                        closeButton: true,
+                        progressBar: true
+                    });
+                </script>";
+            }
+        } else {
+            echo '<div class="job-manager-error">' . implode('<br>', $errors) . '</div>';
+        }
+    }
+
+    return ob_get_clean();
+}
+add_shortcode('postuler_job', 'custom_job_application_form_shortcode');
+
+function display_past_applications_shortcode() {
+    ob_start();
+    
+    $args = array(
+        'post_type' => 'job_application',
+        'author' => get_current_user_id(),
+        'posts_per_page' => -1
+    );
+    
+    $applications = get_posts($args);
+    
+    if (!empty($applications)) {
+        echo '<table class="job-manager-past-applications">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Poste</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>';
+            
+        foreach ($applications as $application) {
+            $job_id = get_post_meta($application->ID, '_job_id', true);
+            $cv_url = get_post_meta($application->ID, '_cv_path', true);
+            $motivation_letter = get_post_meta($application->ID, '_motivation_letter', true);
+            
+            echo '<tr>
+                <td>' . get_the_date('d/m/Y', $application->ID) . '</td>
+                <td>' . get_the_title($job_id) . '</td>
+                <td> En cours d examen</td>
+            </tr>';
+        }
+        
+        echo '</tbody></table>';
+    } else {
+        echo '<p>Vous n\'avez pas encore envoyé de candidature.</p>';
+    }
+    
+    return ob_get_clean();
+}
+add_shortcode('past_applications2', 'display_past_applications_shortcode');
+// function charger_script_forminator_observer() {
+//     if (class_exists('Forminator')) {
+//         wp_enqueue_script('forminator-checker', get_template_directory_uri() . '/js/forminator-checker.js', array(), '1.0', true);
+//     }
+// }
+// add_action('wp_enqueue_scripts', 'charger_script_forminator_observer');
+
+
+// function ajouter_sticky_safezone() {
+//     if (is_page(290)) {
+//         wp_enqueue_script('sticky-safezone', get_template_directory_uri() . '/js/sticky-safezone.js', array(), '1.0', true);
+//     }
+// }
+// add_action('wp_enqueue_scripts', 'ajouter_sticky_safezone');
+
+
+function redirection_utilisateurs_specifiques($redirect_to, $request, $user) {
+    if (isset($user->roles) && is_array($user->roles)) {
+        // Rôles à rediriger
+        $roles_a_rediriger = array('subscriber', 'candidate');
+        
+        // Vérifie si l'utilisateur a un des rôles ciblés
+        if (array_intersect($roles_a_rediriger, $user->roles)) {
+            return get_permalink(290);
+        }
+    }
+    return $redirect_to;
+}
+add_filter('login_redirect', 'redirection_utilisateurs_specifiques', 10, 3);
+
+// Redirection depuis l'admin
+function bloquer_acces_admin() {
+    $user = wp_get_current_user();
+    $roles_a_rediriger = array('subscriber', 'candidate');
+    
+    if (is_admin() && array_intersect($roles_a_rediriger, (array) $user->roles)) {
+        wp_redirect(get_permalink(290));
+        exit;
+    }
+}
+add_action('admin_init', 'bloquer_acces_admin');
+
+// Redirection depuis la page profile.php
+function redirection_profile() {
+    $user = wp_get_current_user();
+    $roles_a_rediriger = array('subscriber', 'candidate');
+    
+    if (array_intersect($roles_a_rediriger, (array) $user->roles)) {
+        wp_redirect(get_permalink(290));
+        exit;
+    }
+}
+add_action('load-profile.php', 'redirection_profile');
+
+// lister les
+
+
+
+add_action('wp_ajax_get_fonctions_terms', 'get_fonctions_terms');
+add_action('wp_ajax_nopriv_get_fonctions_terms', 'get_fonctions_terms');
+
+function get_fonctions_terms() {
+    if (isset($_POST['secteur_id'])) {
+        $secteur_id = intval($_POST['secteur_id']);
+        
+        $terms = get_terms('secteurs', array(
+            'hide_empty' => false,
+            'parent' => $secteur_id
+        ));
+        
+        if (!is_wp_error($terms)) {
+            wp_send_json_success($terms);
+        }
+    }
+    wp_send_json_error();
+}
+
+
+// Autoriser les candidats à télécharger des fichiers
+function autoriser_upload_candidats() {
+    // Autoriser les abonnés (subscribers)
+    $subscriber_role = get_role('subscriber');
+    if ($subscriber_role) {
+        $subscriber_role->add_cap('upload_files', true);
+        $subscriber_role->add_cap('edit_files', true);
+    }
+    
+    // Autoriser les candidats
+    $candidate_role = get_role('candidate');
+    if ($candidate_role) {
+        $candidate_role->add_cap('upload_files', true);
+        $candidate_role->add_cap('edit_files', true);
+    }
+}
+function autoriser_ajax_candidats() {
+    // Vérifier si l'utilisateur a un rôle de candidat
+    $user = wp_get_current_user();
+    $roles_candidats = array('candidate', 'Candidate', 'candidat', 'Candidat');
+    
+    if (array_intersect($roles_candidats, (array) $user->roles)) {
+        // Autoriser l'action AJAX pour les candidats
+        add_filter('wp_ajax_get_fonctions_terms', 'get_fonctions_terms');
+    }
+}
+add_action('init', 'autoriser_ajax_candidats');
+
+// Ajouter les capacités nécessaires aux rôles de candidats
+function ajouter_capacites_candidats() {
+    $roles_candidats = array('candidate', 'Candidate', 'candidat', 'Candidat');
+    
+    foreach ($roles_candidats as $role) {
+        $role_obj = get_role($role);
+        if ($role_obj) {
+            $role_obj->add_cap('ajax_query', true);
+        }
+    }
+}
+add_action('init', 'ajouter_capacites_candidats');
+
+// Définir les types de fichiers autorisés
+function filtrer_types_fichiers_autorises($mime_types) {
+    $mime_types['pdf'] = 'application/pdf';
+    $mime_types['doc'] = 'application/msword';
+    $mime_types['docx'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+    return $mime_types;
+}
+add_filter('upload_mimes', 'filtrer_types_fichiers_autorises');
+
+// Limiter la taille des fichiers
+function limiter_taille_upload($file) {
+    $size_limit = 25 * 1024 * 1024; // 5 MB
+    $file_size = $file['size'];
+    if ($file_size > $size_limit) {
+        $file['error'] = "La taille du fichier ne doit pas dépasser 18 MB.";
+    }
+    return $file;
+}
+add_filter('wp_handle_upload_prefilter', 'limiter_taille_upload');
+//supprimer toutes les rpioels 
+
+function supprimer_tous_roles_forminator($user_id, $form_id) {
+    if ($form_id == 301) {
+        $user = new WP_User($user_id);
+        $roles = $user->roles;
+        foreach($roles as $role) {
+            $user->remove_role($role);
+        }
+    }
+}
+add_action('forminator_after_save_custom_form', 'supprimer_tous_roles_forminator', 10, 2);
+
+function limiter_soumission_cv($can_submit) {
+    if (!is_user_logged_in()) {
+        return $can_submit;
+    }
+
+    $user_id = get_current_user_id();
+    $cv_count = resume_manager_count_user_resumes($user_id);
+
+    if ($cv_count >= 1) {
+        add_action('resume_manager_output_messages', function() {
+            echo '<div class="job-manager-message error">';
+            echo 'Vous avez déjà un CV enregistré. Veuillez supprimer votre CV existant avant d\'en soumettre un nouveau.';
+            echo '</div>';
+        });
+        return false;
+    }
+
+    return $can_submit;
+}
+add_filter('resume_manager_can_post_resume', 'limiter_soumission_cv', 10, 1);
+//script des nationalités 
+function ajouter_script_nationalite() {
+    if (is_page(15715)) {
+        ?>
+        <script>
+        jQuery(document).ready(function($) {
+            var nationalitySelect = $('.fieldset-candidate_nationality');
+            
+            $('input[name="candidate_nationality_type"]').change(function() {
+                if ($(this).val() === 'autres') {
+                    nationalitySelect.show();
+                } else {
+                    nationalitySelect.hide();
+                }
+            });
+            
+            // Cacher le select au chargement
+            nationalitySelect.hide();
+        });
+        </script>
+        <?php
+    }
+}
+add_action('wp_footer', 'ajouter_script_nationalite');
+
+
+function modifier_champs_dates_resume($fields) {
+    // Années pour le sélecteur (de 1970 à aujourd'hui)
+    $annees = range(date('Y'), 1970);
+    $options_annees = array_combine($annees, $annees);
+
+    // Modification du champ expérience
+    $fields['resume_fields']['candidate_experience']['fields']['date_debut'] = array(
+        'label' => 'Année de début',
+        'type' => 'select',
+        'required' => true,
+        'options' => $options_annees,
+        'priority' => 3
+    );
+
+    $fields['resume_fields']['candidate_experience']['fields']['date_fin'] = array(
+        'label' => 'Année de fin',
+        'type' => 'select',
+        'required' => true,
+        'options' => array_merge(['En cours' => 'En cours'], $options_annees),
+        'priority' => 4
+    );
+
+    // Modification du champ éducation
+    $fields['resume_fields']['candidate_education']['fields']['date_debut'] = array(
+        'label' => 'Année de début',
+        'type' => 'select',
+        'required' => true,
+        'options' => $options_annees,
+        'priority' => 3
+    );
+
+    $fields['resume_fields']['candidate_education']['fields']['date_fin'] = array(
+        'label' => 'Année de fin',
+        'type' => 'select',
+        'required' => true,
+        'options' => array_merge(['En cours' => 'En cours'], $options_annees),
+        'priority' => 4
+    );
+
+    return $fields;
+}
+
+add_filter('submit_resume_form_fields', 'modifier_champs_dates_resume');
+
+
+//espâce pour filtrer les CV 
+function creer_page_admin_cv() {
+    add_menu_page(
+        'Gestion des CV - Bralico RH',
+        'Filtrer les CV', 
+        'manage_options',
+        'gestion-cv',
+        'afficher_page_cv',
+        'dashicons-star-filled',  // Icône étoile
+        4  // Position (4 = juste après le tableau de bord)
+    );
+}
+add_action('admin_menu', 'creer_page_admin_cv');
+function afficher_page_cv() {
+        // Ajout des scripts nécessaires pour Thickbox
+        wp_enqueue_script('thickbox');
+        wp_enqueue_style('thickbox');
+    // Ajout du support des options d'écran
+    $screen = get_current_screen();
+
+    // Ajout des options par défaut
+    add_screen_option('per_page', array(
+        'label' => 'CV par page',
+        'default' => 10,
+        'option' => 'cv_per_page'
+    ));
+
+    // Définition des colonnes disponibles
+    $colonnes_disponibles = array(
+        'nom' => 'Nom',
+        'specialite' => 'Spécialité',
+        'diplome' => 'Diplôme',
+        'experience' => 'Expérience',
+        'email' => 'Email',
+        'telephone' => 'Téléphone',
+        'date_naissance' => 'Date de naissance',
+        'actions' => 'Actions'
+    );
+
+    // Ajout des options de colonnes
+    $screen->add_option('columns', array(
+        'columns' => $colonnes_disponibles
+    ));
+    $per_page = 100;
+    $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+    $offset = ($current_page - 1) * $per_page;
+
+    $args = array(
+        'post_type' => 'resume',
+        'posts_per_page' => $per_page,
+        'offset' => $offset,
+    );
+
+    $resumes = get_posts($args);
+    $total_posts = wp_count_posts('resume')->publish;
+    $total_pages = ceil($total_posts / $per_page);
+    ?>
+    <div class="wrap">
+        <h1>Gestion des CV</h1>
+        <table class="wp-list-table widefat fixed striped">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Spécialité</th>
+                    <th>Diplôme</th>
+                    <th>Expérience</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Date de naissance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableau-cv">
+            <?php
+            foreach($resumes as $resume) {
+                $cv_url = get_post_meta($resume->ID, '_resume_file', true);
+                echo '<tr>';
+                echo '<td>' . $resume->post_title . '</td>';
+                echo '<td>' . get_post_meta($resume->ID, '_candidate_speciality', true) . '</td>';
+                echo '<td>' . get_post_meta($resume->ID, '_candidate_diploma', true) . '</td>';
+                echo '<td>' . get_post_meta($resume->ID, '_candidate_experience_years', true) . ' ans</td>';
+                echo '<td>' . get_post_meta($resume->ID, '_candidate_email', true) . '</td>';
+                echo '<td>' . get_post_meta($resume->ID, '_candidate_phone', true) . '</td>';
+                echo '<td>' . get_post_meta($resume->ID, '_candidate_date_of_birth', true) . '</td>';
+                echo '<td>';
+                if ($cv_url) {
+/*                     echo '<a href="' . esc_url($cv_url) . '" class="button button-primary" download><span class="dashicons dashicons-download"></span> Télécharger</a> ';
+                    echo '<a href="' . esc_url($cv_url) . '" class="button thickbox" data-title="CV - ' . $resume->post_title . '"><span class="dashicons dashicons-visibility"></span> Voir</a> ';
+ */     
+                    echo '<a href="' . esc_url($cv_url) . '" class="button button-primary" download><span class="dashicons dashicons-download"></span> Télécharger</a> ';
+                    echo '<a href="' . esc_url($cv_url) . '?TB_iframe=true&width=800&height=600" class="button thickbox" title="CV - ' . esc_attr($resume->post_title) . '"><span class="dashicons dashicons-visibility"></span> Voir</a> ';
+                }
+               // echo '<a href="' . get_edit_post_link($resume->ID) . '" class="button"><span class="dashicons dashicons-edit"></span> Modifier</a>';
+                echo '</td>';
+                echo '</tr>';
+            }
+            ?>
+            </tbody>
+        </table>
+
+        <div class="tablenav bottom">
+            <div class="tablenav-pages">
+                <?php
+                echo paginate_links(array(
+                    'base' => add_query_arg('paged', '%#%'),
+                    'format' => '',
+                    'prev_text' => '&laquo;',
+                    'next_text' => '&raquo;',
+                    'total' => $total_pages,
+                    'current' => $current_page
+                ));
+                ?>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+
+
+function charger_scripts_admin_cv($hook) {
+    if('toplevel_page_gestion-cv' !== $hook) {
+        return;
+    }
+    wp_enqueue_script('admin-cv', get_template_directory_uri() . '/js/admin.js', array('jquery'), '1.0.0', true);
+    wp_enqueue_style('admin-cv-style', get_template_directory_uri() . '/css/admin.css', array(), '1.0.0');
+}
+add_action('admin_enqueue_scripts', 'charger_scripts_admin_cv');
