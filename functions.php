@@ -1329,9 +1329,6 @@ function wpjms_admin_resume_form_fields( $fields ) {
         'required'  => true,
           'priority'      => 1
     );
-    // Add "nationalité" field
-    // Add "nationalité" field avec liste déroulante
-    // Add "date de naissance" field avec datepicker
     $fields['_candidate_date_of_birth'] = array(
         'label' => __('Date de naissance *', 'job_manager'),
         'type' => 'date',
@@ -1381,6 +1378,76 @@ function wpjms_frontend_resume_form_fields( $fields ) {
     //     'max_items' => 1
     // );
     // Add "nombres d'années d'expérience" field
+   $fields['resume_fields']['candidate_speciality'] = array(
+           'label' => __('Spécialité *', 'job_manager'),
+           'type' => 'select',
+           'required' => true,
+           'priority' => 2,
+           'options' => array(
+                'achats' => 'Achats',
+                'moyens-generaux' => 'Moyens Généraux',
+                'rse' => 'RSE',
+                'secretariat' => 'Secrétariat',
+                'analyse-commerciale' => 'Analyse Commerciale',
+                'prevente' => 'Prévente',
+                'ventes' => 'Ventes',
+                'comptabilite' => 'Comptabilité',
+                'controle-de-gestion' => 'Contrôle de Gestion',
+                'fiscalite' => 'Fiscalité',
+                'juridique' => 'Juridique',
+                'transit-finance' => 'Transit',
+                'tresorie' => 'Trésorerie',
+                'applications' => 'Applications',
+                'infrastructures' => 'Infrastructures', 
+                'support' => 'Support',
+                'microbiologie' => 'Microbiologie',
+                'physico-chimie' => 'Physico-chimie',
+                'administration-vente' => 'Administration Vente',
+                'logistique-clients' => 'Logistique-Clients',
+                'parc-auto' => 'Parc-Auto',
+                'bureau-methode' => 'Bureau méthode',
+                'electricite' => 'Electricité',
+                'mecanique' => 'Mécanique',
+                'metrologie' => 'Métrologie',
+                'projet-et-moyens-generaux' => 'Projet et Moyens Généraux',
+                'salles-des-machines' => 'Salles des machines',
+                'brand' => 'Brand (gestion des marques)',
+                'communication' => 'Communication',
+                'digital' => 'Digital',
+                'evenementiel-sponsoring' => 'Evènementiel & sponsoring',
+                'infographie' => 'Infographie',
+                'trade-marketing' => 'Trade Marketing',
+                'brassage' => 'Brassage',
+                'conditionnement' => 'Conditionnement',
+                'filtration' => 'Filtration',
+                'process' => 'Process',
+                'siroperie' => 'Siroperie',
+                'hse' => 'HSE',
+                'qualite' => 'Qualité',
+                'administration-du-personnel' => 'Administration du Personnel',
+                'developpement-rh' => 'Développement RH',
+                'paie' => 'Paie'
+            )
+        
+        );   
+        $fields['resume_fields']['candidate_highest_diploma'] = array(
+        'label' => 'Diplôme le plus élevé',
+        'type' => 'select',
+        'required' => true,
+        'priority' => 1,
+        'options' => array(
+            'cap' => 'CAP',
+            'bep' => 'BEP',
+            'bac' => 'Baccalauréat',
+            'bac2' => 'Bac+2 (DUT, BTS)',
+            'bac3' => 'Bac+3 (Licence)',
+            'bac4' => 'Bac+4 (Master 1)',
+            'bac5' => 'Bac+5 (Master 2, Ingénieur)',
+            'bac8' => 'Bac+8 (Doctorat)'
+        )
+    );
+    
+    
     $fields['resume_fields']['candidate_experience_years'] = array(
         'label'     => __( "Nombre d'années d'expérience *", 'job_manager' ),
         'type'      => 'select',
@@ -2531,7 +2598,7 @@ function modifier_champs_dates_resume($fields) {
     $options_annees = array_combine($annees, $annees);
 
     // Modification du champ expérience
-    $fields['resume_fields']['candidate_experience']['fields']['date_debut'] = array(
+ /*    $fields['resume_fields']['candidate_experience']['fields']['date_debut'] = array(
         'label' => 'Année de début',
         'type' => 'select',
         'required' => true,
@@ -2545,10 +2612,10 @@ function modifier_champs_dates_resume($fields) {
         'required' => true,
         'options' => array_merge(['En cours' => 'En cours'], $options_annees),
         'priority' => 4
-    );
-
+    ); */
+    
     // Modification du champ éducation
-    $fields['resume_fields']['candidate_education']['fields']['date_debut'] = array(
+   /*  $fields['resume_fields']['candidate_education']['fields']['date_debut'] = array(
         'label' => 'Année de début',
         'type' => 'select',
         'required' => true,
@@ -2562,8 +2629,24 @@ function modifier_champs_dates_resume($fields) {
         'required' => true,
         'options' => array_merge(['En cours' => 'En cours'], $options_annees),
         'priority' => 4
+    ); 
+    $fields['resume_fields']['candidate_experience']['fields']['date_debut'] = array(
+        'label' => 'Date de début',
+        'type' => 'date',
+        'required' => true,
+        'priority' => 1,
+        'class' => 'monthpicker'
     );
-
+    
+    $fields['resume_fields']['candidate_experience']['fields']['date_fin'] = array(
+        'label' => 'Date de fin', 
+        'type' => 'date',
+        'required' => true,
+        'priority' => 1,
+        'class' => 'monthpicker'
+    );
+    unset($fields['resume_fields']['candidate_experience']['fields']['candidate_experience_date_1']);
+*/
     return $fields;
 }
 
@@ -2583,36 +2666,35 @@ function creer_page_admin_cv() {
     );
 }
 add_action('admin_menu', 'creer_page_admin_cv');
+
+
 function afficher_page_cv() {
-        // Ajout des scripts nécessaires pour Thickbox
-        wp_enqueue_script('thickbox');
-        wp_enqueue_style('thickbox');
-    // Ajout du support des options d'écran
+    wp_enqueue_script('thickbox');
+    wp_enqueue_style('thickbox');
+    
     $screen = get_current_screen();
 
-    // Ajout des options par défaut
     add_screen_option('per_page', array(
         'label' => 'CV par page',
         'default' => 10,
         'option' => 'cv_per_page'
     ));
 
-    // Définition des colonnes disponibles
     $colonnes_disponibles = array(
         'nom' => 'Nom',
         'specialite' => 'Spécialité',
-        'diplome' => 'Diplôme',
-        'experience' => 'Expérience',
+        'experience' => 'Années d\'expérience',
+        'highest_diploma' => 'Diplôme le plus élevé',
         'email' => 'Email',
         'telephone' => 'Téléphone',
         'date_naissance' => 'Date de naissance',
         'actions' => 'Actions'
     );
 
-    // Ajout des options de colonnes
     $screen->add_option('columns', array(
         'columns' => $colonnes_disponibles
     ));
+
     $per_page = 100;
     $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
     $offset = ($current_page - 1) * $per_page;
@@ -2634,8 +2716,8 @@ function afficher_page_cv() {
                 <tr>
                     <th>Nom</th>
                     <th>Spécialité</th>
-                    <th>Diplôme</th>
-                    <th>Expérience</th>
+                    <th>Années d'expérience</th>
+                    <th>Diplôme le plus élevé</th>
                     <th>Email</th>
                     <th>Téléphone</th>
                     <th>Date de naissance</th>
@@ -2646,23 +2728,26 @@ function afficher_page_cv() {
             <?php
             foreach($resumes as $resume) {
                 $cv_url = get_post_meta($resume->ID, '_resume_file', true);
+                $resume_preview_url = add_query_arg(array(
+                    'resume_id' => $resume->ID,
+                    'TB_iframe' => 'true',
+                    'width' => '800',
+                    'height' => '600'
+                ), get_permalink($resume->ID));
+
                 echo '<tr>';
                 echo '<td>' . $resume->post_title . '</td>';
                 echo '<td>' . get_post_meta($resume->ID, '_candidate_speciality', true) . '</td>';
-                echo '<td>' . get_post_meta($resume->ID, '_candidate_diploma', true) . '</td>';
                 echo '<td>' . get_post_meta($resume->ID, '_candidate_experience_years', true) . ' ans</td>';
+                echo '<td>' . get_post_meta($resume->ID, '_candidate_highest_diploma', true) . '</td>';
                 echo '<td>' . get_post_meta($resume->ID, '_candidate_email', true) . '</td>';
                 echo '<td>' . get_post_meta($resume->ID, '_candidate_phone', true) . '</td>';
                 echo '<td>' . get_post_meta($resume->ID, '_candidate_date_of_birth', true) . '</td>';
                 echo '<td>';
                 if ($cv_url) {
-/*                     echo '<a href="' . esc_url($cv_url) . '" class="button button-primary" download><span class="dashicons dashicons-download"></span> Télécharger</a> ';
-                    echo '<a href="' . esc_url($cv_url) . '" class="button thickbox" data-title="CV - ' . $resume->post_title . '"><span class="dashicons dashicons-visibility"></span> Voir</a> ';
- */     
                     echo '<a href="' . esc_url($cv_url) . '" class="button button-primary" download><span class="dashicons dashicons-download"></span> Télécharger</a> ';
-                    echo '<a href="' . esc_url($cv_url) . '?TB_iframe=true&width=800&height=600" class="button thickbox" title="CV - ' . esc_attr($resume->post_title) . '"><span class="dashicons dashicons-visibility"></span> Voir</a> ';
                 }
-               // echo '<a href="' . get_edit_post_link($resume->ID) . '" class="button"><span class="dashicons dashicons-edit"></span> Modifier</a>';
+                echo '<a href="' . esc_url($resume_preview_url) . '" class="button thickbox" title="CV - ' . esc_attr($resume->post_title) . '"><span class="dashicons dashicons-visibility"></span> Voir le profil</a>';
                 echo '</td>';
                 echo '</tr>';
             }
