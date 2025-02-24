@@ -1,10 +1,64 @@
 jQuery(document).ready(function ($) {
+	//quick preview des cv
+
+	
+    //si le body a une classe "page-id-15715"
+	
+
+	$('#secteurs-filter').on('change', function() {
+        var selectedId = $(this).val();
+        
+        // Masquer tous les selects de sous-secteurs
+        $('.sous-secteur-select').hide();
+        
+        if (selectedId) {
+            // Afficher le select correspondant au secteur sélectionné
+            $('#sous-secteur-' + selectedId).show();
+        }
+    });
+
+	if($('#ilauncompte').length){
+		$("#login-modal").dialog({
+			autoOpen: false,
+			modal: true,
+			buttons: {
+				"Fermer": function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+	
+		$("#open-login-modal").on("click", function() {
+			$("#login-modal").dialog("open");
+		});
+	}
+	$("#create-account-modal").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: {
+            "Fermer": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+
+    $("#open-create-account-modal").on("click", function() {
+        $("#create-account-modal").dialog("open");
+    });
 //si la div #postsidebar existe, rendre la div #postsidebar sticky lorsque l'utilisateur srolle à plus de 100px en dessous de la div #masthead
 	if ($('#postsidebar').length) {
+		var footerTop = $('#colophon').offset().top; // get the top position of the footer
+		var elementHeight = $('#postsidebar').outerHeight(); // get the height of the element
+		var bottomOffset = footerTop - elementHeight; // calculate the bottom offset
+		console.log(footerTop, elementHeight, bottomOffset);
 		$("#postsidebar").stickOnScroll({
+			
 			topOffset: $('#masthead').outerHeight(),
-			setParentOnStick:   true,
-			setWidthOnStick:    true,
+			//bottomOffset: bottomOffset,
+			setParentOnStick: true,
+			setWidthOnStick: true,
+			footerElement: $('#colophon')
+
 		});
 	}
 

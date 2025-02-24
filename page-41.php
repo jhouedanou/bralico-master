@@ -35,15 +35,19 @@ get_header(); ?>
     $paged = get_query_var("paged") ? get_query_var("paged") : 1;
     $args = [
         "post_type" => "produits",
-        "posts_per_page" => 12,
+        "posts_per_page" => 16,
         "paged" => $paged,
+        //trier du plus récent au plus ancien 
+        "order" => "DESC",
+        //trier par la date de création 
+        "orderby" => "date",
     ];
     $the_query = new WP_Query($args);
 
     if ($the_query->have_posts()) {
         while ($the_query->have_posts()) {
             $the_query->the_post(); ?>
-    <div class='product col-md-3 col-sm-6 col-xs-6'>
+    <div class='product col-md-3 col-sm-6 col-xs-6 shoo pee pee'>
         <div class="paddingz">
             <a href='<?php the_permalink(); ?>' class="nza">
                 <?php if (has_post_thumbnail()) {

@@ -205,11 +205,20 @@ get_header();
                         foreach ($terms as $term) {
                             $term_link = get_term_link($term);
                             $type_de_boisson_image = get_term_meta($term->term_id, 'type_de_boisson_image', true);
+                            $type_de_boisson_icon = get_term_meta($term->term_id, 'type_de_boisson_icon', true);
                             ?>
 
                         <a class="col m-0 p-0" href="<?php echo $term_link; ?>">
+                            <div class="rabithole">
+                                <img class="iconedelaboisson" src="<?php echo $type_de_boisson_icon;?>" alt="">
+                                <p class="nomdelacatbralico"><?php 
+                                //nom de la catégorie
+                                echo $term->name;
+                                ?></p>
+                            </div>
                             <span class="responsive-img img-fluid"
                                 style="background-image: url('<?php echo $type_de_boisson_image; ?>');"></span>
+
                         </a>
 
                         <?php
@@ -256,4 +265,4 @@ get_header();
 
         <?php
     get_footer();
-    ?>
+ 

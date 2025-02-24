@@ -1282,13 +1282,14 @@ function enqueue_isotope() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_isotope');
 
-function set_login_cookie($user_login, $user) {
-    // Définir un cookie qui expire dans 1 jour (24 * 60 * 60 secondes)
-    setcookie('user_logged_in', '1', time() + (24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN);
-    setcookie('user_login', $user_login, time() + (24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN);
+//definir un cookie qui indique que l'utiliateur s'est connecté
+function set_login_cookie( $user_login, $user ) {
+// Définir un cookie qui expire dans 30 jours
+setcookie( 'user_logged_in', '1', time() + (30 * 24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN );
+//Définir un cookie avec le nom de l'utilisateur
+setcookie( 'user_login', $user_login, time() + (30 * 24 * 60 * 60), COOKIEPATH, COOKIE_DOMAIN );
 }
-add_action('wp_login', 'set_login_cookie', 10, 2);
-
+add_action( 'wp_login', 'set_login_cookie', 10, 2 );
 
 //changement des labels de champs 
 add_filter('submit_resume_form_fields', 'modifier_libelles_formulaire_candidature');
@@ -1328,6 +1329,9 @@ function wpjms_admin_resume_form_fields( $fields ) {
         'required'  => true,
           'priority'      => 1
     );
+    // Add "nationalité" field
+    // Add "nationalité" field avec liste déroulante
+    // Add "date de naissance" field avec datepicker
     $fields['_candidate_date_of_birth'] = array(
         'label' => __('Date de naissance *', 'job_manager'),
         'type' => 'date',
@@ -1377,182 +1381,17 @@ function wpjms_frontend_resume_form_fields( $fields ) {
     //     'max_items' => 1
     // );
     // Add "nombres d'années d'expérience" field
-   $fields['resume_fields']['candidate_speciality'] = array(
-           'label' => __('Spécialité *', 'job_manager'),
-           'type' => 'select',
-           'required' => true,
-           'priority' => 2,
-           'options' => array(
-                'achats' => 'Achats',
-                'moyens-generaux' => 'Moyens Généraux',
-                'rse' => 'RSE',
-                'secretariat' => 'Secrétariat',
-                'analyse-commerciale' => 'Analyse Commerciale',
-                'prevente' => 'Prévente',
-                'ventes' => 'Ventes',
-                'comptabilite' => 'Comptabilité',
-                'controle-de-gestion' => 'Contrôle de Gestion',
-                'fiscalite' => 'Fiscalité',
-                'juridique' => 'Juridique',
-                'transit-finance' => 'Transit',
-                'tresorie' => 'Trésorerie',
-                'applications' => 'Applications',
-                'infrastructures' => 'Infrastructures', 
-                'support' => 'Support',
-                'microbiologie' => 'Microbiologie',
-                'physico-chimie' => 'Physico-chimie',
-                'administration-vente' => 'Administration Vente',
-                'logistique-clients' => 'Logistique-Clients',
-                'parc-auto' => 'Parc-Auto',
-                'bureau-methode' => 'Bureau méthode',
-                'electricite' => 'Electricité',
-                'mecanique' => 'Mécanique',
-                'metrologie' => 'Métrologie',
-                'projet-et-moyens-generaux' => 'Projet et Moyens Généraux',
-                'salles-des-machines' => 'Salles des machines',
-                'brand' => 'Brand (gestion des marques)',
-                'communication' => 'Communication',
-                'digital' => 'Digital',
-                'evenementiel-sponsoring' => 'Evènementiel & sponsoring',
-                'infographie' => 'Infographie',
-                'trade-marketing' => 'Trade Marketing',
-                'brassage' => 'Brassage',
-                'conditionnement' => 'Conditionnement',
-                'filtration' => 'Filtration',
-                'process' => 'Process',
-                'siroperie' => 'Siroperie',
-                'hse' => 'HSE',
-                'qualite' => 'Qualité',
-                'administration-du-personnel' => 'Administration du Personnel',
-                'developpement-rh' => 'Développement RH',
-                'paie' => 'Paie'
-            )
-        
-        );   
-        $fields['resume_fields']['candidate_highest_diploma'] = array(
-        'label' => 'Diplôme le plus élevé',
-        'type' => 'select',
-        'required' => true,
-        'priority' => 1,
-        'options' => array(
-            'cap' => 'CAP',
-            'bep' => 'BEP',
-            'bac' => 'Baccalauréat',
-            'bac2' => 'Bac+2 (DUT, BTS)',
-            'bac3' => 'Bac+3 (Licence)',
-            'bac4' => 'Bac+4 (Master 1)',
-            'bac5' => 'Bac+5 (Master 2, Ingénieur)',
-            'bac8' => 'Bac+8 (Doctorat)'
-        )
-    );
-    
-    
     $fields['resume_fields']['candidate_experience_years'] = array(
         'label'     => __( "Nombre d'années d'expérience *", 'job_manager' ),
         'type'      => 'select',
         'required'  => true,
-        'placeholder'   => 'Expérience professionnelle ( nombre d\'années )',
+        'placeholder'   => 'Expérience professionnelle',
         'options'=>array(
-            '1' => '1 an',
-            '2' => '2 ans',
-            '3' => '3 ans',
-            '4' => '4 ans',
-            '5' => '5 ans',
-            '6' => '6 ans',
-            '7' => '7 ans',
-            '8' => '8 ans',
-            '9' => '9 ans',
-            '10' => '10 ans',
-            '11' => '11 ans',
-            '12' => '12 ans',
-            '13' => '13 ans',
-            '14' => '14 ans',
-            '15' => '15 ans',
-            '16' => '16 ans',
-            '17' => '17 ans',
-            '18' => '18 ans',
-            '19' => '19 ans',
-            '20' => '20 ans',
-            '21' => '21 ans',
-            '22' => '22 ans',
-            '23' => '23 ans',
-            '24' => '24 ans',
-            '25' => '25 ans',
-            '26' => '26 ans',
-            '27' => '27 ans',
-            '28' => '28 ans',
-            '29' => '29 ans',
-            '30' => '30 ans',
-            '31' => '31 ans',
-            '32' => '32 ans',
-            '33' => '33 ans',
-            '34' => '34 ans',
-            '35' => '35 ans',
-            '36' => '36 ans',
-            '37' => '37 ans',
-            '38' => '38 ans',
-            '39' => '39 ans',
-            '40' => '40 ans',
-            '41' => '41 ans',
-            '42' => '42 ans',
-            '43' => '43 ans',
-            '44' => '44 ans',
-            '45' => '45 ans',
-            '46' => '46 ans',
-            '47' => '47 ans',
-            '48' => '48 ans',
-            '49' => '49 ans',
-            '50' => '50 ans',
-            '51' => '51 ans',
-            '52' => '52 ans',
-            '53' => '53 ans',
-            '54' => '54 ans',
-            '55' => '55 ans',
-            '56' => '56 ans',
-            '57' => '57 ans',
-            '58' => '58 ans',
-            '59' => '59 ans',
-            '60' => '60 ans',
-            '61' => '61 ans',
-            '62' => '62 ans',
-            '63' => '63 ans',
-            '64' => '64 ans',
-            '65' => '65 ans',
-            '66' => '66 ans',
-            '67' => '67 ans',
-            '68' => '68 ans',
-            '69' => '69 ans',
-            '70' => '70 ans',
-            '71' => '71 ans',
-            '72' => '72 ans',
-            '73' => '73 ans',
-            '74' => '74 ans',
-            '75' => '75 ans',
-            '76' => '76 ans',
-            '77' => '77 ans',
-            '78' => '78 ans',
-            '79' => '79 ans',
-            '80' => '80 ans',
-            '81' => '81 ans',
-            '82' => '82 ans',
-            '83' => '83 ans',
-            '84' => '84 ans',
-            '85' => '85 ans',
-            '86' => '86 ans',
-            '87' => '87 ans',
-            '88' => '88 ans',
-            '89' => '89 ans',
-            '90' => '90 ans',
-            '91' => '91 ans',
-            '92' => '92 ans',
-            '93' => '93 ans',
-            '94' => '94 ans',
-            '95' => '95 ans',
-            '96' => '96 ans',
-            '97' => '97 ans',
-            '98' => '98 ans',
-            '99' => '99 ans',
-        ),        'priority'  => 1
+            '0 à 3 ans'=>'0 à 3 ans',
+            '3 à 5 ans'=>'3 à 5 ans',
+            '5 ans et plus'=>'5 ans et plus',
+        ),
+        'priority'  => 1
     );
  // Add "nationalité" field avec liste déroulante
  $fields['resume_fields']['candidate_nationality_type'] = array(
@@ -1570,7 +1409,6 @@ $fields['resume_fields']['candidate_nationality'] = array(
     'label' => __('Sélectionnez votre nationalité *', 'job_manager'),
     'type' => 'select',
     'required' => true,
-    'default' => 'congolaise-',
     'options' => array(
         'afghane' => 'Afghane',
         'albanaise' => 'Albanaise',
@@ -1764,6 +1602,7 @@ $fields['resume_fields']['candidate_nationality'] = array(
         'candidate_nationality_type' => 'autres'
     )
 );
+
     // Add "date de naissance" field
     $fields['resume_fields']['candidate_date_of_birth'] = array(
         'label'     => __( 'Date de naissance *', 'job_manager' ),
@@ -2597,7 +2436,7 @@ function modifier_champs_dates_resume($fields) {
     $options_annees = array_combine($annees, $annees);
 
     // Modification du champ expérience
- /*    $fields['resume_fields']['candidate_experience']['fields']['date_debut'] = array(
+    $fields['resume_fields']['candidate_experience']['fields']['date_debut'] = array(
         'label' => 'Année de début',
         'type' => 'select',
         'required' => true,
@@ -2611,10 +2450,10 @@ function modifier_champs_dates_resume($fields) {
         'required' => true,
         'options' => array_merge(['En cours' => 'En cours'], $options_annees),
         'priority' => 4
-    ); */
-    
+    );
+
     // Modification du champ éducation
-   /*  $fields['resume_fields']['candidate_education']['fields']['date_debut'] = array(
+    $fields['resume_fields']['candidate_education']['fields']['date_debut'] = array(
         'label' => 'Année de début',
         'type' => 'select',
         'required' => true,
@@ -2628,180 +2467,9 @@ function modifier_champs_dates_resume($fields) {
         'required' => true,
         'options' => array_merge(['En cours' => 'En cours'], $options_annees),
         'priority' => 4
-    ); 
-    $fields['resume_fields']['candidate_experience']['fields']['date_debut'] = array(
-        'label' => 'Date de début',
-        'type' => 'date',
-        'required' => true,
-        'priority' => 1,
-        'class' => 'monthpicker'
     );
-    
-    $fields['resume_fields']['candidate_experience']['fields']['date_fin'] = array(
-        'label' => 'Date de fin', 
-        'type' => 'date',
-        'required' => true,
-        'priority' => 1,
-        'class' => 'monthpicker'
-    );
-    unset($fields['resume_fields']['candidate_experience']['fields']['candidate_experience_date_1']);
-*/
+
     return $fields;
 }
 
 add_filter('submit_resume_form_fields', 'modifier_champs_dates_resume');
-
-
-//espâce pour filtrer les CV 
-function creer_page_admin_cv() {
-    add_menu_page(
-        'Gestion des CV - Bralico RH',
-        'Filtrer les CV', 
-        'manage_options',
-        'gestion-cv',
-        'afficher_page_cv',
-        'dashicons-star-filled',  // Icône étoile
-        4  // Position (4 = juste après le tableau de bord)
-    );
-}
-add_action('admin_menu', 'creer_page_admin_cv');
-
-function afficher_page_cv() {
-    global $wpdb;
-    wp_enqueue_script('thickbox');
-    wp_enqueue_style('thickbox');
-    
-    // Récupération des offres d'emploi pour le filtre
-    $jobs = get_posts(array(
-        'post_type' => 'job_listing',
-        'posts_per_page' => -1
-    ));
-
-    // Configuration de la pagination
-    $per_page = 100;
-    $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
-    $offset = ($current_page - 1) * $per_page;
-
-    $args = array(
-        'post_type' => 'resume',
-        'posts_per_page' => $per_page,
-        'offset' => $offset,
-    );
-
-    $resumes = get_posts($args);
-    $total_posts = wp_count_posts('resume')->publish;
-    $total_pages = ceil($total_posts / $per_page);
-    ?>
-    <div class="wrap">
-        <h1>Gestion des CV</h1>
-        
-
-        <table class="wp-list-table widefat fixed striped">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Spécialité</th>
-                    <th>Années d'expérience</th>
-                    <th>Diplôme le plus élevé</th>
-                    <th>Email</th>
-                    <th>Téléphone</th>
-                    <th>Date de naissance</th>
-                    <th>Emplois postulés</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="tableau-cv">
-            <?php
-            foreach($resumes as $resume) {
-                $user_id = $resume->post_author;
-                $cv_url = get_post_meta($resume->ID, '_resume_file', true);
-                
-                // Récupération des candidatures
-                $candidate_email = get_post_meta($resume->ID, '_candidate_email', true);
-
-                $applications = get_posts(array(
-                    'post_type' => 'job_application',
-                    'posts_per_page' => -1,
-                    'meta_query' => array(
-                        array(
-                            'key' => '_candidate_email',
-                            'value' => $candidate_email,
-                            'compare' => '='
-                        )
-                    )
-                ));
-
-                echo '<tr>';
-                echo '<td>' . $resume->post_title . '</td>';
-                echo '<td>' . get_post_meta($resume->ID, '_candidate_speciality', true) . '</td>';
-                echo '<td>' . get_post_meta($resume->ID, '_candidate_experience_years', true) . ' ans</td>';
-                echo '<td>' . get_post_meta($resume->ID, '_candidate_highest_diploma', true) . '</td>';
-                echo '<td>' . get_post_meta($resume->ID, '_candidate_email', true) . '</td>';
-                echo '<td>' . get_post_meta($resume->ID, '_candidate_phone', true) . '</td>';
-                echo '<td>' . get_post_meta($resume->ID, '_candidate_date_of_birth', true) . '</td>';
-             
-
-                // Nouvelle colonne des emplois postulés
-                echo '<td>';
-                $jobs_postules = $wpdb->get_results($wpdb->prepare(
-                    "SELECT pm2.meta_value as job_id 
-                    FROM {$wpdb->postmeta} pm1 
-                    JOIN {$wpdb->postmeta} pm2 ON pm1.post_id = pm2.post_id
-                    WHERE pm1.meta_key = '_candidate_email' 
-                    AND pm1.meta_value = %s
-                    AND pm2.meta_key = '_applying_for_job_id'",
-                    $candidate_email
-                ));
-
-                if ($jobs_postules) {
-                    foreach ($jobs_postules as $job) {
-                        $job_title = get_the_title($job->job_id);
-                        echo '<div class="job-application">';
-                        echo esc_html($job_title);
-                        echo '</div>';
-                    }
-                } else {
-                    echo 'Aucun emploi postulé';
-                }
-                echo '</td>';
-                
-                // Actions
-                echo '<td>';
-                if ($cv_url) {
-                    echo '<a href="' . esc_url($cv_url) . '" class="button button-primary" download><span class="dashicons dashicons-download"></span> Télécharger</a> ';
-                }
-                echo '</td>';
-                echo '</tr>';
-            }
-            ?>
-            </tbody>
-        </table>
-
-        <div class="tablenav bottom">
-            <div class="tablenav-pages">
-                <?php
-                echo paginate_links(array(
-                    'base' => add_query_arg('paged', '%#%'),
-                    'format' => '',
-                    'prev_text' => '&laquo;',
-                    'next_text' => '&raquo;',
-                    'total' => $total_pages,
-                    'current' => $current_page
-                ));
-                ?>
-            </div>
-        </div>
-    </div>
-    <?php
-}
-
-
-function charger_scripts_admin_cv($hook) {
-    if('toplevel_page_gestion-cv' !== $hook) {
-        return;
-    }
-    wp_enqueue_script('admin-cv', get_template_directory_uri() . '/js/admin.js', array('jquery'), '1.0.0', true);
-    wp_enqueue_style('admin-cv-style', get_template_directory_uri() . '/css/admin.css', array(), '1.0.0');
-}
-add_action('admin_enqueue_scripts', 'charger_scripts_admin_cv');
-//vérifier que l'utlisateur a crée son cv avant de faire une candidature spontannée 
