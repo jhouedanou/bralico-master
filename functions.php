@@ -924,12 +924,12 @@
     $color = $flip ? 'gray' : 'white';
             ?>
 
-<a class="greenda                                                    <?php echo $color; ?>" href="<?php the_permalink(); ?>" rel="dofollow">
+<a class="greenda                                                                     <?php echo $color; ?>" href="<?php the_permalink(); ?>" rel="dofollow">
 <div class="row">
-<div class="col-md-6 imagez                                                                                          <?php echo $flip ? 'order-md-2' : '' ?>">
+<div class="col-md-6 imagez                                                                                                                     <?php echo $flip ? 'order-md-2' : '' ?>">
     <?php the_post_thumbnail(); ?>
 </div>
-<div class="col-md-6 textez                                                                                          <?php echo $flip ? 'order-md-1' : '' ?>">
+<div class="col-md-6 textez                                                                                                                     <?php echo $flip ? 'order-md-1' : '' ?>">
     <div class="freddzy">
         <div class="psotdate"><?php the_time('j F Y'); ?></div>
         <h2><?php the_title(); ?></h2>
@@ -1353,12 +1353,13 @@ add_filter('show_admin_bar', 'desactiver_barre_admin_pour_abonnes');
         return $current_status;
     }
     add_filter('use_block_editor_for_post_type', 'prefix_disable_gutenberg', 10, 2);
-    //ajouter des chaps
 
     // Add fields to admin
     add_filter('resume_manager_resume_fields', 'wpjms_admin_resume_form_fields');
-    function wpjms_admin_resume_form_fields($fields)
-    {
+    function wpjms_admin_resume_form_fields($fields){
+
+
+
 
         // Add "nombres d'années d'expérience" field
         $fields['_candidate_experience_years'] = [
@@ -1401,111 +1402,154 @@ add_filter('show_admin_bar', 'desactiver_barre_admin_pour_abonnes');
             ],
             'priority' => 5,
         ];
+        //plus haut diplome 
 
+        
         return $fields;
     }
 
-    // Add fields to frontend
     add_filter('submit_resume_form_fields', 'wpjms_frontend_resume_form_fields');
-    function wpjms_frontend_resume_form_fields($fields)
-    {
-        // Suppression du champ existant et ajout de deux nouveaux champs hiérarchiques
-        $fields['resume_fields']['candidate_job_category'] = [
-            'label'    => __('Métier *', 'job_manager'),
-            'type'     => 'select',
-            'required' => true,
-            'priority' => 2,
-            'options'  => [
-                ''                          => 'Sélectionnez un métier',
-                'achats-et-moyens-generaux' => 'ACHATS ET MOYENS GENERAUX',
-                'administration'            => 'ADMINISTRATION',
-                'commercial'                => 'COMMERCIAL',
-                'finance'                   => 'FINANCE',
-                'informatique'              => 'INFORMATIQUE',
-                'laboratoire'               => 'LABORATOIRE',
-                'logistique'                => 'LOGISTIQUE',
-                'maintenance'               => 'MAINTENANCE',
-                'marketing'                 => 'MARKETING',
-                'production'                => 'PRODUCTION',
-                'qhse'                      => 'QHSE',
-                'ressources-humaines'       => 'RESSOURCES HUMAINES',
-            ],
-        ];
+    function wpjms_frontend_resume_form_fields($fields){
+      // la spécialité 
+      // Suppression du champ existant et ajout de deux nouveaux champs hiérarchiques
+$fields['resume_fields']['candidate_job_category'] = array(
+    'label' => __('Métier *', 'job_manager'),
+    'type' => 'select',
+    'required' => true,
+    'priority' => 2,
+    'options' => array(
+        '' => 'Sélectionnez un métier',
+        'achats-et-moyens-generaux' => 'ACHATS ET MOYENS GENERAUX',
+        'administration' => 'ADMINISTRATION',
+        'commercial' => 'COMMERCIAL',
+        'finance' => 'FINANCE',
+        'informatique' => 'INFORMATIQUE',
+        'laboratoire' => 'LABORATOIRE',
+        'logistique' => 'LOGISTIQUE',
+        'maintenance' => 'MAINTENANCE',
+        'marketing' => 'MARKETING',
+        'production' => 'PRODUCTION',
+        'qhse' => 'QHSE',
+        'ressources-humaines' => 'RESSOURCES HUMAINES'
+    )
+);
 
-        $fields['resume_fields']['candidate_speciality'] = [
-            'label'    => __('Pôle *', 'job_manager'),
-            'type'     => 'select',
-            'required' => true,
-            'priority' => 3,
-            'options'  => [
-                '' => 'Sélectionnez d\'abord un métier',
-            ],
-        ];
-        add_action('wp_footer', 'add_speciality_dependency_script');
-        function add_speciality_dependency_script()
-        {
-        ?>
+$fields['resume_fields']['candidate_speciality'] = array(
+    'label' => __('Pôle *', 'job_manager'),
+    'type' => 'select',
+    'required' => true,
+    'priority' => 2,
+    'options' => array(
+        '' => 'Sélectionnez d\'abord un métier'
+    )
+);
+
+// JavaScript pour rendre la liste des pôles dynamique en fonction du métier sélectionné
+add_action('wp_footer', 'add_speciality_dependency_script');
+function add_speciality_dependency_script() {
+    ?>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
-        // Attendre que le DOM soit complètement chargé
-        $(window).on('load', function() {
-            console.log("Script chargé, recherche des éléments...");
-
-            // Vérifier les IDs réels des champs dans le DOM
-            var jobCategoryField = $('[name="candidate_job_category"], #candidate_job_category');
-            var specialityField = $('[name="candidate_speciality"], #candidate_speciality');
-
-            console.log("Champ métier trouvé:", jobCategoryField.length);
-            console.log("Champ pôle trouvé:", specialityField.length);
-
-            // Définition des pôles par métier
-            var specialities = {
-                'achats-et-moyens-generaux': {
-                    'achats': 'Achats',
-                    'moyens-generaux': 'Moyens Généraux'
-                },
-                // [reste des définitions inchangé]
-            };
-
-            // Fonction pour mettre à jour les options du champ de spécialité
-            function updateSpecialityOptions() {
-                var jobCategory = jobCategoryField.val();
-                console.log("Métier sélectionné:", jobCategory);
-
-                // Réinitialiser les options
-                specialityField.empty().append('<option value="">Sélectionnez un pôle</option>');
-
-                // Ajouter les nouvelles options si un métier est sélectionné
-                if (jobCategory && specialities[jobCategory]) {
-                    $.each(specialities[jobCategory], function(key, value) {
-                        specialityField.append('<option value="' + key + '">' + value + '</option>');
-                    });
-                    specialityField.prop('disabled', false);
-                } else {
-                    specialityField.prop('disabled', true);
-                }
+        // Définition des pôles par métier
+        var specialities = {
+            'achats-et-moyens-generaux': {
+                'achats': 'Achats',
+                'moyens-generaux': 'Moyens Généraux'
+            },
+            'administration': {
+                'rse': 'RSE',
+                'secretariat': 'Secrétariat'
+            },
+            'commercial': {
+                'analyse-commerciale': 'Analyse Commerciale',
+                'prevente': 'Prévente',
+                'ventes': 'Ventes'
+            },
+            'finance': {
+                'comptabilite': 'Comptabilité',
+                'controle-de-gestion': 'Contrôle de Gestion',
+                'fiscalite': 'Fiscalité',
+                'juridique': 'Juridique',
+                'transit': 'Transit',
+                'tresorie': 'Trésorerie'
+            },
+            'informatique': {
+                'applications': 'Applications',
+                'infrastructures': 'Infrastructures',
+                'support': 'Support'
+            },
+            'laboratoire': {
+                'microbiologie': 'Microbiologie',
+                'physico-chimie': 'Physico-chimie'
+            },
+            'logistique': {
+                'administration-vente': 'Administration Vente',
+                'logistique-clients': 'Logistique-Clients',
+                'parc-auto': 'Parc-Auto'
+            },
+            'maintenance': {
+                'bureau-methode': 'Bureau Méthode',
+                'electricite': 'Electricité',
+                'mecanique': 'Mécanique',
+                'metrologie': 'Métrologie',
+                'projet-et-moyens-generaux': 'Projet et Moyens Généraux',
+                'salles-des-machines': 'Salles des machines'
+            },
+            'marketing': {
+                'brand': 'Brand (Gestion des Marques)',
+                'communication': 'Communication',
+                'digital': 'Digital',
+                'evenementiel-sponsoring': 'Événementiel & Sponsoring',
+                'infographie': 'Infographie',
+                'trade-marketing': 'Trade Marketing'
+            },
+            'production': {
+                'brassage': 'Brassage',
+                'conditionnement': 'Conditionnement',
+                'filtration': 'Filtration',
+                'process': 'Process',
+                'siroperie': 'Siroperie'
+            },
+            'qhse': {
+                'hse': 'HSE',
+                'qualite': 'Qualité'
+            },
+            'ressources-humaines': {
+                'administration-du-personnel': 'Administration du Personnel',
+                'developpement-rh': 'Développement RH',
+                'paie': 'Paie'
             }
+        };
 
-            // Déclencher la mise à jour lorsque le métier change
-            jobCategoryField.on('change', updateSpecialityOptions);
+        // Fonction pour mettre à jour les options du champ de spécialité
+        function updateSpecialityOptions() {
+            var jobCategory = $('#candidate_job_category').val();
+            var specialitySelect = $('#candidate_speciality');
+            
+            // Réinitialiser les options
+            specialitySelect.empty().append('<option value="">Sélectionnez un pôle</option>');
+            
+            // Ajouter les nouvelles options si un métier est sélectionné
+            if (jobCategory && specialities[jobCategory]) {
+                $.each(specialities[jobCategory], function(key, value) {
+                    specialitySelect.append('<option value="' + key + '">' + value + '</option>');
+                });
+                specialitySelect.prop('disabled', false);
+            } else {
+                specialitySelect.prop('disabled', true);
+            }
+        }
 
-            // Initialiser au chargement
-            updateSpecialityOptions();
-
-            // Surveiller également les chargements dynamiques potentiels
-            $(document).on('ajaxComplete', function() {
-                jobCategoryField = $('[name="candidate_job_category"], #candidate_job_category');
-                specialityField = $('[name="candidate_speciality"], #candidate_speciality');
-
-                if (jobCategoryField.length && specialityField.length) {
-                    jobCategoryField.on('change', updateSpecialityOptions);
-                }
-            });
-        });
+        // Déclencher la mise à jour lorsque le métier change
+        $('#candidate_job_category').change(updateSpecialityOptions);
+        
+        // Initialiser au chargement de la page
+        updateSpecialityOptions();
     });
     </script>
     <?php
-        }
+}
+
 
             $fields['resume_fields']['candidate_highest_diploma'] = [
                 'label'    => 'Diplôme le plus élevé',
@@ -2637,31 +2681,7 @@ body { font-family: Arial, sans-serif; line-height: 1.6; }
         return $can_submit;
     }
     add_filter('resume_manager_can_post_resume', 'limiter_soumission_cv', 10, 1);
-    //script des nationalités
-    function ajouter_script_nationalite()
-    {
-        if (is_page(15715)) {
-        ?>
-<script>
-jQuery(document).ready(function($) {
-    var nationalitySelect = $('.fieldset-candidate_nationality');
-
-    $('input[name="candidate_nationality_type"]').change(function() {
-        if ($(this).val() === 'autres') {
-            nationalitySelect.show();
-        } else {
-            nationalitySelect.hide();
-        }
-    });
-
-    // Cacher le select au chargement
-    nationalitySelect.hide();
-});
-</script>
-<?php
-    }
-    }
-    add_action('wp_footer', 'ajouter_script_nationalite');
+   
 
     function modifier_champs_dates_resume($fields)
     {
@@ -3351,3 +3371,244 @@ jQuery(document).ready(function($) {
         }
         update_post_meta($application_id, '_resume_id', $resume_id);
 }
+
+// Gestion des nationalités 
+
+add_action('wp_footer', 'fix_nationality_field_visibility');
+function fix_nationality_field_visibility() {
+    ?>
+    <script type="text/javascript">
+    (function($) {
+        // Fonction pour exécuter le code une fois que jQuery est chargé
+        function initNationalityToggle() {
+            console.log("Initialisation du script de nationalité");
+            
+            // Fonction pour vérifier et ajuster la visibilité
+            function updateNationalityFieldVisibility() {
+                // Ciblez spécifiquement le fieldset complet
+                var nationalityFieldset = $('.fieldset-candidate_nationality');
+                var radioValue = $('input[name="candidate_nationality_type"]:checked').val();
+                
+                console.log("Fieldset de nationalité trouvé:", nationalityFieldset.length);
+                console.log("Valeur du bouton radio:", radioValue);
+                
+                if (radioValue === 'autres') {
+                    nationalityFieldset.show();
+                } else {
+                    nationalityFieldset.hide();
+                }
+            }
+            
+            // Attacher les gestionnaires d'événements
+            $(document).on('change', 'input[type="radio"][name="candidate_nationality_type"]', updateNationalityFieldVisibility);
+            
+            // Exécuter immédiatement et après un court délai
+            updateNationalityFieldVisibility();
+            setTimeout(updateNationalityFieldVisibility, 500);
+            
+            // Vérifier aussi après chaque requête AJAX
+            $(document).ajaxComplete(updateNationalityFieldVisibility);
+        }
+        
+        // S'assurer que jQuery est chargé
+        $(document).ready(initNationalityToggle);
+        
+    })(jQuery);
+    </script>
+    <?php
+}
+
+
+// Ajouter des colonnes personnalisées à la liste des candidatures
+function bralico_add_job_application_columns($columns) {
+    $new_columns = array();
+    
+    // Conserver les colonnes existantes jusqu'à 'title'
+    foreach ($columns as $key => $value) {
+        $new_columns[$key] = $value;
+        if ($key === 'title') {
+            // Ajouter nos nouvelles colonnes après le titre
+            $new_columns['candidate_diploma'] = 'Diplôme';
+            $new_columns['candidate_speciality'] = 'Spécialité';
+            $new_columns['candidate_experience'] = 'Expérience';
+        }
+    }
+    
+    return $new_columns;
+}
+add_filter('manage_job_application_posts_columns', 'bralico_add_job_application_columns');
+
+// Remplir les données dans les colonnes personnalisées
+function bralico_display_job_application_columns($column, $post_id) {
+    switch ($column) {
+        case 'candidate_highest_diploma':
+            // Récupérer le CV associé à la candidature
+            $resume_id = get_post_meta($post_id, '_resume_id', true);
+            if ($resume_id) {
+                echo esc_html(get_post_meta($resume_id, '_candidate_highest_diploma', true));
+            }
+            break;
+            
+        case 'candidate_speciality':
+            $resume_id = get_post_meta($post_id, '_resume_id', true);
+            if ($resume_id) {
+                echo esc_html(get_post_meta($resume_id, '_candidate_speciality', true));
+            }
+            break;
+            
+        case 'candidate_experience_years':
+            $resume_id = get_post_meta($post_id, '_resume_id', true);
+            if ($resume_id) {
+                echo esc_html(get_post_meta($resume_id, '_candidate_experience_years', true));
+            }
+            break;
+    }
+}
+add_action('manage_job_application_posts_custom_column', 'bralico_display_job_application_columns', 10, 2);
+// Ajouter des filtres déroulants à la page des candidatures
+function bralico_add_job_application_filters() {
+    global $typenow;
+    
+    if ($typenow != 'job_application') return;
+    
+    // Récupérer toutes les valeurs uniques pour chaque filtre
+    $diplomas = array();
+    $specialities = array();
+    $experiences = array();
+    
+    // Récupérer toutes les candidatures
+    $applications = get_posts(array(
+        'post_type' => 'job_application',
+        'numberposts' => -1
+    ));
+    
+    foreach ($applications as $application) {
+        $resume_id = get_post_meta($application->ID, '_resume_id', true);
+        if (!$resume_id) continue;
+        
+        $diploma = get_post_meta($resume_id, '_candidate_highest_diploma', true);
+        $speciality = get_post_meta($resume_id, '_candidate_speciality', true);
+        $experience = get_post_meta($resume_id, '_candidate_experience_years', true);
+        
+        if (!empty($diploma) && !in_array($diploma, $diplomas)) {
+            $diplomas[] = $diploma;
+        }
+        
+        if (!empty($speciality) && !in_array($speciality, $specialities)) {
+            $specialities[] = $speciality;
+        }
+        
+        if (!empty($experience) && !in_array($experience, $experiences)) {
+            $experiences[] = $experience;
+        }
+    }
+    
+    // Trier les valeurs
+    sort($diplomas);
+    sort($specialities);
+    sort($experiences);
+    
+    // Diplôme
+    echo '<select id="filter-diploma" class="job-application-filter">
+            <option value="">Tous les diplômes</option>';
+    foreach ($diplomas as $diploma) {
+        echo '<option value="' . esc_attr($diploma) . '">' . esc_html($diploma) . '</option>';
+    }
+    echo '</select>';
+    
+    // Spécialité
+    echo '<select id="filter-speciality" class="job-application-filter">
+            <option value="">Toutes les spécialités</option>';
+    foreach ($specialities as $speciality) {
+        echo '<option value="' . esc_attr($speciality) . '">' . esc_html($speciality) . '</option>';
+    }
+    echo '</select>';
+    
+    // Expérience
+    echo '<select id="filter-experience" class="job-application-filter">
+            <option value="">Toutes les expériences</option>';
+    foreach ($experiences as $experience) {
+        echo '<option value="' . esc_attr($experience) . '">' . esc_html($experience) . '</option>';
+    }
+    echo '</select>';
+}
+add_action('restrict_manage_posts', 'bralico_add_job_application_filters');
+// Ajouter le script JS pour le filtrage
+function bralico_add_application_filter_script() {
+    global $typenow;
+    
+    if ($typenow != 'job_application') return;
+    
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        // Ajouter des attributs data aux lignes du tableau
+        $('.wp-list-table tr').each(function() {
+            var $row = $(this);
+            if ($row.find('td.candidate_diploma').length) {
+                var diploma = $row.find('td.candidate_diploma').text().trim();
+                var speciality = $row.find('td.candidate_speciality').text().trim();
+                var experience = $row.find('td.candidate_experience').text().trim();
+                
+                $row.attr('data-diploma', diploma);
+                $row.attr('data-speciality', speciality);
+                $row.attr('data-experience', experience);
+            }
+        });
+        
+        // Gérer le changement dans les filtres
+        $('.job-application-filter').on('change', function() {
+            var diplomaFilter = $('#filter-diploma').val();
+            var specialityFilter = $('#filter-speciality').val();
+            var experienceFilter = $('#filter-experience').val();
+            
+            // Filtrer les lignes
+            $('.wp-list-table tr').each(function() {
+                var $row = $(this);
+                if ($row.is(':first-child')) return; // Sauter l'en-tête
+                
+                if (!$row.attr('data-diploma')) return; // Ignorer les lignes sans données
+                
+                var showRow = true;
+                
+                if (diplomaFilter && $row.attr('data-diploma') != diplomaFilter) {
+                    showRow = false;
+                }
+                
+                if (specialityFilter && $row.attr('data-speciality') != specialityFilter) {
+                    showRow = false;
+                }
+                
+                if (experienceFilter && $row.attr('data-experience') != experienceFilter) {
+                    showRow = false;
+                }
+                
+                if (showRow) {
+                    $row.show();
+                } else {
+                    $row.hide();
+                }
+            });
+        });
+        
+        // Ajouter un bouton de réinitialisation
+        $('.tablenav.top').prepend('<button type="button" id="reset-filters" class="button">Réinitialiser les filtres</button>');
+        
+        $('#reset-filters').on('click', function() {
+            $('.job-application-filter').val('');
+            $('.wp-list-table tr').show();
+        });
+    });
+    </script>
+    <style>
+    .job-application-filter {
+        margin-right: 8px;
+        max-width: 200px;
+    }
+    #reset-filters {
+        margin-right: 10px;
+    }
+    </style>
+    <?php
+}
+add_action('admin_footer', 'bralico_add_application_filter_script');

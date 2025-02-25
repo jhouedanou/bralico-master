@@ -1,4 +1,8 @@
 jQuery(document).ready(function ($) {
+	//quick preview des cv
+
+	
+    //si le body a une classe "page-id-15715"
 	
 
 	$('#secteurs-filter').on('change', function() {
