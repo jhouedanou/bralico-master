@@ -1014,7 +1014,6 @@
             $output .= '</div>';
             $output .= '</div>';
             $output .= '</div>';
-            $output .= '</div>';
 
             return $output;
         }
@@ -2848,7 +2847,6 @@ body { font-family: Arial, sans-serif; line-height: 1.6; }
     }
     add_action('admin_enqueue_scripts', 'charger_scripts_admin_cv');
 
-    // Supprimer les colonnes indésirables de la liste des candidatures
     // Modifier et réorganiser les colonnes des candidatures
     function modifier_colonnes_candidatures($columns)
     {
@@ -2906,22 +2904,38 @@ body { font-family: Arial, sans-serif; line-height: 1.6; }
         return $new_columns;
     }
     add_filter('manage_job_application_posts_columns', 'modifier_colonnes_candidatures', 20);
+// Charger les scripts ThickBox sur la page des candidatures
+function bralico_load_thickbox_for_applications() {
+    $screen = get_current_screen();
+    if ($screen->id === 'edit-job_application') {
+        add_thickbox();
+    }
+}
+add_action('admin_enqueue_scripts', 'bralico_load_thickbox_for_applications');
+
 
     // Ajouter/modifier les colonnes dans la liste des job_application
-    function bralico_job_applications_columns($columns)
+function bralico_job_applications_columns($columns)
     {
         // On conserve la case à cocher et la date, mais on réorganise l'ordre
         $new_columns       = [];
         $new_columns['cb'] = $columns['cb'];
-                                                                                // Le titre (nom du candidat) en premier
-        $new_columns['title']                      = __('Candidat', 'bralico'); // Renommé en "Candidat" pour plus de clarté
-        $new_columns['candidate_email']            = __('Email', 'bralico');
+        $new_columns['application_status'] = __('Statut', 'bralico');
+           // Le titre (nom du candidat) en deuxième position
+           $new_columns['candidate'] = __('Candidat/postulant', 'bralico');
+           $new_columns['title'] = __('Candidat/postulant', 'bralico');
+    
+        $new_columns['title']                      = __('Candidat/postulant', 'bralico'); // Renommé en "Candidat" pour plus de clarté
+
         $new_columns['candidate_phone']            = __('Téléphone', 'bralico');
         $new_columns['candidate_speciality']       = __('Spécialité', 'bralico');
         $new_columns['candidate_experience_years'] = __('Années d\'expérience', 'bralico');
         $new_columns['candidate_highest_diploma']  = __('Diplôme le plus élevé', 'bralico');
         $new_columns['application_details']        = __('Aperçu & Documents', 'bralico');
+        $new_columns['actions']                    = __('Lettre de motivation', 'bralico');
+        
         $new_columns['date']                       = $columns['date'];
+        $new_columns['candidate_email']            = __('Email', 'bralico');
         return $new_columns;
     }
     add_filter('manage_edit-job_application_columns', 'bralico_job_applications_columns');
@@ -2930,6 +2944,62 @@ body { font-family: Arial, sans-serif; line-height: 1.6; }
     function bralico_job_applications_custom_column($column, $post_id)
     {
         switch ($column) {
+            //affichage d'une thickbox avec les détails de la candidature 
+            case 'actions':
+                // ID unique pour la ThickBox
+                $thickbox_id = 'application-details-' . $post_id;
+                
+                // Créer l'URL avec les paramètres de la ThickBox
+                $thickbox_url = '#TB_inline?width=600&height=550&inlineId=' . $thickbox_id;
+                
+                // Afficher le bouton qui ouvre la ThickBox
+                echo '<a href="' . esc_url($thickbox_url) . '" class="icon-view button tips thickbox" title="' . esc_attr__('Voir le message du candidat', 'bralico') . '">';
+                echo '<span class="dashicons dashicons-visibility"></span>';
+                echo '</a>';
+                
+                // Contenu caché de la ThickBox
+                echo '<div id="' . esc_attr($thickbox_id) . '" style="display:none;">';
+                echo '<h2>' . esc_html__('Message du candidat', 'bralico') . '</h2>';
+                
+                // Tenter de récupérer le message de deux façons possibles
+                $message = get_post_meta($post_id, '_candidate_message', true);
+                
+                // Si pas de message trouvé via la métadonnée, essayer le contenu du post
+                if (empty($message)) {
+                    $application_post = get_post($post_id);
+                    $message = $application_post->post_content;
+                }
+                
+                echo '<div class="application-details-content">';
+                
+                // Message du candidat
+                if (!empty($message)) {
+                    echo '<div class="candidate-message">';
+                    echo '<div class="message-content">' . wpautop($message) . '</div>';
+                    echo '</div>';
+                } else {
+                    echo '<p>' . esc_html__('Aucun message disponible pour ce candidat.', 'bralico') . '</p>';
+                }
+                
+                echo '</div>'; // .application-details-content
+                echo '</div>'; // #thickbox_id
+                break;
+            
+            
+            //afichage du status 
+            case 'application_status':
+                $status = get_post_meta($post_id, '_application_status', true);
+                $status_labels = [
+                    'new' => __('Nouvelle', 'bralico'),
+                    'interview' => __('Entretien', 'bralico'),
+                    'offer' => __('Offre', 'bralico'),
+                    'hired' => __('Embauché', 'bralico'),
+                    'rejected' => __('Rejeté', 'bralico')
+                ];
+                
+                $status_label = isset($status_labels[$status]) ? $status_labels[$status] : __('Nouvelle', 'bralico');
+                echo '<span class="application-status status-' . esc_attr($status) . '">' . esc_html($status_label) . '</span>';
+                break;
             case 'candidate_email':
                 echo esc_html(get_post_meta($post_id, '_candidate_email', true));
                 break;
@@ -2998,15 +3068,37 @@ body { font-family: Arial, sans-serif; line-height: 1.6; }
                     echo '<span class="dashicons dashicons-portfolio"></span> Portfolio</a>';
                 }
 
-                // Ajouter un lien pour voir les détails de la candidature
-                echo ' <a href="' . get_edit_post_link($post_id) . '" class="button button-small">';
-                echo '<span class="dashicons dashicons-visibility"></span> Détails</a>';
-
                 echo '</div>';
                 break;
         }
     }
     add_action('manage_job_application_posts_custom_column', 'bralico_job_applications_custom_column', 10, 2);
+// Ajouter des styles pour la ThickBox des candidatures
+function bralico_application_thickbox_styles() {
+    $screen = get_current_screen();
+    if ($screen->id === 'edit-job_application') {
+        ?>
+        <style type="text/css">
+            .application-details-content {
+                padding: 15px;
+                max-height: 450px;
+                overflow-y: auto;
+            }
+            .candidate-message {
+                margin-top: 20px;
+                border-top: 1px solid #ddd;
+                padding-top: 15px;
+            }
+            .message-content {
+                background: #f9f9f9;
+                padding: 12px;
+                border-left: 4px solid #2271b1;
+            }
+        </style>
+        <?php
+    }
+}
+add_action('admin_head', 'bralico_application_thickbox_styles');
 
     // Déclarer les colonnes triables
     function bralico_job_applications_sortable_columns($columns)
@@ -3348,7 +3440,7 @@ jQuery(document).ready(function($) {
         // Si _resume_file est vide, essayer d'autres méthodes
         if (empty($cv_path)) {
             // Essayer avec le permalien du CV
-            $cv_path = get_permalink($resume_id);
+            $cv_path = get_the_permalink($resume_id);
 
             // Chercher dans les pièces jointes
             if (empty($cv_path) || $cv_path == get_permalink(0)) {
@@ -3420,22 +3512,23 @@ function fix_nationality_field_visibility() {
 
 
 // Ajouter des colonnes personnalisées à la liste des candidatures
-function bralico_add_job_application_columns($columns) {
-    $new_columns = array();
-    
-    // Conserver les colonnes existantes jusqu'à 'title'
-    foreach ($columns as $key => $value) {
-        $new_columns[$key] = $value;
-        if ($key === 'title') {
-            // Ajouter nos nouvelles colonnes après le titre
-            $new_columns['candidate_diploma'] = 'Diplôme';
-            $new_columns['candidate_speciality'] = 'Spécialité';
-            $new_columns['candidate_experience'] = 'Expérience';
+function bralico_add_job_application_columns($columns)
+    {
+        $new_columns = array();
+        
+        // Conserver les colonnes existantes jusqu'à 'title'
+        foreach ($columns as $key => $value) {
+            $new_columns[$key] = $value;
+            if ($key === 'title') {
+                // Ajouter nos nouvelles colonnes après le titre
+                $new_columns['candidate_diploma'] = 'Diplôme';
+                $new_columns['candidate_speciality'] = 'Spécialité';
+                $new_columns['candidate_experience'] = 'Expérience';
+            }
         }
+        
+        return $new_columns;
     }
-    
-    return $new_columns;
-}
 add_filter('manage_job_application_posts_columns', 'bralico_add_job_application_columns');
 
 // Remplir les données dans les colonnes personnalisées
@@ -3466,75 +3559,43 @@ function bralico_display_job_application_columns($column, $post_id) {
 }
 add_action('manage_job_application_posts_custom_column', 'bralico_display_job_application_columns', 10, 2);
 // Ajouter des filtres déroulants à la page des candidatures
+
+// Ajouter les filtres pour les candidatures
 function bralico_add_job_application_filters() {
     global $typenow;
     
     if ($typenow != 'job_application') return;
     
-    // Récupérer toutes les valeurs uniques pour chaque filtre
-    $diplomas = array();
-    $specialities = array();
-    $experiences = array();
+    // Créer un conteneur pour nos filtres et compteur
+    echo '<div id="bralico-dynamic-filters" class="alignleft actions" style="padding: 8px 0;">';
     
-    // Récupérer toutes les candidatures
-    $applications = get_posts(array(
-        'post_type' => 'job_application',
-        'numberposts' => -1
-    ));
-    
-    foreach ($applications as $application) {
-        $resume_id = get_post_meta($application->ID, '_resume_id', true);
-        if (!$resume_id) continue;
-        
-        $diploma = get_post_meta($resume_id, '_candidate_highest_diploma', true);
-        $speciality = get_post_meta($resume_id, '_candidate_speciality', true);
-        $experience = get_post_meta($resume_id, '_candidate_experience_years', true);
-        
-        if (!empty($diploma) && !in_array($diploma, $diplomas)) {
-            $diplomas[] = $diploma;
-        }
-        
-        if (!empty($speciality) && !in_array($speciality, $specialities)) {
-            $specialities[] = $speciality;
-        }
-        
-        if (!empty($experience) && !in_array($experience, $experiences)) {
-            $experiences[] = $experience;
-        }
-    }
-    
-    // Trier les valeurs
-    sort($diplomas);
-    sort($specialities);
-    sort($experiences);
-    
-    // Diplôme
+    // Créer les sélecteurs vides
     echo '<select id="filter-diploma" class="job-application-filter">
-            <option value="">Tous les diplômes</option>';
-    foreach ($diplomas as $diploma) {
-        echo '<option value="' . esc_attr($diploma) . '">' . esc_html($diploma) . '</option>';
-    }
-    echo '</select>';
+            <option value="">Tous les diplômes</option>
+          </select>';
     
-    // Spécialité
     echo '<select id="filter-speciality" class="job-application-filter">
-            <option value="">Toutes les spécialités</option>';
-    foreach ($specialities as $speciality) {
-        echo '<option value="' . esc_attr($speciality) . '">' . esc_html($speciality) . '</option>';
-    }
-    echo '</select>';
+            <option value="">Toutes les spécialités</option>
+          </select>';
     
-    // Expérience
     echo '<select id="filter-experience" class="job-application-filter">
-            <option value="">Toutes les expériences</option>';
-    foreach ($experiences as $experience) {
-        echo '<option value="' . esc_attr($experience) . '">' . esc_html($experience) . '</option>';
-    }
-    echo '</select>';
+            <option value="">Toutes les expériences</option>
+          </select>';
+    
+    // Compteur de résultats
+    echo '<span id="filter-count" style="margin-left: 15px; padding: 3px 8px; background: #f0f0f0; border-radius: 3px;">
+            <span id="matched-count">0</span> sur <span id="total-count">0</span> candidatures
+          </span>';
+    
+    // Bouton de réinitialisation
+    echo '<button type="button" id="reset-filters" class="button" style="margin-left: 10px;">Réinitialiser</button>';
+    
+    echo '</div>';
 }
-add_action('restrict_manage_posts', 'bralico_add_job_application_filters');
-// Ajouter le script JS pour le filtrage
-function bralico_add_application_filter_script() {
+add_action('restrict_manage_posts', 'bralico_add_job_application_filters', 20);
+
+// Script de filtrage amélioré
+function bralico_add_dynamic_filter_script() {
     global $typenow;
     
     if ($typenow != 'job_application') return;
@@ -3542,73 +3603,331 @@ function bralico_add_application_filter_script() {
     ?>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
-        // Ajouter des attributs data aux lignes du tableau
-        $('.wp-list-table tr').each(function() {
-            var $row = $(this);
-            if ($row.find('td.candidate_diploma').length) {
-                var diploma = $row.find('td.candidate_diploma').text().trim();
-                var speciality = $row.find('td.candidate_speciality').text().trim();
-                var experience = $row.find('td.candidate_experience').text().trim();
-                
-                $row.attr('data-diploma', diploma);
-                $row.attr('data-speciality', speciality);
-                $row.attr('data-experience', experience);
+        // Créer un conteneur sticky pour les filtres
+        $('.tablenav.top').after('<div id="sticky-filter-container"></div>');
+        
+        // Créer la barre de filtrage
+        $('<div id="bralico-filter-bar">' +
+            '<div class="filter-section">' +
+                '<label><strong>Diplôme:</strong></label>' +
+                '<select id="filter-diploma" class="job-application-filter">' +
+                    '<option value="">Tous les diplômes</option>' +
+                '</select>' +
+            '</div>' +
+            '<div class="filter-section">' +
+                '<label><strong>Spécialité:</strong></label>' +
+                '<select id="filter-speciality" class="job-application-filter">' +
+                    '<option value="">Toutes les spécialités</option>' +
+                '</select>' +
+            '</div>' +
+            '<div class="filter-section">' +
+                '<label><strong>Expérience:</strong></label>' +
+                '<select id="filter-experience" class="job-application-filter">' +
+                    '<option value="">Toutes les expériences</option>' +
+                '</select>' +
+            '</div>' +
+            '<div class="filter-section">' +
+                '<button type="button" id="reset-filters" class="button">Réinitialiser</button>' +
+                '<span id="filter-count"><span id="matched-count">0</span> sur <span id="total-count">0</span> candidatures</span>' +
+            '</div>' +
+        '</div>').appendTo('#sticky-filter-container');
+        
+        console.log("Script de filtrage dynamique chargé");
+        
+        // Ajouter des attributs data aux colonnes pour identifier leur type
+        $('.wp-list-table thead th').each(function(index) {
+            var headerText = $(this).text().trim().toLowerCase();
+            if (headerText.indexOf('diplôme') !== -1) {
+                $(this).attr('data-column-type', 'diploma');
+                console.log("Colonne diplôme trouvée à l'index", index);
+            } else if (headerText.indexOf('spécialité') !== -1) {
+                $(this).attr('data-column-type', 'speciality');
+                console.log("Colonne spécialité trouvée à l'index", index);
+            } else if (headerText.indexOf('expérience') !== -1) {
+                $(this).attr('data-column-type', 'experience');
+                console.log("Colonne expérience trouvée à l'index", index);
             }
         });
         
-        // Gérer le changement dans les filtres
-        $('.job-application-filter').on('change', function() {
+        // Initialiser les tableaux pour stocker les valeurs uniques
+        var diplomas = [];
+        var specialities = [];
+        var experiences = [];
+        var totalRows = 0;
+        
+        // Parcourir chaque ligne du tableau
+        $('.wp-list-table tbody tr').each(function() {
+            var $row = $(this);
+            totalRows++;
+            
+            // Pour chaque type de colonne, trouver l'index et extraire la valeur
+            $('.wp-list-table thead th[data-column-type]').each(function(index) {
+                var columnType = $(this).attr('data-column-type');
+                var headerIndex = $(this).index();
+                var cellValue = $row.find('td').eq(headerIndex).text().trim();
+                
+                if (columnType === 'diploma') {
+                    $row.attr('data-diploma', cellValue);
+                    if (cellValue && diplomas.indexOf(cellValue) === -1) {
+                        diplomas.push(cellValue);
+                    }
+                } else if (columnType === 'speciality') {
+                    $row.attr('data-speciality', cellValue);
+                    if (cellValue && specialities.indexOf(cellValue) === -1) {
+                        specialities.push(cellValue);
+                    }
+                } else if (columnType === 'experience') {
+                    // Nettoyer l'expérience (enlever "ans" etc.)
+                    var cleanExp = cellValue.replace(/\s*ans\s*/i, '').trim();
+                    $row.attr('data-experience', cleanExp);
+                    if (cleanExp && experiences.indexOf(cleanExp) === -1) {
+                        experiences.push(cleanExp);
+                    }
+                }
+            });
+        });
+        
+        console.log("Valeurs trouvées:", {
+            diplomas: diplomas,
+            specialities: specialities,
+            experiences: experiences,
+            totalRows: totalRows
+        });
+        
+        // Mettre à jour le compteur total
+        $('#total-count').text(totalRows);
+        $('#matched-count').text(totalRows);
+        
+        // Trier les arrays
+        diplomas.sort();
+        specialities.sort();
+        experiences.sort(function(a, b) {
+            return parseInt(a) - parseInt(b);
+        });
+        
+        // Remplir les sélecteurs
+        $.each(diplomas, function(i, diploma) {
+            $('#filter-diploma').append($('<option>', {
+                value: diploma,
+                text: diploma
+            }));
+        });
+        
+        $.each(specialities, function(i, speciality) {
+            $('#filter-speciality').append($('<option>', {
+                value: speciality,
+                text: speciality
+            }));
+        });
+        
+        $.each(experiences, function(i, experience) {
+            $('#filter-experience').append($('<option>', {
+                value: experience,
+                text: experience + ' ans'
+            }));
+        });
+        
+        // Fonction pour appliquer les filtres
+        function applyFilters() {
             var diplomaFilter = $('#filter-diploma').val();
             var specialityFilter = $('#filter-speciality').val();
             var experienceFilter = $('#filter-experience').val();
             
+            console.log("Filtres appliqués:", {
+                diploma: diplomaFilter,
+                speciality: specialityFilter,
+                experience: experienceFilter
+            });
+            
+            var matchedCount = 0;
+            
             // Filtrer les lignes
-            $('.wp-list-table tr').each(function() {
+            $('.wp-list-table tbody tr').each(function() {
                 var $row = $(this);
-                if ($row.is(':first-child')) return; // Sauter l'en-tête
-                
-                if (!$row.attr('data-diploma')) return; // Ignorer les lignes sans données
+                var rowDiploma = $row.attr('data-diploma') || '';
+                var rowSpeciality = $row.attr('data-speciality') || '';
+                var rowExperience = $row.attr('data-experience') || '';
                 
                 var showRow = true;
                 
-                if (diplomaFilter && $row.attr('data-diploma') != diplomaFilter) {
+                if (diplomaFilter && rowDiploma !== diplomaFilter) {
                     showRow = false;
                 }
                 
-                if (specialityFilter && $row.attr('data-speciality') != specialityFilter) {
+                if (specialityFilter && rowSpeciality !== specialityFilter) {
                     showRow = false;
                 }
                 
-                if (experienceFilter && $row.attr('data-experience') != experienceFilter) {
+                if (experienceFilter && rowExperience !== experienceFilter) {
                     showRow = false;
                 }
                 
                 if (showRow) {
                     $row.show();
+                    matchedCount++;
                 } else {
                     $row.hide();
                 }
             });
-        });
+            
+            // Mettre à jour le compteur
+            $('#matched-count').text(matchedCount);
+            
+            // Afficher un message si aucun résultat
+            if (matchedCount === 0) {
+                if ($('.no-items-found').length === 0) {
+                    $('.wp-list-table tbody').append(
+                        '<tr class="no-items-found"><td colspan="' + 
+                        $('.wp-list-table th').length + 
+                        '" style="text-align:center;padding:20px;"><em>Aucune candidature ne correspond à ces critères</em></td></tr>'
+                    );
+                }
+            } else {
+                $('.no-items-found').remove();
+            }
+        }
         
-        // Ajouter un bouton de réinitialisation
-        $('.tablenav.top').prepend('<button type="button" id="reset-filters" class="button">Réinitialiser les filtres</button>');
+        // Gérer le changement dans les filtres
+        $('.job-application-filter').on('change', applyFilters);
         
+        // Réinitialiser les filtres
         $('#reset-filters').on('click', function() {
             $('.job-application-filter').val('');
-            $('.wp-list-table tr').show();
+            $('.wp-list-table tbody tr').show();
+            $('.no-items-found').remove();
+            $('#matched-count').text(totalRows);
         });
+        
+        // Détecter quand la barre devient sticky
+        var observer = new IntersectionObserver(
+            ([e]) => {
+                // Ajouter ou supprimer la classe is-sticky
+                $('#sticky-filter-container').toggleClass('is-sticky', e.intersectionRatio < 1);
+            }, 
+            { threshold: [1] }
+        );
+        
+        // Observer le conteneur
+        observer.observe(document.querySelector('#sticky-filter-container'));
     });
     </script>
     <style>
-    .job-application-filter {
-        margin-right: 8px;
-        max-width: 200px;
+    /* Styles pour la barre de filtre sticky */
+    #sticky-filter-container {
+        position: sticky;
+        top: 32px; /* Hauteur de la barre d'admin de WordPress */
+        z-index: 99;
+        background: #f0f7fa;
+        border-bottom: 1px solid #c3c4c7;
+        padding: 12px 15px;
+        margin: 0 -15px 15px -15px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
     }
+    
+    /* Ajouter une ombre lorsque la barre est sticky */
+    #sticky-filter-container.is-sticky {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        background: #f8fdff;
+    }
+    
+    /* Styles pour le conteneur de filtre */
+    #bralico-filter-bar {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .filter-section {
+        display: flex;
+        align-items: center;
+    }
+    
+    .filter-section label {
+        margin-right: 8px;
+    }
+    
+    /* Adaptation pour les écrans d'admin fixes */
+    body.wp-admin #sticky-filter-container {
+        width: calc(100% - 30px);
+        left: 0;
+    }
+    
+    /* Style des menus déroulants */
+    .job-application-filter {
+        min-width: 150px;
+        padding: 4px 10px;
+        border: 1px solid #8c8f94;
+        border-radius: 4px;
+    }
+    
+    /* Style du compteur */
+    #filter-count {
+        display: inline-block;
+        font-weight: 500;
+        margin-left: 15px;
+        padding: 5px 10px;
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    #matched-count, #total-count {
+        font-weight: bold;
+        color: #2271b1;
+    }
+    
+    /* Style du bouton reset */
     #reset-filters {
         margin-right: 10px;
+    }
+    
+    /* Espacement en dessous de la barre de filtre */
+    #sticky-filter-container + * {
+        margin-top: 15px;
+    }
+    
+    /* Responsive pour petits écrans */
+    @media screen and (max-width: 782px) {
+        #bralico-filter-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .filter-section {
+            width: 100%;
+        }
+        
+        .job-application-filter {
+            flex-grow: 1;
+        }
+        
+        #filter-count {
+            margin-left: 0;
+            margin-top: 10px;
+        }
     }
     </style>
     <?php
 }
-add_action('admin_footer', 'bralico_add_application_filter_script');
+add_action('admin_footer', 'bralico_add_dynamic_filter_script');
+
+
+
+```
+```
+
+Follow these instructions to make the following change to my code document.
+
+Instruction: Correction de l'inclusion du fichier de widget des dernières candidatures et suppression du code incorrect
+
+Code Edit:
+```
+{{ ... }}
+add_action('admin_footer', 'bralico_add_dynamic_filter_script');
+
+// Inclure le fichier de widget des dernières candidatures
+require_once get_template_directory() . '/inc/recent-applications-widget.php';
+{{ ... }}
